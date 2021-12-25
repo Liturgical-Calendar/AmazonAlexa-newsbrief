@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-25 19:23+0530\n"
+"POT-Creation-Date: 2021-12-25 15:04+0000\n"
 "PO-Revision-Date: 2021-12-25 19:59+0530\n"
 "Last-Translator: root <priest@johnromanodorazio.com>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -21,37 +21,42 @@ msgstr ""
 msgid "Today is"
 msgstr ""
 
-#: LiturgyOfTheDay.php:174
+#. translators: grade, name
+#: LiturgyOfTheDay.php:175
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %s %s."
 msgstr ""
 
-#: LiturgyOfTheDay.php:174
+#: LiturgyOfTheDay.php:175
 msgid "Vigil Mass"
 msgstr ""
 
-#: LiturgyOfTheDay.php:177 LiturgyOfTheDay.php:182
+#. translators: (also|''), displayGrade, name
+#. translators: (also|''), grade, name CTXT: (optional) memorial or feast
+#: LiturgyOfTheDay.php:179 LiturgyOfTheDay.php:186
 #, php-format
 msgid "Today is %s the %s of %s."
 msgstr ""
 
-#: LiturgyOfTheDay.php:177 LiturgyOfTheDay.php:180 LiturgyOfTheDay.php:182
-#: LiturgyOfTheDay.php:190
+#: LiturgyOfTheDay.php:179 LiturgyOfTheDay.php:183 LiturgyOfTheDay.php:186
+#: LiturgyOfTheDay.php:195
 msgid "also"
 msgstr ""
 
-#: LiturgyOfTheDay.php:180
+#. translators: (also|''), grade, name CTXT: Feast of the Lord
+#: LiturgyOfTheDay.php:183
 #, php-format
 msgid "Today is %s the %s, %s."
 msgstr ""
 
-#: LiturgyOfTheDay.php:190
+#. translators: (also|''), name CTXT: higher grade solemnity with precedence over other solemnities
+#: LiturgyOfTheDay.php:195
 #, php-format
-msgid "Today is %s the %s."
+msgid "Today is %s the day of %s."
 msgstr ""
 
 #: includes/LitCalFeedItem.php:15
-msgid "Liturgy of the Day "
+msgid "Liturgy of the Day"
 msgstr ""
 
 #. translators: context = liturgical color
