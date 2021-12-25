@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-25 15:04+0000\n"
+"POT-Creation-Date: 2021-12-25 16:22+0000\n"
 "PO-Revision-Date: 2021-12-25 16:11+0000\n"
 "Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
 "Language-Team: Italian <https://translate.johnromanodorazio.com/projects/"
@@ -19,40 +19,40 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.9.1\n"
 
-#: LiturgyOfTheDay.php:171
+#: LiturgyOfTheDay.php:176
 msgid "Today is"
 msgstr "Oggi è"
 
 #. translators: grade, name
-#: LiturgyOfTheDay.php:175
+#: LiturgyOfTheDay.php:180
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %s %s."
 msgstr "Questa sera ci sarà una Messa di Vigilia per la %s %s."
 
-#: LiturgyOfTheDay.php:175
+#: LiturgyOfTheDay.php:180
 msgid "Vigil Mass"
 msgstr "Messa della vigilia"
 
 #. translators: (also|''), displayGrade, name
 #. translators: (also|''), grade, name CTXT: (optional) memorial or feast
-#: LiturgyOfTheDay.php:179 LiturgyOfTheDay.php:186
+#: LiturgyOfTheDay.php:184 LiturgyOfTheDay.php:191
 #, php-format
 msgid "Today is %s the %s of %s."
 msgstr "Oggi è %s la %s di %s."
 
-#: LiturgyOfTheDay.php:179 LiturgyOfTheDay.php:183 LiturgyOfTheDay.php:186
-#: LiturgyOfTheDay.php:195
+#: LiturgyOfTheDay.php:184 LiturgyOfTheDay.php:188 LiturgyOfTheDay.php:191
+#: LiturgyOfTheDay.php:200
 msgid "also"
 msgstr "anche"
 
 #. translators: (also|''), grade, name CTXT: Feast of the Lord
-#: LiturgyOfTheDay.php:183
+#: LiturgyOfTheDay.php:188
 #, php-format
 msgid "Today is %s the %s, %s."
 msgstr "Oggi è %s la %s, %s."
 
 #. translators: (also|''), name CTXT: higher grade solemnity with precedence over other solemnities
-#: LiturgyOfTheDay.php:195
+#: LiturgyOfTheDay.php:200
 #, php-format
 msgid "Today is %s the day of %s."
 msgstr "Oggi è %s il giorno di %s."
