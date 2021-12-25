@@ -170,15 +170,19 @@ class LiturgyOfTheDay {
         if( $festivity->grade === LitGrade::WEEKDAY ) {
             $mainText = _( "Today is" ) . " " . $festivity->name . ".";
         } else{ 
-            if( strpos( $festivity->name, "Vigil" ) ){
+            if( strpos( $festivity->name, "Vigil" ) ) {
+                /**translators: grade, name */
                 $mainText = sprintf( _( "This evening there will be a Vigil Mass for the %s %s." ), $this->LitGrade->i18n( $festivity->grade, false ), trim( str_replace( _( "Vigil Mass" ), "", $festivity->name ) ) );
             } else if( $festivity->grade < LitGrade::HIGHER_SOLEMNITY ) {
-                if( $festivity->displayGrade != "" ){
+                if( $festivity->displayGrade != "" ) {
+                    /**translators: (also|''), displayGrade, name */
                     $mainText = sprintf( _( "Today is %s the %s of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $festivity->displayGrade, $festivity->name );
                 } else {
-                    if( $festivity->grade === LitGrade::FEAST_LORD ){
+                    if( $festivity->grade === LitGrade::FEAST_LORD ) {
+                        /**translators: (also|''), grade, name CTXT: Feast of the Lord */
                         $mainText = sprintf( _( "Today is %s the %s, %s." ), ( $idx > 0 ? _( "also" ) : "" ), $this->LitGrade->i18n( $festivity->grade, false ), $festivity->name );
                     } else {
+                        /**translators: (also|''), grade, name CTXT: (optional) memorial or feast */
                         $mainText = sprintf( _( "Today is %s the %s of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $this->LitGrade->i18n( $festivity->grade, false ), $festivity->name );
                     }
                 }
@@ -187,7 +191,8 @@ class LiturgyOfTheDay {
                     $mainText = $mainText . " " . $this->LitCommon->i18n( $festivity->common );
                 }
             } else {
-                $mainText = sprintf( _( "Today is %s the %s." ), ( $idx > 0 ? _( "also" ) : "" ), $festivity->name );
+                /**translators: (also|''), name CTXT: higher grade solemnity with precedence over other solemnities */
+                $mainText = sprintf( _( "Today is %s the day of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $festivity->name );
             }
         }
         return $mainText;
