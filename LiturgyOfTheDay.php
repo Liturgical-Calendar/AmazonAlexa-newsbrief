@@ -6,6 +6,7 @@
 include_once( 'includes/enums/LitCommon.php' );
 include_once( 'includes/enums/LitGrade.php' );
 include_once( 'includes/Festivity.php' );
+include_once( 'includes/LitCalFeedItem.php' );
 
 class LiturgyOfTheDay {
 
@@ -21,7 +22,6 @@ class LiturgyOfTheDay {
     private array $SUPPORTED_NATIONS    = [];
     private array $queryArray           = [];
     private array $LitCalData           = [];
-    private array $LitCal               = [];
     private array $LitCalFeed           = [];
 
     public function __construct() {
@@ -83,41 +83,43 @@ class LiturgyOfTheDay {
         curl_close( $ch );
     }
 
-    private function prepareReq() {
+    private function prepareReq() : array {
+        $queryArray = [];
         if( $this->Locale !== null ){
-            $this->queryArray["locale"] = $this->Locale;
+            $queryArray["locale"] = $this->Locale;
         }
         if( $this->NationalCalendar !== null && in_array( $this->NationalCalendar, $this->SUPPORTED_NATIONS ) ) {
-            $this->queryArray["nationalcalendar"] = $this->NationalCalendar;
+            $queryArray["nationalcalendar"] = $this->NationalCalendar;
             switch( $this->NationalCalendar ) {
                 case "ITALY":
-                    $this->queryArray["locale"] = "IT";
+                    $queryArray["locale"] = "IT";
                 break;
                 case "USA":
-                    $this->queryArray["locale"] = "EN";
+                    $queryArray["locale"] = "EN";
                 break;
             }
         }
         if( $this->DiocesanCalendar !== null && array_key_exists( $this->DiocesanCalendar, $this->SUPPORTED_DIOCESES ) ) {
-            $this->queryArray["diocesancalendar"] = $this->DiocesanCalendar;
-            $this->queryArray["nationalcalendar"] = $this->SUPPORTED_DIOCESES[$this->DiocesanCalendar]["nation"];
+            $queryArray["diocesancalendar"] = $this->DiocesanCalendar;
+            $queryArray["nationalcalendar"] = $this->SUPPORTED_DIOCESES[$this->DiocesanCalendar]["nation"];
             switch( $this->SUPPORTED_DIOCESES[$this->DiocesanCalendar]["nation"] ) {
                 case "ITALY":
-                    $this->queryArray["locale"] = "IT";
+                    $queryArray["locale"] = "IT";
                 break;
                 case "USA":
-                    $this->queryArray["locale"] = "EN";
+                    $queryArray["locale"] = "EN";
                 break;
             }
         }
         
         //last resort is Latin for the Universal Calendar
-        if( !isset( $this->queryArray["locale"] ) ) {
-            $this->queryArray["locale"] = "LA";
+        if( !isset( $queryArray["locale"] ) ) {
+            $queryArray["locale"] = "LA";
         }
+        return $queryArray;
     }
 
-    private function sendReq() {
+    private function sendReq( array $queryArray ) {
         $ch = curl_init();
         // Disable SSL verification
         //curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
@@ -125,11 +127,11 @@ class LiturgyOfTheDay {
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
         //curl_setopt( $ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
         // Set the url
-        curl_setopt( $ch, CURLOPT_URL, $URL );
+        curl_setopt( $ch, CURLOPT_URL, self::LITCAL_URL );
         // Set request method to POST
         curl_setopt( $ch, CURLOPT_POST, 1 );
         // Define the POST field data
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $this->queryArray ) );
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $queryArray ) );
         // Execute
         $result = curl_exec( $ch );
         
@@ -157,13 +159,12 @@ class LiturgyOfTheDay {
         curl_close( $ch );
     }
 
-    private function filterEventsDateToday() {
+    private function filterEventsToday() {
         $dateTimeToday = ( new DateTime( 'now' ) )->format( "Y-m-d" ) . " 00:00:00";
         $dateToday = DateTime::createFromFormat( 'Y-m-d H:i:s', $dateTimeToday, new DateTimeZone( 'UTC' ) );
         $dateTodayTimestamp = $dateToday->format( "U" );
         $dateToday->add( new DateInterval( 'PT10M' ) );
-        // Gather the json results from the server into $LitCal array similar to the PHP Engine
-        $idx = 0;
+
         if( isset( $this->LitCalData["LitCal"] ) ) {
             $LitCal = $this->LitCalData["LitCal"];
             foreach ( $LitCal as $key => $value ) {
@@ -172,55 +173,44 @@ class LiturgyOfTheDay {
                     //fwrite( $logFile, "Found litcal event $key with timestamp equal to today!" . "\n" );
                     $publishDate = $dateToday->sub( new DateInterval( 'PT1M' ) )->format( "Y-m-d\TH:i:s\Z" );
                     // retransform each entry from an associative array to a Festivity class object
-                    $this->LitCal[$key] = new Festivity(
-                        $LitCal[$key]["name"],
-                        $LitCal[$key]["date"],
-                        $LitCal[$key]["color"],
-                        $LitCal[$key]["type"],
-                        $LitCal[$key]["grade"],
-                        $LitCal[$key]["common"],
-                        ( isset( $LitCal[$key]["liturgicalYear"] ) ? $LitCal[$key]["liturgicalYear"] : null ),
-                        $LitCal[$key]["displayGrade"]
-                    );
-                    if( $this->LitCal[$key]->grade === LitGrade::WEEKDAY ){
-                        //fwrite( $logFile, "we are dealing with a weekday event" . "\n" );
-                        $mainText = _( "Today is" ) . " " . $this->LitCal[$key]->name . ".";
-                    } else{ 
-                        if( strpos( $this->LitCal[$key]->name, "Vigil" ) ){
-                            //fwrite( $logFile, "we are dealing with a Vigil Mass" . "\n" );
-                            $mainText = sprintf( _( "This evening there will be a Vigil Mass for the %s %s." ), $LitGrade->i18n( $this->LitCal[$key]->grade ), trim( str_replace( _( "Vigil Mass" ), "", $this->LitCal[$key]->name ) ) );
-                        } else if( $this->LitCal[$key]->grade < LitGrade::HIGHER_SOLEMNITY ) {
-                            //fwrite( $logFile, "we are dealing with something greater than a weekday but less than a higher ranking solemnity" . "\n" );
-
-                            if( $this->LitCal[$key]->displayGrade != "" ){
-                                $mainText = sprintf( _( "Today is %s the %s of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $this->LitCal[$key]->displayGrade, $this->LitCal[$key]->name );
-                            } else {
-                                if( $this->LitCal[$key]->grade === LitGrade::FEAST_LORD ){
-                                    $mainText = sprintf( _( "Today is %s the %s, %s." ), ( $idx > 0 ? _( "also" ) : "" ), $LitGrade->i18n( $this->LitCal[$key]->grade ), $this->LitCal[$key]->name );
-                                } else {
-                                    $mainText = sprintf( _( "Today is %s the %s of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $LitGrade->i18n( $this->LitCal[$key]->grade ), $this->LitCal[$key]->name );
-                                }
-                            }
-                            
-                            if( $this->LitCal[$key]->grade < LitGrade::FEAST && $this->LitCal[$key]->common != LitCommon::PROPER ) {
-                                //fwrite( $logFile, "we are dealing with something less than a Feast, and which has a common" . "\n" );
-                                $mainText = $mainText . " " . $LitCommon->i18n( $this->LitCal[$key]->common );
-                            }
-                        } else {
-                            $mainText = sprintf( _( "Today is %s the %s." ), ( $idx > 0 ? _( "also" ) : "" ), $this->LitCal[$key]->name );
-                        }
-                    }
+                    $festivity = new Festivity( $LitCal[$key] );
+                    $mainText = $this->prepareMainText( $festivity );
                     //fwrite( $logFile, "mainText = $mainText" . "\n" );
-                    $this->LitCalFeed[] = new stdClass();
-                    $this->LitCalFeed[count( $this->LitCalFeed )-1]->uid = "urn:uuid:" . md5( "LITCAL-" . $key . '-' . $this->LitCal[$key]->date->format( 'Y' ) );
-                    $this->LitCalFeed[count( $this->LitCalFeed )-1]->updateDate = $publishDate;
-                    $this->LitCalFeed[count( $this->LitCalFeed )-1]->titleText = _( "Liturgy of the Day " ) . $this->LitCal[$key]->date->format( 'F jS' );
-                    $this->LitCalFeed[count( $this->LitCalFeed )-1]->mainText = $mainText;
-                    $this->LitCalFeed[count( $this->LitCalFeed )-1]->redirectionUrl = "https://litcal.johnromanodorazio.com/";
-                    ++$idx;
+                    $this->LitCalFeed[] = new LitCalFeedItem( $key, $festivity, $publishDate, $mainText );
                 }
             }            
         }
+    }
+
+    private function prepareMainText( Festivity $festivity ) : string {
+        if( $festivity->grade === LitGrade::WEEKDAY ){
+            //fwrite( $logFile, "we are dealing with a weekday event" . "\n" );
+            $mainText = _( "Today is" ) . " " . $festivity->name . ".";
+        } else{ 
+            if( strpos( $festivity->name, "Vigil" ) ){
+                //fwrite( $logFile, "we are dealing with a Vigil Mass" . "\n" );
+                $mainText = sprintf( _( "This evening there will be a Vigil Mass for the %s %s." ), $this->LitGrade->i18n( $festivity->grade ), trim( str_replace( _( "Vigil Mass" ), "", $festivity->name ) ) );
+            } else if( $festivity->grade < LitGrade::HIGHER_SOLEMNITY ) {
+                //fwrite( $logFile, "we are dealing with something greater than a weekday but less than a higher ranking solemnity" . "\n" );
+                if( $festivity->displayGrade != "" ){
+                    $mainText = sprintf( _( "Today is %s the %s of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $festivity->displayGrade, $festivity->name );
+                } else {
+                    if( $festivity->grade === LitGrade::FEAST_LORD ){
+                        $mainText = sprintf( _( "Today is %s the %s, %s." ), ( $idx > 0 ? _( "also" ) : "" ), $this->LitGrade->i18n( $festivity->grade ), $festivity->name );
+                    } else {
+                        $mainText = sprintf( _( "Today is %s the %s of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $this->LitGrade->i18n( $festivity->grade ), $festivity->name );
+                    }
+                }
+                
+                if( $festivity->grade < LitGrade::FEAST && $festivity->common != LitCommon::PROPER ) {
+                    //fwrite( $logFile, "we are dealing with something less than a Feast, and which has a common" . "\n" );
+                    $mainText = $mainText . " " . $this->LitCommon->i18n( $festivity->common );
+                }
+            } else {
+                $mainText = sprintf( _( "Today is %s the %s." ), ( $idx > 0 ? _( "also" ) : "" ), $festivity->name );
+            }
+        }
+        return $mainText;
     }
 
     private function sendResponse() {
@@ -235,9 +225,9 @@ class LiturgyOfTheDay {
     public function Init() {
         $this->prepareL10N();
         $this->sendMetadataReq();
-        $this->prepareReq();
-        $this->sendReq();
-        $this->filterEventsDateToday();
+        $queryArray = $this->prepareReq();
+        $this->sendReq( $queryArray; );
+        $this->filterEventsToday();
         $this->sendResponse();
     }
 

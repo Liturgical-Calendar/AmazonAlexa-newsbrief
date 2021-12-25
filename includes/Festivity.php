@@ -12,57 +12,23 @@ include_once( 'includes/enums/LitGrade.php' );
  **/
 class Festivity
 {
-    /**
-     * @var string
-     */
-    public string $name;
-
-    /**
-     * @var DateTime object
-     */
-    public DateTime $date;
-
-    /**
-     * @var string
-     */
-    public LitColor $color;
-
-    /**
-     * @var string
-     */
+    public string       $name;
+    public DateTime     $date;
+    public LitColor     $color;
     public LitFeastType $type;
+    public LitGrade     $grade;
+    public string       $displayGrade;
+    public LitCommon    $common;
+    public string       $liturgicalYear;
 
-    /**
-     * @var int
-     */
-    public LitGrade $grade;
-
-    /**
-     * @var string
-     */
-    public string $displayGrade;
-
-    /**
-     * @var string
-     */
-    public LitCommon $common;
-
-    /**
-     * @var string
-     */
-    public string $liturgicalYear;
-
-    function __construct( $name, $date, $color, $type, $grade = LitGrade::WEEKDAY, $common = '', $liturgicalYear = null, $displayGrade = null )
-    {
-        $this->name = (string) $name;
-        $this->date = DateTime::createFromFormat( 'U', $date, new DateTimeZone( 'UTC' ) ); //
-        $this->color = (string) $color;
-        $this->type = (string) $type;
-        $this->grade = (int) $grade;
-        $this->common = (string) $common;
-        if( $liturgicalYear !== null ){
-            $this->liturgicalYear = (string) $liturgicalYear;
-        }
-        $this->displayGrade = $displayGrade || '';
+    function __construct( array $festivity ) {
+        $this->name     = $festivity["name"];
+        $this->date     = DateTime::createFromFormat( 'U', $festivity["date"], new DateTimeZone( 'UTC' ) );
+        $this->color    = $festivity["color"];
+        $this->type     = $festivity["type"];
+        $this->grade    = $festivity["grade"];
+        $this->common   = $festivity["common"];
+        $this->liturgicalYear   = $festivity["liturgicalYear"] ?? null;
+        $this->displayGrade     = $festivity["displayGrade"];
     }
 }
