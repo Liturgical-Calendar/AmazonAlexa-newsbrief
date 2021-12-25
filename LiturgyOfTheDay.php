@@ -21,10 +21,11 @@ class LiturgyOfTheDay {
     private ?string $DiocesanCalendar   = null;
     private ?string $Timezone           = null;
     private array $SUPPORTED_DIOCESES   = [];
-    private array $SUPPORTED_NATIONS    = [];
+    private array $SUPPORTED_NATIONS    = [ "VATICAN", "ITALY", "USA" ];
     private array $queryArray           = [];
     private array $LitCalData           = [];
     private array $LitCalFeed           = [];
+    private IntlDateFormatter $monthDayFmt;
 
     public function __construct() {
         $this->Locale = isset( $_GET["locale"] ) ? strtoupper( $_GET["locale"] ) : LitLocale::LATIN;
@@ -39,6 +40,7 @@ class LiturgyOfTheDay {
     }
 
     private function prepareL10N() : void {
+        //die( 'nationalcalendar = ' . $this->NationalCalendar . ', Locale = ' . $this->Locale );
         $localeArray = [
             strtolower( $this->Locale ) . '_' . $this->Locale . '.utf8',
             strtolower( $this->Locale ) . '_' . $this->Locale . '.UTF-8',
@@ -50,6 +52,7 @@ class LiturgyOfTheDay {
         textdomain("litcal");
         $this->LitCommon    = new LitCommon( $this->Locale );
         $this->LitGrade     = new LitGrade( $this->Locale );
+        $this->monthDayFmt  = IntlDateFormatter::create($this->Locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL, 'UTC', IntlDateFormatter::GREGORIAN, 'd MMMM' );
     }
 
     private function sendMetadataReq() : void {
@@ -80,6 +83,11 @@ class LiturgyOfTheDay {
             } else {
                 //we have results from the metadata endpoint
                 $this->SUPPORTED_DIOCESES = json_decode( $result, true );
+                /*foreach( $this->SUPPORTED_DIOCESES as $key => $value ) {
+                    if( !in_array( $value["nation"], $this->SUPPORTED_NATIONS ) ) {
+                        array_push( $this->SUPPORTED_NATIONS, $value["nation"] );
+                    }
+                }*/
             }
         }
         curl_close( $ch );
@@ -127,13 +135,13 @@ class LiturgyOfTheDay {
     }
 
     private function sendReq( array $queryArray ) {
+        //die( json_encode( $queryArray ) );
         $ch = curl_init();
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
         curl_setopt( $ch, CURLOPT_URL, self::LITCAL_URL );
         curl_setopt( $ch, CURLOPT_POST, 1 );
         curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $queryArray ) );
         $result = curl_exec( $ch );
-        
         if ( curl_errno( $ch ) ) {
             die( "Could not send request. Curl error: " . curl_error( $ch ) );
         } else {
@@ -164,7 +172,13 @@ class LiturgyOfTheDay {
                     $festivity = new Festivity( $LitCal[$key] );
                     $mainText = $this->prepareMainText( $festivity, $idx );
                     //fwrite( $logFile, "mainText = $mainText" . "\n" );
-                    $this->LitCalFeed[] = new LitCalFeedItem( $key, $festivity, $publishDate, $mainText );
+                    $titleText = _( "Liturgy of the Day" ) . " ";
+                    if( $this->Locale === LitLocale::ENGLISH ) {
+                        $titleText .= $festivity->date->format( 'F jS' );
+                    } else {
+                        $titleText .= $this->monthDayFmt->format( $festivity->date->format( 'U' ) );
+                    }
+                    $this->LitCalFeed[] = new LitCalFeedItem( $key, $festivity, $publishDate, $titleText, $mainText );
                     $idx++;
                 }
             }            
@@ -175,7 +189,7 @@ class LiturgyOfTheDay {
         if( $festivity->grade === LitGrade::WEEKDAY ) {
             $mainText = _( "Today is" ) . " " . $festivity->name . ".";
         } else{ 
-            if( strpos( $festivity->name, "Vigil" ) ) {
+            if( $festivity->isVigilMass ) {
                 /**translators: grade, name */
                 $mainText = sprintf( _( "This evening there will be a Vigil Mass for the %s %s." ), $this->LitGrade->i18n( $festivity->grade, false ), trim( str_replace( _( "Vigil Mass" ), "", $festivity->name ) ) );
             } else if( $festivity->grade < LitGrade::HIGHER_SOLEMNITY ) {

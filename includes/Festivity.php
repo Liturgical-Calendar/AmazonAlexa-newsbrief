@@ -20,6 +20,7 @@ class Festivity
     public string       $displayGrade;
     public string       $common;
     public string       $liturgicalYear;
+    public bool         $isVigilMass;
 
     function __construct( array $festivity ) {
         $this->name     = $festivity["name"];
@@ -30,5 +31,6 @@ class Festivity
         $this->common   = LitCommon::isValid( $festivity["common"] ) ? $festivity["common"] : "";
         $this->liturgicalYear   = $festivity["liturgicalYear"] ?? null;
         $this->displayGrade     = $festivity["displayGrade"];
+        $this->isVigilMass      = $festivity["isVigilMass"] ?? false;
     }
 }

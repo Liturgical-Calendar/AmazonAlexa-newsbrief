@@ -9,10 +9,10 @@ class LitCalFeedItem {
     public string $redirectionUrl;
     public string $updateDate;
 
-    public function __construct( string $key, Festivity $festivity, DateTime $publishDate, string $mainText ) {
+    public function __construct( string $key, Festivity $festivity, DateTime $publishDate, string $titleText, string $mainText ) {
         $this->uid = "urn:uuid:" . md5( "LITCAL-" . $key . '-' . $festivity->date->format( 'Y' ) );
         $this->updateDate       = $publishDate->format( "Y-m-d\TH:i:s\Z" );
-        $this->titleText        = _( "Liturgy of the Day" ) . " " . $festivity->date->format( 'F jS' );
+        $this->titleText        = $titleText;
         $this->mainText         = $mainText;
         $this->redirectionUrl   = "https://litcal.johnromanodorazio.com/";
     }
