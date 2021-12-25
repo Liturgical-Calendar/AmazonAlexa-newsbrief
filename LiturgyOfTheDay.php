@@ -95,9 +95,11 @@ class LiturgyOfTheDay {
             switch( $this->NationalCalendar ) {
                 case "ITALY":
                     $queryArray["locale"] = LitLocale::ITALIAN;
+                    $this->Locale = LitLocale::ITALIAN;
                 break;
                 case "USA":
                     $queryArray["locale"] = LitLocale::ENGLISH;
+                    $this->Locale = LitLocale::ENGLISH;
                 break;
             }
         }
@@ -107,9 +109,11 @@ class LiturgyOfTheDay {
             switch( $this->SUPPORTED_DIOCESES[$this->DiocesanCalendar]["nation"] ) {
                 case "ITALY":
                     $queryArray["locale"] = LitLocale::ITALIAN;
+                    $this->Locale = LitLocale::ITALIAN;
                 break;
                 case "USA":
                     $queryArray["locale"] = LitLocale::ENGLISH;
+                    $this->Locale = LitLocale::ENGLISH;
                 break;
             }
         }
@@ -117,6 +121,7 @@ class LiturgyOfTheDay {
         //last resort is Latin for the Universal Calendar
         if( !isset( $queryArray["locale"] ) ) {
             $queryArray["locale"] = LitLocale::LATIN;
+            $this->Locale = LitLocale::LATIN;
         }
         return $queryArray;
     }
@@ -208,10 +213,10 @@ class LiturgyOfTheDay {
     }
 
     public function Init() {
-        $this->prepareL10N();
         $this->sendMetadataReq();
         $queryArray = $this->prepareReq();
         $this->sendReq( $queryArray );
+        $this->prepareL10N();
         $this->filterEventsToday();
         $this->sendResponse();
     }
