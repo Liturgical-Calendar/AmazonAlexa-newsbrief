@@ -14,20 +14,20 @@ class Festivity
 {
     public string       $name;
     public DateTime     $date;
-    public LitColor     $color;
-    public LitFeastType $type;
-    public LitGrade     $grade;
+    public string       $color;
+    public string       $type;
+    public int          $grade;
     public string       $displayGrade;
-    public LitCommon    $common;
+    public string       $common;
     public string       $liturgicalYear;
 
     function __construct( array $festivity ) {
         $this->name     = $festivity["name"];
         $this->date     = DateTime::createFromFormat( 'U', $festivity["date"], new DateTimeZone( 'UTC' ) );
-        $this->color    = $festivity["color"];
-        $this->type     = $festivity["type"];
-        $this->grade    = $festivity["grade"];
-        $this->common   = $festivity["common"];
+        $this->color    = LitColor::isValid( $festivity["color"] ) ? $festivity["color"] : "";
+        $this->type     = LitFeastType::isValid( $festivity["type"] ) ? $festivity["type"] : "";
+        $this->grade    = LitGrade::isValid( $festivity["grade"] ) ? $festivity["grade"] : "";
+        $this->common   = LitCommon::isValid( $festivity["common"] ) ? $festivity["common"] : "";
         $this->liturgicalYear   = $festivity["liturgicalYear"] ?? null;
         $this->displayGrade     = $festivity["displayGrade"];
     }
