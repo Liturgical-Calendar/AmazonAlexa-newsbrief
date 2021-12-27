@@ -29,7 +29,7 @@ class Festivity
         $this->type     = LitFeastType::isValid( $festivity["type"] ) ? $festivity["type"] : "";
         $this->grade    = LitGrade::isValid( $festivity["grade"] ) ? $festivity["grade"] : "";
         $this->common   = LitCommon::isValid( $festivity["common"] ) ? $festivity["common"] : "";
-        $this->liturgicalYear   = $festivity["liturgicalYear"] ?? null;
+        $this->liturgicalYear   = $festivity["liturgicalYear"] ?? '';
         $this->displayGrade     = $festivity["displayGrade"];
         $this->isVigilMass      = $festivity["isVigilMass"] ?? false;
     }
