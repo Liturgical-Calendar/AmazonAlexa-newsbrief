@@ -202,7 +202,7 @@ class LiturgyOfTheDay {
                     }
                 }
                 
-                if( $festivity->grade < LitGrade::FEAST && $festivity->common != LitCommon::PROPER ) {
+                if( $festivity->grade < LitGrade::FEAST && $festivity->common != LitCommon::PROPRIO ) {
                     $mainText = $mainText . " " . $this->LitCommon->i18n( $festivity->common );
                 }
             } else {
