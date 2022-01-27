@@ -190,15 +190,30 @@ class LiturgyOfTheDay {
                 $mainText = sprintf( _( "This evening there will be a Vigil Mass for the %s %s." ), $this->LitGrade->i18n( $festivity->grade, false ), trim( str_replace( _( "Vigil Mass" ), "", $festivity->name ) ) );
             } else if( $festivity->grade < LitGrade::HIGHER_SOLEMNITY ) {
                 if( $festivity->displayGrade != "" ) {
-                    /**translators: (also|''), displayGrade, name */
-                    $mainText = sprintf( _( "Today is %s the %s of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $festivity->displayGrade, $festivity->name );
+                    $mainText = sprintf(
+                        /**translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
+                        _( "Today is %$1s the %$2s of %$3s." ),
+                        ( $idx > 0 ? _( "also" ) : "" ),
+                        $festivity->displayGrade,
+                        $festivity->name
+                    );
                 } else {
                     if( $festivity->grade === LitGrade::FEAST_LORD ) {
-                        /**translators: (also|''), grade, name CTXT: Feast of the Lord */
-                        $mainText = sprintf( _( "Today is %s the %s, %s." ), ( $idx > 0 ? _( "also" ) : "" ), $this->LitGrade->i18n( $festivity->grade, false ), $festivity->name );
+                        $mainText = sprintf(
+                            /**translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
+                            _( "Today is %$1s the %$2s, %$3s." ),
+                            ( $idx > 0 ? _( "also" ) : "" ),
+                            $this->LitGrade->i18n( $festivity->grade, false ),
+                            $festivity->name
+                        );
                     } else {
-                        /**translators: (also|''), grade, name CTXT: (optional) memorial or feast */
-                        $mainText = sprintf( _( "Today is %s the %s of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $this->LitGrade->i18n( $festivity->grade, false ), $festivity->name );
+                        $mainText = sprintf(
+                            /**translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
+                            _( "Today is %$1s the %$2s of %$3s." ),
+                            ( $idx > 0 ? _( "also" ) : "" ),
+                            $this->LitGrade->i18n( $festivity->grade, false ),
+                            $festivity->name
+                        );
                     }
                 }
                 
@@ -206,8 +221,12 @@ class LiturgyOfTheDay {
                     $mainText = $mainText . " " . $this->LitCommon->i18n( $festivity->common );
                 }
             } else {
-                /**translators: (also|''), name CTXT: higher grade solemnity with precedence over other solemnities */
-                $mainText = sprintf( _( "Today is %s the day of %s." ), ( $idx > 0 ? _( "also" ) : "" ), $festivity->name );
+                $mainText = sprintf(
+                    /**translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity  */
+                    _( "Today is %$1s the day of %$2s." ),
+                    ( $idx > 0 ? _( "also" ) : "" ),
+                    $festivity->name
+                );
             }
         }
         return $mainText;
