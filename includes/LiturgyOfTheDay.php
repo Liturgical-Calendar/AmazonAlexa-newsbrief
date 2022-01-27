@@ -17,7 +17,7 @@ class LiturgyOfTheDay {
     private ?string $DiocesanCalendar   = null;
     private ?string $Timezone           = null;
     private array $SUPPORTED_DIOCESES   = [];
-    private array $SUPPORTED_NATIONS    = [ "VATICAN", "ITALY", "USA" ];
+    private array $SUPPORTED_NATIONS    = [];
     private array $queryArray           = [];
     private array $LitCalData           = [];
     private array $LitCalFeed           = [];
@@ -53,37 +53,23 @@ class LiturgyOfTheDay {
 
     private function sendMetadataReq() : void {
         $ch = curl_init( self::METADATA_URL );
-        // Disable SSL verification
-        //curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-        // Will return the response, if false it print the response
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        //curl_setopt( $ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
-        // Execute
         $result = curl_exec( $ch );
         
         if ( curl_errno( $ch ) ) {
-            // this would be your first hint that something went wrong
             die( "Could not send request. Curl error: " . curl_error( $ch ) );
         } else {
-            // check the HTTP status code of the request
             $resultStatus = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
             if ( $resultStatus !== 200 ) {
-                // the request did not complete as expected. common errors are 4xx
-                // ( not found, bad request, etc. ) and 5xx ( usually concerning
-                // errors/exceptions in the remote script execution )
                 if( $resultStatus === 412 ){
                     die( "the index.json file simply doesn't exist yet" );
                 } else {
                     die( "Request failed. HTTP status code: " . $resultStatus );
                 }
             } else {
-                //we have results from the metadata endpoint
-                $this->SUPPORTED_DIOCESES = json_decode( $result, true );
-                /*foreach( $this->SUPPORTED_DIOCESES as $key => $value ) {
-                    if( !in_array( $value["nation"], $this->SUPPORTED_NATIONS ) ) {
-                        array_push( $this->SUPPORTED_NATIONS, $value["nation"] );
-                    }
-                }*/
+                $response = json_decode( $result );
+                $this->SUPPORTED_DIOCESES = (array) $response->LitCalMetadata->DiocesanCalendars;
+                $this->SUPPORTED_NATIONS =  get_object_vars( $response->LitCalMetadata->NationalCalendars );
             }
         }
         curl_close( $ch );
