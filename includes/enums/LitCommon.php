@@ -1,5 +1,4 @@
 <?php
-
 include_once( "includes/pgettext.php" );
 include_once( "includes/enums/LitLocale.php" );
 
