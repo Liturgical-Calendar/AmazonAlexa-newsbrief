@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-29 20:52+0000\n"
+"POT-Creation-Date: 2022-01-27 17:18+0000\n"
 "PO-Revision-Date: 2021-12-25 19:58+0530\n"
 "Last-Translator: root <priest@johnromanodorazio.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
@@ -35,28 +35,25 @@ msgstr ""
 msgid "Vigil Mass"
 msgstr ""
 
-#. translators: (also|''), displayGrade, name
-#. translators: (also|''), grade, name CTXT: (optional) memorial or feast
-#: includes/LiturgyOfTheDay.php:194 includes/LiturgyOfTheDay.php:201
-#, php-format
-msgid "Today is %s the %s of %s."
+#. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
+#. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
+#: includes/LiturgyOfTheDay.php:195 includes/LiturgyOfTheDay.php:212
+msgid "Today is %$1s the %$2s of %$3s."
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:194 includes/LiturgyOfTheDay.php:198
-#: includes/LiturgyOfTheDay.php:201 includes/LiturgyOfTheDay.php:210
+#: includes/LiturgyOfTheDay.php:196 includes/LiturgyOfTheDay.php:205
+#: includes/LiturgyOfTheDay.php:213 includes/LiturgyOfTheDay.php:227
 msgid "also"
 msgstr ""
 
-#. translators: (also|''), grade, name CTXT: Feast of the Lord
-#: includes/LiturgyOfTheDay.php:198
-#, php-format
-msgid "Today is %s the %s, %s."
+#. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
+#: includes/LiturgyOfTheDay.php:204
+msgid "Today is %$1s the %$2s, %$3s."
 msgstr ""
 
-#. translators: (also|''), name CTXT: higher grade solemnity with precedence over other solemnities
-#: includes/LiturgyOfTheDay.php:210
-#, php-format
-msgid "Today is %s the day of %s."
+#. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
+#: includes/LiturgyOfTheDay.php:226
+msgid "Today is %$1s the day of %$2s."
 msgstr ""
 
 #. translators: context = liturgical color
