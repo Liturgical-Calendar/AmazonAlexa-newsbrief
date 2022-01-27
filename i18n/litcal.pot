@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-27 19:40+0000\n"
+"POT-Creation-Date: 2022-01-27 19:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,42 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: includes/LiturgyOfTheDay.php:171
+#: includes/LiturgyOfTheDay.php:157
 msgid "Liturgy of the Day"
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:186
+#: includes/LiturgyOfTheDay.php:172
 msgid "Today is"
 msgstr ""
 
 #. translators: grade, name
-#: includes/LiturgyOfTheDay.php:190
+#: includes/LiturgyOfTheDay.php:176
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %s %s."
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:190
+#: includes/LiturgyOfTheDay.php:176
 msgid "Vigil Mass"
 msgstr ""
 
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:195 includes/LiturgyOfTheDay.php:212
+#: includes/LiturgyOfTheDay.php:181 includes/LiturgyOfTheDay.php:198
 msgid "Today is %$1s the %$2s of %$3s."
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:196 includes/LiturgyOfTheDay.php:205
-#: includes/LiturgyOfTheDay.php:213 includes/LiturgyOfTheDay.php:227
+#: includes/LiturgyOfTheDay.php:182 includes/LiturgyOfTheDay.php:191
+#: includes/LiturgyOfTheDay.php:199 includes/LiturgyOfTheDay.php:213
 msgid "also"
 msgstr ""
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:204
+#: includes/LiturgyOfTheDay.php:190
 msgid "Today is %$1s the %$2s, %$3s."
 msgstr ""
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:226
+#: includes/LiturgyOfTheDay.php:212
 msgid "Today is %$1s the day of %$2s."
 msgstr ""
 
