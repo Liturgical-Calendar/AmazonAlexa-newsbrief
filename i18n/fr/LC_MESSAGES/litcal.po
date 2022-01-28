@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-29 20:52+0000\n"
+"POT-Creation-Date: 2022-01-28 19:54+0000\n"
 "PO-Revision-Date: 2021-12-25 19:59+0530\n"
 "Last-Translator: root <priest@johnromanodorazio.com>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -17,46 +17,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: includes/LiturgyOfTheDay.php:171
+#: includes/LiturgyOfTheDay.php:157
 msgid "Liturgy of the Day"
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:186
+#: includes/LiturgyOfTheDay.php:172
 msgid "Today is"
 msgstr ""
 
 #. translators: grade, name
-#: includes/LiturgyOfTheDay.php:190
+#: includes/LiturgyOfTheDay.php:176
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %s %s."
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:190
+#: includes/LiturgyOfTheDay.php:176
 msgid "Vigil Mass"
 msgstr ""
 
-#. translators: (also|''), displayGrade, name
-#. translators: (also|''), grade, name CTXT: (optional) memorial or feast
-#: includes/LiturgyOfTheDay.php:194 includes/LiturgyOfTheDay.php:201
+#. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
+#. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
+#: includes/LiturgyOfTheDay.php:181 includes/LiturgyOfTheDay.php:198
 #, php-format
-msgid "Today is %s the %s of %s."
+msgid "Today is %1$s the %2$s of %3$s."
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:194 includes/LiturgyOfTheDay.php:198
-#: includes/LiturgyOfTheDay.php:201 includes/LiturgyOfTheDay.php:210
+#: includes/LiturgyOfTheDay.php:182 includes/LiturgyOfTheDay.php:191
+#: includes/LiturgyOfTheDay.php:199 includes/LiturgyOfTheDay.php:213
 msgid "also"
 msgstr ""
 
-#. translators: (also|''), grade, name CTXT: Feast of the Lord
-#: includes/LiturgyOfTheDay.php:198
+#. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
+#: includes/LiturgyOfTheDay.php:190
 #, php-format
-msgid "Today is %s the %s, %s."
+msgid "Today is %1$s the %2$s, %3$s."
 msgstr ""
 
-#. translators: (also|''), name CTXT: higher grade solemnity with precedence over other solemnities
-#: includes/LiturgyOfTheDay.php:210
+#. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
+#: includes/LiturgyOfTheDay.php:212
 #, php-format
-msgid "Today is %s the day of %s."
+msgid "Today is %1$s the day of %2$s."
 msgstr ""
 
 #. translators: context = liturgical color
@@ -254,35 +254,35 @@ msgid "For Holy Women"
 msgstr ""
 
 #. translators: (singular feminine) glue between "From the Common" and the actual common. Latin: leave empty!
-#: includes/enums/LitCommon.php:170 includes/enums/LitCommon.php:182
+#: includes/enums/LitCommon.php:168 includes/enums/LitCommon.php:180
 msgctxt "(SING_FEMM)"
 msgid "of"
 msgstr ""
 
 #. translators: (plural feminine) glue between "From the Common" and the actual common. Latin: leave empty!
-#: includes/enums/LitCommon.php:173
+#: includes/enums/LitCommon.php:171
 msgctxt "(PLUR_FEMM)"
 msgid "of"
 msgstr ""
 
 #. translators: (plural masculine) glue between "From the Common" and the actual common. Latin: leave empty!
-#: includes/enums/LitCommon.php:179
+#: includes/enums/LitCommon.php:177
 msgctxt "(PLUR_MASC)"
 msgid "of"
 msgstr ""
 
 #. translators: (singular masculine) glue between "From the Common" and the actual common. Latin: leave empty!
-#: includes/enums/LitCommon.php:185
+#: includes/enums/LitCommon.php:183
 msgctxt "(SING_MASC)"
 msgid "of"
 msgstr ""
 
-#: includes/enums/LitCommon.php:266
+#: includes/enums/LitCommon.php:264
 msgid "From the Common"
 msgstr ""
 
 #. translators: when there are multiple possible commons, this will be the glue "or from the common of..."
-#: includes/enums/LitCommon.php:270
+#: includes/enums/LitCommon.php:268
 msgid "or"
 msgstr ""
 
