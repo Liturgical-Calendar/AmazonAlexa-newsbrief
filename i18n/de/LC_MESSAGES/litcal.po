@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-27 19:53+0000\n"
+"POT-Creation-Date: 2022-01-28 19:54+0000\n"
 "PO-Revision-Date: 2021-12-25 19:58+0530\n"
 "Last-Translator: root <priest@johnromanodorazio.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
@@ -38,7 +38,8 @@ msgstr ""
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #: includes/LiturgyOfTheDay.php:181 includes/LiturgyOfTheDay.php:198
-msgid "Today is %$1s the %$2s of %$3s."
+#, php-format
+msgid "Today is %1$s the %2$s of %3$s."
 msgstr ""
 
 #: includes/LiturgyOfTheDay.php:182 includes/LiturgyOfTheDay.php:191
@@ -48,12 +49,14 @@ msgstr ""
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #: includes/LiturgyOfTheDay.php:190
-msgid "Today is %$1s the %$2s, %$3s."
+#, php-format
+msgid "Today is %1$s the %2$s, %3$s."
 msgstr ""
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
 #: includes/LiturgyOfTheDay.php:212
-msgid "Today is %$1s the day of %$2s."
+#, php-format
+msgid "Today is %1$s the day of %2$s."
 msgstr ""
 
 #. translators: context = liturgical color
