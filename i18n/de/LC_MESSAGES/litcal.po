@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-29 11:40+0000\n"
+"POT-Creation-Date: 2022-01-29 20:21+0000\n"
 "PO-Revision-Date: 2021-12-25 19:58+0530\n"
 "Last-Translator: root <priest@johnromanodorazio.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
@@ -21,47 +21,54 @@ msgstr ""
 msgid "Liturgy of the Day"
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:173
+#: includes/LiturgyOfTheDay.php:188
 msgid "Today is"
 msgstr ""
 
+#. translators: 1. name of the festivity
+#: includes/LiturgyOfTheDay.php:194
+#, php-format
+msgid "This evening there will be a Vigil Mass for the %1$s."
+msgstr ""
+
+#: includes/LiturgyOfTheDay.php:195 includes/LiturgyOfTheDay.php:202
+msgid "Vigil Mass"
+msgstr ""
+
 #. translators: 1. grade of the festivity, 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:178
+#: includes/LiturgyOfTheDay.php:200
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:180
-msgid "Vigil Mass"
-msgstr ""
-
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:186 includes/LiturgyOfTheDay.php:212
+#: includes/LiturgyOfTheDay.php:209 includes/LiturgyOfTheDay.php:246
 #, php-format
 msgid "Today is %1$s the %2$s of %3$s."
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:187 includes/LiturgyOfTheDay.php:196
-#: includes/LiturgyOfTheDay.php:205 includes/LiturgyOfTheDay.php:213
-#: includes/LiturgyOfTheDay.php:227
+#: includes/LiturgyOfTheDay.php:210 includes/LiturgyOfTheDay.php:220
+#: includes/LiturgyOfTheDay.php:229 includes/LiturgyOfTheDay.php:239
+#: includes/LiturgyOfTheDay.php:247 includes/LiturgyOfTheDay.php:261
 msgid "also"
 msgstr ""
 
-#. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:195
-#, php-format
-msgid "Today is %1$s the %2$s, %3$s."
-msgstr ""
-
+#. translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:204
+#: includes/LiturgyOfTheDay.php:219 includes/LiturgyOfTheDay.php:238
 #, php-format
 msgid "Today is %1$s the %2$s."
 msgstr ""
 
+#. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
+#: includes/LiturgyOfTheDay.php:228
+#, php-format
+msgid "Today is %1$s the %2$s, %3$s."
+msgstr ""
+
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:226
+#: includes/LiturgyOfTheDay.php:260
 #, php-format
 msgid "Today is %1$s the day of %2$s."
 msgstr ""
