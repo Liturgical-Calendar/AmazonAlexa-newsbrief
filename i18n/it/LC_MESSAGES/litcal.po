@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-29 20:21+0000\n"
-"PO-Revision-Date: 2022-01-29 20:21+0000\n"
+"PO-Revision-Date: 2022-01-29 20:27+0000\n"
 "Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
 "Language-Team: Italian <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/it/>\n"
@@ -29,10 +29,9 @@ msgstr "Oggi è"
 
 #. translators: 1. name of the festivity
 #: includes/LiturgyOfTheDay.php:194
-#, fuzzy, php-format
-#| msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
+#, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s."
-msgstr "Questa sera ci sarà una Messa di Vigilia per la %1$s %2$s."
+msgstr "Questa sera ci sarà una Messa di Vigilia per la %1$s."
 
 #: includes/LiturgyOfTheDay.php:195 includes/LiturgyOfTheDay.php:202
 msgid "Vigil Mass"
