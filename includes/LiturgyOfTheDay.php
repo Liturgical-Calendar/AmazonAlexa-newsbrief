@@ -152,6 +152,7 @@ class LiturgyOfTheDay {
                     $publishDate = $dateToday->sub( new DateInterval( 'PT1M' ) );
                     // retransform each entry from an associative array to a Festivity class object
                     $festivity = new Festivity( $LitCal[$key] );
+                    $festivity->tag = $key;
                     $mainText = $this->prepareMainText( $festivity, $idx );
                     //fwrite( $logFile, "mainText = $mainText" . "\n" );
                     $titleText = _( "Liturgy of the Day" ) . " ";
@@ -196,7 +197,16 @@ class LiturgyOfTheDay {
                             $this->LitGrade->i18n( $festivity->grade, false ),
                             $festivity->name
                         );
-                    } else {
+                    }
+                    else if( strpos( $festivity->tag, "SatMemBVM" ) !== false ) {
+                        $mainText = sprintf(
+                            /**translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity */
+                            _( 'Today is %1$s the %2$s.' ),
+                            ( $idx > 0 ? _( "also" ) : "" ),
+                            $festivity->name
+                        );
+                    }
+                    else {
                         $mainText = sprintf(
                             /**translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
                             _( 'Today is %1$s the %2$s of %3$s.' ),
@@ -208,7 +218,7 @@ class LiturgyOfTheDay {
                 }
                 
                 if( $festivity->grade < LitGrade::FEAST && $festivity->common != LitCommon::PROPRIO ) {
-                    $mainText = $mainText . " " . $this->LitCommon->i18n( $festivity->common );
+                    $mainText = $mainText . " " . $this->LitCommon->C( $festivity->common );
                 }
             } else {
                 $mainText = sprintf(
