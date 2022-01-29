@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-28 19:54+0000\n"
-"PO-Revision-Date: 2022-01-29 09:37+0000\n"
+"PO-Revision-Date: 2022-01-29 10:09+0000\n"
 "Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
 "Language-Team: Italian <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/it/>\n"
@@ -163,7 +163,7 @@ msgstr "Per una santa martire"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:87
 msgid "For a Pope"
-msgstr "Per i papi"
+msgstr "Per un Papa"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:89
@@ -173,7 +173,7 @@ msgstr "Per i vescovi"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:91
 msgid "For One Pastor"
-msgstr "Per un pastore"
+msgstr "Per un Pastore"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:93
