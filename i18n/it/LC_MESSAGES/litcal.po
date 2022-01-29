@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-29 11:40+0000\n"
-"PO-Revision-Date: 2022-01-29 10:09+0000\n"
+"PO-Revision-Date: 2022-01-29 11:54+0000\n"
 "Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
 "Language-Team: Italian <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/it/>\n"
@@ -29,10 +29,9 @@ msgstr "Oggi è"
 
 #. translators: 1. grade of the festivity, 2. name of the festivity
 #: includes/LiturgyOfTheDay.php:178
-#, fuzzy, php-format
-#| msgid "This evening there will be a Vigil Mass for the %s %s."
+#, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
-msgstr "Questa sera ci sarà una Messa di Vigilia per la %s %s."
+msgstr "Questa sera ci sarà una Messa di Vigilia per la %1$s %2$s."
 
 #: includes/LiturgyOfTheDay.php:180
 msgid "Vigil Mass"
@@ -59,10 +58,9 @@ msgstr "Oggi è %1$s la %2$s, %3$s."
 
 #. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
 #: includes/LiturgyOfTheDay.php:204
-#, fuzzy, php-format
-#| msgid "Today is %1$s the %2$s, %3$s."
+#, php-format
 msgid "Today is %1$s the %2$s."
-msgstr "Oggi è %1$s la %2$s, %3$s."
+msgstr "Oggi è %1$s la %2$s."
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
 #: includes/LiturgyOfTheDay.php:226
@@ -172,7 +170,7 @@ msgstr "Per una santa martire"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:87
 msgid "For a Pope"
-msgstr "Per un Papa"
+msgstr "Per un papa"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:89
@@ -182,7 +180,7 @@ msgstr "Per i vescovi"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:91
 msgid "For One Pastor"
-msgstr "Per un Pastore"
+msgstr "Per un pastore"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:93
@@ -268,7 +266,7 @@ msgstr "Per le sante"
 #: includes/enums/LitCommon.php:168 includes/enums/LitCommon.php:180
 msgctxt "(SING_FEMM)"
 msgid "of the"
-msgstr ""
+msgstr "della"
 
 #. translators: (plural feminine) glue between "From the Common" and the actual common. Latin: leave empty!
 #: includes/enums/LitCommon.php:171
@@ -286,7 +284,7 @@ msgstr "dei"
 #: includes/enums/LitCommon.php:183
 msgctxt "(SING_MASC)"
 msgid "of the"
-msgstr ""
+msgstr "del"
 
 #: includes/enums/LitCommon.php:264
 msgid "From the Common"
