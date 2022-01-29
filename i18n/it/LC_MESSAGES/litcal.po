@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-29 11:40+0000\n"
-"PO-Revision-Date: 2022-01-29 11:54+0000\n"
+"POT-Creation-Date: 2022-01-29 20:21+0000\n"
+"PO-Revision-Date: 2022-01-29 20:27+0000\n"
 "Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
 "Language-Team: Italian <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/it/>\n"
@@ -23,47 +23,54 @@ msgstr ""
 msgid "Liturgy of the Day"
 msgstr "Liturgia del Giorno"
 
-#: includes/LiturgyOfTheDay.php:173
+#: includes/LiturgyOfTheDay.php:188
 msgid "Today is"
 msgstr "Oggi è"
 
+#. translators: 1. name of the festivity
+#: includes/LiturgyOfTheDay.php:194
+#, php-format
+msgid "This evening there will be a Vigil Mass for the %1$s."
+msgstr "Questa sera ci sarà una Messa di Vigilia per la %1$s."
+
+#: includes/LiturgyOfTheDay.php:195 includes/LiturgyOfTheDay.php:202
+msgid "Vigil Mass"
+msgstr "Messa della vigilia"
+
 #. translators: 1. grade of the festivity, 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:178
+#: includes/LiturgyOfTheDay.php:200
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
 msgstr "Questa sera ci sarà una Messa di Vigilia per la %1$s %2$s."
 
-#: includes/LiturgyOfTheDay.php:180
-msgid "Vigil Mass"
-msgstr "Messa della vigilia"
-
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:186 includes/LiturgyOfTheDay.php:212
+#: includes/LiturgyOfTheDay.php:209 includes/LiturgyOfTheDay.php:246
 #, php-format
 msgid "Today is %1$s the %2$s of %3$s."
 msgstr "Oggi è %1$s la %2$s di %3$s."
 
-#: includes/LiturgyOfTheDay.php:187 includes/LiturgyOfTheDay.php:196
-#: includes/LiturgyOfTheDay.php:205 includes/LiturgyOfTheDay.php:213
-#: includes/LiturgyOfTheDay.php:227
+#: includes/LiturgyOfTheDay.php:210 includes/LiturgyOfTheDay.php:220
+#: includes/LiturgyOfTheDay.php:229 includes/LiturgyOfTheDay.php:239
+#: includes/LiturgyOfTheDay.php:247 includes/LiturgyOfTheDay.php:261
 msgid "also"
 msgstr "anche"
 
-#. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:195
-#, php-format
-msgid "Today is %1$s the %2$s, %3$s."
-msgstr "Oggi è %1$s la %2$s, %3$s."
-
+#. translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:204
+#: includes/LiturgyOfTheDay.php:219 includes/LiturgyOfTheDay.php:238
 #, php-format
 msgid "Today is %1$s the %2$s."
 msgstr "Oggi è %1$s la %2$s."
 
+#. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
+#: includes/LiturgyOfTheDay.php:228
+#, php-format
+msgid "Today is %1$s the %2$s, %3$s."
+msgstr "Oggi è %1$s la %2$s, %3$s."
+
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:226
+#: includes/LiturgyOfTheDay.php:260
 #, php-format
 msgid "Today is %1$s the day of %2$s."
 msgstr "Oggi è %1$s il giorno di %2$s."
@@ -175,7 +182,7 @@ msgstr "Per un papa"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:89
 msgid "For a Bishop"
-msgstr "Per i vescovi"
+msgstr "Per un vescovo"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:91
@@ -185,7 +192,7 @@ msgstr "Per un pastore"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:93
 msgid "For Several Pastors"
-msgstr "Per i pastori"
+msgstr "Per più pastori"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:95
@@ -225,7 +232,7 @@ msgstr "Per più santi"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:109
 msgid "For One Saint"
-msgstr "Per un Santo"
+msgstr "Per un santo"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:111
@@ -240,7 +247,7 @@ msgstr "Per un monaco"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:115
 msgid "For a Nun"
-msgstr "Per i religiosi"
+msgstr "Per una monaca"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:117
