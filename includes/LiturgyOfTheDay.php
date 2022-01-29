@@ -67,9 +67,9 @@ class LiturgyOfTheDay {
                     die( "Request failed. HTTP status code: " . $resultStatus );
                 }
             } else {
-                $response = json_decode( $result );
-                $this->SUPPORTED_DIOCESES = (array) $response->LitCalMetadata->DiocesanCalendars;
-                $this->SUPPORTED_NATIONS =  get_object_vars( $response->LitCalMetadata->NationalCalendars );
+                $response = json_decode( $result, true );
+                $this->SUPPORTED_DIOCESES = $response["LitCalMetadata"]["DiocesanCalendars"];
+                $this->SUPPORTED_NATIONS =  array_keys( $response["LitCalMetadata"]["NationalCalendars"] );
             }
         }
         curl_close( $ch );
