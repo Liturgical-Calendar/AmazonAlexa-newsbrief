@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-29 10:09+0000\n"
+"POT-Creation-Date: 2022-01-29 10:17+0000\n"
 "PO-Revision-Date: 2022-01-29 10:09+0000\n"
 "Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
 "Language-Team: Italian <https://translate.johnromanodorazio.com/projects/"
@@ -26,6 +26,13 @@ msgstr "Liturgia del Giorno"
 #: includes/LiturgyOfTheDay.php:172
 msgid "Today is"
 msgstr "Oggi è"
+
+#. translators: 1. grade of the festivity, 2. name of the festivity
+#: includes/LiturgyOfTheDay.php:177
+#, fuzzy, php-format
+#| msgid "This evening there will be a Vigil Mass for the %s %s."
+msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
+msgstr "Questa sera ci sarà una Messa di Vigilia per la %s %s."
 
 #: includes/LiturgyOfTheDay.php:179
 msgid "Vigil Mass"
@@ -321,6 +328,3 @@ msgstr "SOLENNITÀ"
 #: includes/enums/LitGrade.php:123
 msgid "celebration with precedence over solemnities"
 msgstr "celebrazione con precedenza sulle solennità"
-
-#~ msgid "This evening there will be a Vigil Mass for the %s %s."
-#~ msgstr "Questa sera ci sarà una Messa di Vigilia per la %s %s."
