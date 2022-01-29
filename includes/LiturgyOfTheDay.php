@@ -169,16 +169,39 @@ class LiturgyOfTheDay {
     }
 
     private function prepareMainText( Festivity $festivity, int $idx ) : string {
+        //Situations in which we don't need to actually state "Feast of the Lord":
+        $filterTagsDisplayGrade = [
+            "/OrdSunday[0-9]{1,2}(_vigil){0,1}/",
+            "/Advent[1-4](_vigil){0,1}/",
+            "/Lent[1-5](_vigil){0,1}/",
+            "/Easter[1-7](_vigil){0,1}/"
+        ];
+        $isSundayOrdAdvLentEaster = false;
+        foreach( $filterTagsDisplayGrade as $pattern ) {
+            if( preg_match( $pattern, $festivity->tag ) === 1 ) {
+                $isSundayOrdAdvLentEaster = true;
+                break;
+            }
+        }
+
         if( $festivity->grade === LitGrade::WEEKDAY ) {
             $mainText = _( "Today is" ) . " " . $festivity->name . ".";
         } else{ 
             if( $festivity->isVigilMass ) {
-                $mainText = sprintf(
-                    /**translators: 1. grade of the festivity, 2. name of the festivity */
-                    _( 'This evening there will be a Vigil Mass for the %1$s %2$s.' ),
-                    $this->LitGrade->i18n( $festivity->grade, false ),
-                    trim( str_replace( _( "Vigil Mass" ), "", $festivity->name ) )
-                );
+                if( $isSundayOrdAdvLentEaster ) {
+                    $mainText = sprintf(
+                        /**translators: 1. name of the festivity */
+                        _( 'This evening there will be a Vigil Mass for the %1$s.' ),
+                        trim( str_replace( _( "Vigil Mass" ), "", $festivity->name ) )
+                    );
+                } else {
+                    $mainText = sprintf(
+                        /**translators: 1. grade of the festivity, 2. name of the festivity */
+                        _( 'This evening there will be a Vigil Mass for the %1$s %2$s.' ),
+                        $this->LitGrade->i18n( $festivity->grade, false ),
+                        trim( str_replace( _( "Vigil Mass" ), "", $festivity->name ) )
+                    );
+                }
             } else if( $festivity->grade < LitGrade::HIGHER_SOLEMNITY ) {
                 if( $festivity->displayGrade != "" ) {
                     $mainText = sprintf(
@@ -190,13 +213,24 @@ class LiturgyOfTheDay {
                     );
                 } else {
                     if( $festivity->grade === LitGrade::FEAST_LORD ) {
-                        $mainText = sprintf(
-                            /**translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
-                            _( 'Today is %1$s the %2$s, %3$s.' ),
-                            ( $idx > 0 ? _( "also" ) : "" ),
-                            $this->LitGrade->i18n( $festivity->grade, false ),
-                            $festivity->name
-                        );
+                        if( $isSundayOrdAdvLentEaster ) {
+                            $mainText = sprintf(
+                                /**translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity */
+                                _( 'Today is %1$s the %2$s.' ),
+                                ( $idx > 0 ? _( "also" ) : "" ),
+                                $this->LitGrade->i18n( $festivity->grade, false ),
+                                $festivity->name
+                            );
+    
+                        } else {
+                            $mainText = sprintf(
+                                /**translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
+                                _( 'Today is %1$s the %2$s, %3$s.' ),
+                                ( $idx > 0 ? _( "also" ) : "" ),
+                                $this->LitGrade->i18n( $festivity->grade, false ),
+                                $festivity->name
+                            );
+                        }
                     }
                     else if( strpos( $festivity->tag, "SatMemBVM" ) !== false ) {
                         $mainText = sprintf(
