@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-28 19:54+0000\n"
+"POT-Creation-Date: 2022-01-29 10:09+0000\n"
 "PO-Revision-Date: 2022-01-29 10:09+0000\n"
 "Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
 "Language-Team: Italian <https://translate.johnromanodorazio.com/projects/"
@@ -27,36 +27,30 @@ msgstr "Liturgia del Giorno"
 msgid "Today is"
 msgstr "Oggi è"
 
-#. translators: grade, name
-#: includes/LiturgyOfTheDay.php:176
-#, php-format
-msgid "This evening there will be a Vigil Mass for the %s %s."
-msgstr "Questa sera ci sarà una Messa di Vigilia per la %s %s."
-
-#: includes/LiturgyOfTheDay.php:176
+#: includes/LiturgyOfTheDay.php:179
 msgid "Vigil Mass"
 msgstr "Messa della vigilia"
 
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:181 includes/LiturgyOfTheDay.php:198
+#: includes/LiturgyOfTheDay.php:185 includes/LiturgyOfTheDay.php:202
 #, php-format
 msgid "Today is %1$s the %2$s of %3$s."
 msgstr "Oggi è %1$s la %2$s di %3$s."
 
-#: includes/LiturgyOfTheDay.php:182 includes/LiturgyOfTheDay.php:191
-#: includes/LiturgyOfTheDay.php:199 includes/LiturgyOfTheDay.php:213
+#: includes/LiturgyOfTheDay.php:186 includes/LiturgyOfTheDay.php:195
+#: includes/LiturgyOfTheDay.php:203 includes/LiturgyOfTheDay.php:217
 msgid "also"
 msgstr "anche"
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:190
+#: includes/LiturgyOfTheDay.php:194
 #, php-format
 msgid "Today is %1$s the %2$s, %3$s."
 msgstr "Oggi è %1$s la %2$s, %3$s."
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:212
+#: includes/LiturgyOfTheDay.php:216
 #, php-format
 msgid "Today is %1$s the day of %2$s."
 msgstr "Oggi è %1$s il giorno di %2$s."
@@ -327,3 +321,6 @@ msgstr "SOLENNITÀ"
 #: includes/enums/LitGrade.php:123
 msgid "celebration with precedence over solemnities"
 msgstr "celebrazione con precedenza sulle solennità"
+
+#~ msgid "This evening there will be a Vigil Mass for the %s %s."
+#~ msgstr "Questa sera ci sarà una Messa di Vigilia per la %s %s."
