@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-29 10:17+0000\n"
-"PO-Revision-Date: 2022-01-29 10:09+0000\n"
+"POT-Creation-Date: 2022-01-29 11:40+0000\n"
+"PO-Revision-Date: 2022-01-29 11:54+0000\n"
 "Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
 "Language-Team: Italian <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/it/>\n"
@@ -19,45 +19,51 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.10.1\n"
 
-#: includes/LiturgyOfTheDay.php:157
+#: includes/LiturgyOfTheDay.php:158
 msgid "Liturgy of the Day"
 msgstr "Liturgia del Giorno"
 
-#: includes/LiturgyOfTheDay.php:172
+#: includes/LiturgyOfTheDay.php:173
 msgid "Today is"
 msgstr "Oggi è"
 
 #. translators: 1. grade of the festivity, 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:177
-#, fuzzy, php-format
-#| msgid "This evening there will be a Vigil Mass for the %s %s."
+#: includes/LiturgyOfTheDay.php:178
+#, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
-msgstr "Questa sera ci sarà una Messa di Vigilia per la %s %s."
+msgstr "Questa sera ci sarà una Messa di Vigilia per la %1$s %2$s."
 
-#: includes/LiturgyOfTheDay.php:179
+#: includes/LiturgyOfTheDay.php:180
 msgid "Vigil Mass"
 msgstr "Messa della vigilia"
 
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:185 includes/LiturgyOfTheDay.php:202
+#: includes/LiturgyOfTheDay.php:186 includes/LiturgyOfTheDay.php:212
 #, php-format
 msgid "Today is %1$s the %2$s of %3$s."
 msgstr "Oggi è %1$s la %2$s di %3$s."
 
-#: includes/LiturgyOfTheDay.php:186 includes/LiturgyOfTheDay.php:195
-#: includes/LiturgyOfTheDay.php:203 includes/LiturgyOfTheDay.php:217
+#: includes/LiturgyOfTheDay.php:187 includes/LiturgyOfTheDay.php:196
+#: includes/LiturgyOfTheDay.php:205 includes/LiturgyOfTheDay.php:213
+#: includes/LiturgyOfTheDay.php:227
 msgid "also"
 msgstr "anche"
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:194
+#: includes/LiturgyOfTheDay.php:195
 #, php-format
 msgid "Today is %1$s the %2$s, %3$s."
 msgstr "Oggi è %1$s la %2$s, %3$s."
 
+#. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
+#: includes/LiturgyOfTheDay.php:204
+#, php-format
+msgid "Today is %1$s the %2$s."
+msgstr "Oggi è %1$s la %2$s."
+
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:216
+#: includes/LiturgyOfTheDay.php:226
 #, php-format
 msgid "Today is %1$s the day of %2$s."
 msgstr "Oggi è %1$s il giorno di %2$s."
@@ -164,7 +170,7 @@ msgstr "Per una santa martire"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:87
 msgid "For a Pope"
-msgstr "Per un Papa"
+msgstr "Per un papa"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:89
@@ -174,7 +180,7 @@ msgstr "Per i vescovi"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:91
 msgid "For One Pastor"
-msgstr "Per un Pastore"
+msgstr "Per un pastore"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:93
@@ -259,7 +265,7 @@ msgstr "Per le sante"
 #. translators: (singular feminine) glue between "From the Common" and the actual common. Latin: leave empty!
 #: includes/enums/LitCommon.php:168 includes/enums/LitCommon.php:180
 msgctxt "(SING_FEMM)"
-msgid "of"
+msgid "of the"
 msgstr "della"
 
 #. translators: (plural feminine) glue between "From the Common" and the actual common. Latin: leave empty!
@@ -277,7 +283,7 @@ msgstr "dei"
 #. translators: (singular masculine) glue between "From the Common" and the actual common. Latin: leave empty!
 #: includes/enums/LitCommon.php:183
 msgctxt "(SING_MASC)"
-msgid "of"
+msgid "of the"
 msgstr "del"
 
 #: includes/enums/LitCommon.php:264
@@ -328,3 +334,11 @@ msgstr "SOLENNITÀ"
 #: includes/enums/LitGrade.php:123
 msgid "celebration with precedence over solemnities"
 msgstr "celebrazione con precedenza sulle solennità"
+
+#~ msgctxt "(SING_FEMM)"
+#~ msgid "of"
+#~ msgstr "della"
+
+#~ msgctxt "(SING_MASC)"
+#~ msgid "of"
+#~ msgstr "del"
