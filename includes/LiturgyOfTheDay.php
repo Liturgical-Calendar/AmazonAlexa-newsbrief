@@ -218,7 +218,6 @@ class LiturgyOfTheDay {
                                 /**translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity */
                                 _( 'Today is %1$s the %2$s.' ),
                                 ( $idx > 0 ? _( "also" ) : "" ),
-                                $this->LitGrade->i18n( $festivity->grade, false ),
                                 $festivity->name
                             );
     
