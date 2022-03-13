@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-29 20:21+0000\n"
-"PO-Revision-Date: 2022-01-23 12:48+0000\n"
+"POT-Creation-Date: 2022-02-13 12:35+0000\n"
+"PO-Revision-Date: 2022-02-16 09:56+0000\n"
 "Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
 "Language-Team: Latin <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/la/>\n"
@@ -29,10 +29,9 @@ msgstr "Hodie est"
 
 #. translators: 1. name of the festivity
 #: includes/LiturgyOfTheDay.php:194
-#, fuzzy, php-format
-#| msgid "This evening there will be a Vigil Mass for the %s %s."
+#, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s."
-msgstr "Hoc vespere erit Missa in Vigilia %s %s."
+msgstr "Hoc vespere erit Missa in Vigilia %1$s."
 
 #: includes/LiturgyOfTheDay.php:195 includes/LiturgyOfTheDay.php:202
 msgid "Vigil Mass"
@@ -40,69 +39,64 @@ msgstr "Missa in Vigilia"
 
 #. translators: 1. grade of the festivity, 2. name of the festivity
 #: includes/LiturgyOfTheDay.php:200
-#, fuzzy, php-format
-#| msgid "This evening there will be a Vigil Mass for the %s %s."
+#, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
-msgstr "Hoc vespere erit Missa in Vigilia %s %s."
+msgstr "Hoc vespere erit Missa in Vigilia %1$s %2$s."
 
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:209 includes/LiturgyOfTheDay.php:246
-#, fuzzy, php-format
-#| msgid "Today is %s the %s of %s."
+#: includes/LiturgyOfTheDay.php:209 includes/LiturgyOfTheDay.php:245
+#, php-format
 msgid "Today is %1$s the %2$s of %3$s."
-msgstr "Hodie est %s %s %s."
+msgstr "Hodie est %1$s %2$s %3$s."
 
 #: includes/LiturgyOfTheDay.php:210 includes/LiturgyOfTheDay.php:220
-#: includes/LiturgyOfTheDay.php:229 includes/LiturgyOfTheDay.php:239
-#: includes/LiturgyOfTheDay.php:247 includes/LiturgyOfTheDay.php:261
+#: includes/LiturgyOfTheDay.php:228 includes/LiturgyOfTheDay.php:238
+#: includes/LiturgyOfTheDay.php:246 includes/LiturgyOfTheDay.php:260
 msgid "also"
 msgstr "etiam"
 
 #. translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:219 includes/LiturgyOfTheDay.php:238
-#, fuzzy, php-format
-#| msgid "Today is %s the %s."
+#: includes/LiturgyOfTheDay.php:219 includes/LiturgyOfTheDay.php:237
+#, php-format
 msgid "Today is %1$s the %2$s."
-msgstr "Hodie est %s %s."
+msgstr "Hodie est %1$s %2$s."
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:228
-#, fuzzy, php-format
-#| msgid "Today is %s the %s, %s."
+#: includes/LiturgyOfTheDay.php:227
+#, php-format
 msgid "Today is %1$s the %2$s, %3$s."
-msgstr "Hodie est %s %s, %s."
+msgstr "Hodie est %1$s %2$s, %3$s."
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:260
-#, fuzzy, php-format
-#| msgid "Today is %s the day of %s."
+#: includes/LiturgyOfTheDay.php:259
+#, php-format
 msgid "Today is %1$s the day of %2$s."
-msgstr "Hodie est %s dies %s."
+msgstr "Hodie est %1$s dies %2$s."
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:23
+#: includes/enums/LitColor.php:26
 msgid "green"
 msgstr "viridis"
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:26
+#: includes/enums/LitColor.php:29
 msgid "purple"
 msgstr "purpura"
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:29
+#: includes/enums/LitColor.php:32
 msgid "white"
 msgstr "albus"
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:32
+#: includes/enums/LitColor.php:35
 msgid "red"
 msgstr "ruber"
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:35
+#: includes/enums/LitColor.php:38
 msgid "pink"
 msgstr "rosea"
 
@@ -133,7 +127,7 @@ msgstr "Pastorum"
 #. translators: context = from the Common of nn
 #: includes/enums/LitCommon.php:66
 msgid "Doctors"
-msgstr "Doctorum"
+msgstr "Doctorum Ecclesiæ"
 
 #. translators: context = from the Common of nn
 #: includes/enums/LitCommon.php:68
@@ -263,7 +257,7 @@ msgstr "Pro religiosis"
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:119
 msgid "For Those Who Practiced Works of Mercy"
-msgstr "Pro iis qui opera misericordiae exercuerunt"
+msgstr "Pro iis qui opera misericordiæ exercuerunt"
 
 #. translators: context = from the Common of nn: nn
 #: includes/enums/LitCommon.php:121
@@ -299,12 +293,12 @@ msgctxt "(SING_MASC)"
 msgid "of the"
 msgstr ""
 
-#: includes/enums/LitCommon.php:264
+#: includes/enums/LitCommon.php:268
 msgid "From the Common"
 msgstr "De Commune"
 
 #. translators: when there are multiple possible commons, this will be the glue "or from the common of..."
-#: includes/enums/LitCommon.php:268
+#: includes/enums/LitCommon.php:272
 msgid "or"
 msgstr "vel"
 

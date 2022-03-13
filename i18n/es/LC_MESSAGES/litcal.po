@@ -2,20 +2,22 @@
 # Copyright (C) 2021 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # root <priest@johnromanodorazio.com>, 2021.
-#
+# John R. D'Orazio <priest@johnromanodorazio.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-29 20:21+0000\n"
-"PO-Revision-Date: 2021-12-25 19:58+0530\n"
-"Last-Translator: root <priest@johnromanodorazio.com>\n"
-"Language-Team: Spanish <es@tp.org.es>\n"
+"POT-Creation-Date: 2022-02-13 12:35+0000\n"
+"PO-Revision-Date: 2022-02-16 09:56+0000\n"
+"Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
+"Language-Team: Spanish <https://translate.johnromanodorazio.com/projects/"
+"liturgical-calendar/alexa-newsbrief/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: includes/LiturgyOfTheDay.php:158
 msgid "Liturgy of the Day"
@@ -43,58 +45,58 @@ msgstr ""
 
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:209 includes/LiturgyOfTheDay.php:246
+#: includes/LiturgyOfTheDay.php:209 includes/LiturgyOfTheDay.php:245
 #, php-format
 msgid "Today is %1$s the %2$s of %3$s."
 msgstr ""
 
 #: includes/LiturgyOfTheDay.php:210 includes/LiturgyOfTheDay.php:220
-#: includes/LiturgyOfTheDay.php:229 includes/LiturgyOfTheDay.php:239
-#: includes/LiturgyOfTheDay.php:247 includes/LiturgyOfTheDay.php:261
+#: includes/LiturgyOfTheDay.php:228 includes/LiturgyOfTheDay.php:238
+#: includes/LiturgyOfTheDay.php:246 includes/LiturgyOfTheDay.php:260
 msgid "also"
 msgstr ""
 
 #. translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:219 includes/LiturgyOfTheDay.php:238
+#: includes/LiturgyOfTheDay.php:219 includes/LiturgyOfTheDay.php:237
 #, php-format
 msgid "Today is %1$s the %2$s."
 msgstr ""
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:228
+#: includes/LiturgyOfTheDay.php:227
 #, php-format
 msgid "Today is %1$s the %2$s, %3$s."
 msgstr ""
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:260
+#: includes/LiturgyOfTheDay.php:259
 #, php-format
 msgid "Today is %1$s the day of %2$s."
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:23
+#: includes/enums/LitColor.php:26
 msgid "green"
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:26
+#: includes/enums/LitColor.php:29
 msgid "purple"
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:29
+#: includes/enums/LitColor.php:32
 msgid "white"
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:32
+#: includes/enums/LitColor.php:35
 msgid "red"
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:35
+#: includes/enums/LitColor.php:38
 msgid "pink"
 msgstr ""
 
@@ -291,12 +293,12 @@ msgctxt "(SING_MASC)"
 msgid "of the"
 msgstr ""
 
-#: includes/enums/LitCommon.php:264
+#: includes/enums/LitCommon.php:268
 msgid "From the Common"
 msgstr ""
 
 #. translators: when there are multiple possible commons, this will be the glue "or from the common of..."
-#: includes/enums/LitCommon.php:268
+#: includes/enums/LitCommon.php:272
 msgid "or"
 msgstr ""
 
@@ -323,17 +325,17 @@ msgstr ""
 #. translators: liturgical rank. Keep UPPERCASE
 #: includes/enums/LitGrade.php:108
 msgid "FEAST"
-msgstr ""
+msgstr "FIESTA"
 
 #. translators: liturgical rank. Keep UPPERCASE
 #: includes/enums/LitGrade.php:113
 msgid "FEAST OF THE LORD"
-msgstr ""
+msgstr "FIESTA DEL SEÑOR"
 
 #. translators: liturgical rank. Keep UPPERCASE
 #: includes/enums/LitGrade.php:118
 msgid "SOLEMNITY"
-msgstr ""
+msgstr "SOLEMNIDAD"
 
 #. translators: liturgical rank. Keep lowercase
 #: includes/enums/LitGrade.php:123
