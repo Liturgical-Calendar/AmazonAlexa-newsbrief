@@ -12,26 +12,47 @@ include_once( 'includes/enums/LitGrade.php' );
  **/
 class Festivity
 {
+    public string       $tag;
     public string       $name;
     public DateTime     $date;
-    public string       $color;
+    public array        $color;
     public string       $type;
     public int          $grade;
     public string       $displayGrade;
-    public string       $common;
+    public array        $common;
     public string       $liturgicalYear;
     public bool         $isVigilMass;
-    public string       $tag;
 
     function __construct( array $festivity ) {
         $this->name     = $festivity["name"];
         $this->date     = DateTime::createFromFormat( 'U', $festivity["date"], new DateTimeZone( 'UTC' ) );
-        $this->color    = LitColor::isValid( $festivity["color"] ) ? $festivity["color"] : "";
+        if( is_array( $festivity["color"] ) ) {
+            if( LitColor::areValid( $festivity["color"] ) ) {
+                $this->color = $festivity["color"];
+            }
+        }
+        else if ( is_string( $festivity["color"] ) ) {
+            $_color             = strtolower( $festivity["color"] );
+            //the color string can contain multiple colors separated by a comma, when there are multiple commons to choose from for that festivity
+            $this->color        = strpos( $_color, "," ) && LitColor::areValid( explode(",", $_color) ) ? explode(",", $_color) : ( LitColor::isValid( $_color ) ? [ $_color ] : [ '???' ] );
+        }
         $this->type     = LitFeastType::isValid( $festivity["type"] ) ? $festivity["type"] : "";
-        $this->grade    = LitGrade::isValid( $festivity["grade"] ) ? $festivity["grade"] : "";
-        $this->common   = LitCommon::isValid( $festivity["common"] ) ? $festivity["common"] : "";
-        $this->liturgicalYear   = $festivity["liturgicalYear"] ?? '';
+        $this->grade    = LitGrade::isValid( $festivity["grade"] ) ? $festivity["grade"] : -1;
         $this->displayGrade     = $festivity["displayGrade"];
+        if( is_string( $festivity["common"] ) ) {
+            //Festivity::debugWrite( "*** Festivity.php *** common vartype is string, value = $festivity["common"]" );
+            $this->common       = LitCommon::areValid( explode(",", $festivity["common"]) ) ? explode(",", $festivity["common"]) : [];
+        }
+        else if( is_array( $festivity["common"] ) ) {
+            //Festivity::debugWrite( "*** Festivity.php *** common vartype is array, value = " . implode( ', ', $festivity["common"] ) );
+            if( LitCommon::areValid( $festivity["common"] ) ) {
+                $this->common = $festivity["common"];
+            } else {
+                //Festivity::debugWrite( "*** Festivity.php *** common values have not passed the validity test!" );
+                $this->common = [];
+            }
+        }
+        $this->liturgicalYear   = $festivity["liturgicalYear"] ?? '';
         $this->isVigilMass      = $festivity["isVigilMass"] ?? false;
     }
 }

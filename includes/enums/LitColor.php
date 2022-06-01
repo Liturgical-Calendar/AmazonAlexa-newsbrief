@@ -10,7 +10,7 @@ class LitColor {
 
     public static function isValid( string $value ) {
         if( strpos($value, ',') ) {
-            return areValid( explode(',', $value) );
+            return LitColor::areValid( explode(',', $value) );
         }
         return in_array( $value, self::$values );
     }
