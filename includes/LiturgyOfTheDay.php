@@ -8,8 +8,9 @@ include_once( 'includes/LitCalFeedItem.php' );
 
 class LiturgyOfTheDay {
 
-    const METADATA_URL  = 'https://litcal.johnromanodorazio.com/api/v3/LitCalMetadata.php';
-    const LITCAL_URL    = 'https://litcal.johnromanodorazio.com/api/v3/LitCalEngine.php';
+    const METADATA_URL  = 'https://litcal.johnromanodorazio.com/api/dev/LitCalMetadata.php';
+    const LITCAL_URL    = 'https://litcal.johnromanodorazio.com/api/dev/LitCalEngine.php';
+    //private string $logFile = 'debug.log';
     private LitCommon $LitCommon;
     private LitGrade $LitGrade;
     private string $Locale              = LitLocale::LATIN;
@@ -18,7 +19,7 @@ class LiturgyOfTheDay {
     private ?string $Timezone           = null;
     private array $SUPPORTED_DIOCESES   = [];
     private array $SUPPORTED_NATIONS    = [];
-    private array $queryArray           = [];
+    //private array $queryArray           = [];
     private array $LitCalData           = [];
     private array $LitCalFeed           = [];
     private IntlDateFormatter $monthDayFmt;
@@ -140,21 +141,21 @@ class LiturgyOfTheDay {
     private function filterEventsToday() {
         $dateTimeToday = ( new DateTime( 'now' ) )->format( "Y-m-d" ) . " 00:00:00";
         $dateToday = DateTime::createFromFormat( 'Y-m-d H:i:s', $dateTimeToday, new DateTimeZone( 'UTC' ) );
-        $dateTodayTimestamp = $dateToday->format( "U" );
+        $dateTodayTimestamp = intval( $dateToday->format( "U" ) );
         $dateToday->add( new DateInterval( 'PT10M' ) );
-        if( isset( $this->LitCalData["LitCal"] ) ) {
+        if( array_key_exists( "LitCal", $this->LitCalData ) ) {
             $LitCal = $this->LitCalData["LitCal"];
             $idx = 0;
             foreach ( $LitCal as $key => $value ) {
-                //fwrite( $logFile, "Processing litcal event $key..." . "\n" );
-                if( $LitCal[$key]["date"] === $dateTodayTimestamp ) {
-                    //fwrite( $logFile, "Found litcal event $key with timestamp equal to today!" . "\n" );
+                //file_put_contents( $this->logFile, "Processing litcal event $key..." . "\n", FILE_APPEND );
+                if( $value["date"] === $dateTodayTimestamp ) {
+                    //file_put_contents( $this->logFile, "Found litcal event $key with timestamp equal to today!" . "\n", FILE_APPEND );
                     $publishDate = $dateToday->sub( new DateInterval( 'PT1M' ) );
                     // retransform each entry from an associative array to a Festivity class object
-                    $festivity = new Festivity( $LitCal[$key] );
+                    $festivity = new Festivity( $value );
                     $festivity->tag = $key;
                     $mainText = $this->prepareMainText( $festivity, $idx );
-                    //fwrite( $logFile, "mainText = $mainText" . "\n" );
+                    //file_put_contents( $this->logFile, "mainText = $mainText" . "\n", FILE_APPEND );
                     $titleText = _( "Liturgy of the Day" ) . " ";
                     if( $this->Locale === LitLocale::ENGLISH ) {
                         $titleText .= $festivity->date->format( 'F jS' );
@@ -164,7 +165,7 @@ class LiturgyOfTheDay {
                     $this->LitCalFeed[] = new LitCalFeedItem( $key, $festivity, $publishDate, $titleText, $mainText );
                     $idx++;
                 }
-            }            
+            }
         }
     }
 
