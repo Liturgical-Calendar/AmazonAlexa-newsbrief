@@ -264,7 +264,7 @@ class LitCommon {
     public function C( string|array $common="" ) : string|array {
         if ( ( is_string( $common ) && $common !== "" ) || is_array( $common ) ) {
             if( (is_string( $common ) && $common === LitCommon::PROPRIO) || ( is_array( $common ) && in_array( LitCommon::PROPRIO, $common ) ) ) {
-                $common = $this->i18n( $common );
+                $common = $this->locale === LitLocale::LATIN ? "De Proprio" : _( "From the Proper of the festivity" );
             } else {
                 if( is_string( $common ) ) {
                     $commons = explode(",", $common);
