@@ -4,10 +4,9 @@
 //ini_set( 'display_startup_errors', 1 );
 //error_reporting( E_ALL );
 
-include_once( 'includes/LiturgyOfTheDay.php' );
+include_once('includes/LiturgyOfTheDay.php');
 
 $LiturgyOfTheDay = new LiturgyOfTheDay();
-$LiturgyOfTheDay->Init();
+$LiturgyOfTheDay->init();
 
 die();
-?>
