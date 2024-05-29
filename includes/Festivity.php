@@ -1,51 +1,51 @@
 <?php
-include_once( 'includes/enums/LitColor.php' );
-include_once( 'includes/enums/LitCommon.php' );
-include_once( 'includes/enums/LitFeastType.php' );
-include_once( 'includes/enums/LitGrade.php' );
 
-/** 
+include_once('includes/enums/LitColor.php');
+include_once('includes/enums/LitCommon.php');
+include_once('includes/enums/LitFeastType.php');
+include_once('includes/enums/LitGrade.php');
+
+/**
  *  CLASS FESTIVITY
- *  SIMILAR TO THE CLASS USED IN THE LITCAL PHP ENGINE, 
- *  EXCEPT THAT IT CONVERTS PHP TIMESTAMP TO DATETIME OBJECT 
+ *  SIMILAR TO THE CLASS USED IN THE LITCAL PHP ENGINE,
+ *  EXCEPT THAT IT CONVERTS PHP TIMESTAMP TO DATETIME OBJECT
  *  AND DOES NOT IMPLEMENT JSONSERIALIZABLE OR COMPARATOR FUNCTION
  **/
 class Festivity
 {
-    public string       $tag;
-    public string       $name;
-    public DateTime     $date;
-    public array        $color;
-    public string       $type;
-    public int          $grade;
-    public string       $displayGrade;
-    public array        $common;
-    public string       $liturgicalYear;
-    public bool         $isVigilMass;
+    public string $tag;
+    public string $name;
+    public DateTime $date;
+    public array $color;
+    public string $type;
+    public int $grade;
+    public string $displayGrade;
+    public array $common;
+    public string $liturgicalYear;
+    public bool $isVigilMass;
 
-    function __construct( array $festivity ) {
+    public function __construct(array $festivity)
+    {
         $this->name     = $festivity["name"];
-        $this->date     = DateTime::createFromFormat( 'U', $festivity["date"], new DateTimeZone( 'UTC' ) );
-        if( is_array( $festivity["color"] ) ) {
-            if( LitColor::areValid( $festivity["color"] ) ) {
+        $this->date     = DateTime::createFromFormat('U', $festivity["date"], new DateTimeZone('UTC'));
+        if (is_array($festivity["color"])) {
+            if (LitColor::areValid($festivity["color"])) {
                 $this->color = $festivity["color"];
             }
-        }
-        else if ( is_string( $festivity["color"] ) ) {
-            $_color             = strtolower( $festivity["color"] );
+        } elseif (is_string($festivity["color"])) {
+            $_color             = strtolower($festivity["color"]);
             //the color string can contain multiple colors separated by a comma, when there are multiple commons to choose from for that festivity
-            $this->color        = strpos( $_color, "," ) && LitColor::areValid( explode(",", $_color) ) ? explode(",", $_color) : ( LitColor::isValid( $_color ) ? [ $_color ] : [ '???' ] );
+            $this->color        = strpos($_color, ",") && LitColor::areValid(explode(",", $_color)) ? explode(",", $_color) : ( LitColor::isValid($_color) ? [ $_color ] : [ '???' ] );
         }
-        $this->type     = LitFeastType::isValid( $festivity["type"] ) ? $festivity["type"] : "";
-        $this->grade    = LitGrade::isValid( $festivity["grade"] ) ? $festivity["grade"] : -1;
+        $this->type     = LitFeastType::isValid($festivity["type"]) ? $festivity["type"] : "";
+        $this->grade    = LitGrade::isValid($festivity["grade"]) ? $festivity["grade"] : -1;
         $this->displayGrade     = $festivity["displayGrade"];
-        if( is_string( $festivity["common"] ) ) {
+        if (is_string($festivity["common"])) {
             //Festivity::debugWrite( "*** Festivity.php *** common vartype is string, value = $festivity["common"]" );
-            $this->common       = LitCommon::areValid( explode(",", $festivity["common"]) ) ? explode(",", $festivity["common"]) : [];
-        }
-        else if( is_array( $festivity["common"] ) ) {
+            $this->common       = LitCommon::areValid(explode(",", $festivity["common"])) ? explode(",", $festivity["common"]) : [];
+        } elseif (is_array($festivity["common"])) {
             //Festivity::debugWrite( "*** Festivity.php *** common vartype is array, value = " . implode( ', ', $festivity["common"] ) );
-            if( LitCommon::areValid( $festivity["common"] ) ) {
+            if (LitCommon::areValid($festivity["common"])) {
                 $this->common = $festivity["common"];
             } else {
                 //Festivity::debugWrite( "*** Festivity.php *** common values have not passed the validity test!" );
