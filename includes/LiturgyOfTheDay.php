@@ -68,22 +68,22 @@ class LiturgyOfTheDay
                 if ($resultStatus === 412) {
                     die("the index.json file simply doesn't exist yet");
                 } else {
-                    die("Request failed. HTTP status code: " . $resultStatus);
+                    die("Metadata request failed. HTTP status code: " . $resultStatus);
                 }
             } else {
                 $response = json_decode($result, true);
                 if (JSON_ERROR_NONE !== json_last_error()) {
-                    die("Request failed. Could not decode metadata JSON data. " . json_last_error_msg());
+                    die("Metadata request failed. Could not decode metadata JSON data. " . json_last_error_msg());
                 }
                 $this->LitCalMetadata = $response["litcal_metadata"];
                 if ($this->NationalCalendar !== null) {
                     if(false === in_array($this->NationalCalendar, $this->LitCalMetadata['national_calendars_keys'])) {
-                        die("Request failed. Requested national calendar is not supported. Supported national calendars are: " . implode(', ', $this->LitCalMetadata['national_calendars_keys']));
+                        die("Request failed. Requested national calendar '$this->NationalCalendar' is not supported. Supported national calendars are: " . implode(', ', $this->LitCalMetadata['national_calendars_keys']));
                     }
                 }
                 if ($this->DiocesanCalendar !== null) {
                     if(false === in_array($this->DiocesanCalendar, $this->LitCalMetadata['diocesan_calendars_keys'])) {
-                        die("Request failed. Requested diocesan calendar is not supported. Supported diocesan calendars are: " . implode(', ', $this->LitCalMetadata['diocesan_calendars_keys']));
+                        die("Request failed. Requested diocesan calendar '$this->DiocesanCalendar' is not supported. Supported diocesan calendars are: " . implode(', ', $this->LitCalMetadata['diocesan_calendars_keys']));
                     }
                 }
             }
@@ -150,7 +150,7 @@ class LiturgyOfTheDay
         } else {
             $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($resultStatus != 200) {
-                die("Request failed. HTTP status code: " . $resultStatus);
+                die("Request to API /calendar route failed at URL '$this->CalendarURL'. HTTP status code: " . $resultStatus);
             } else {
                 $jsonData = json_decode($result, true);
                 if (JSON_ERROR_NONE !== json_last_error()) {
