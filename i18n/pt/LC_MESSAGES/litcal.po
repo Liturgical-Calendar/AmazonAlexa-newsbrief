@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # root <priest@johnromanodorazio.com>, 2021.
 # John R. D'Orazio <priest@johnromanodorazio.com>, 2022.
+# Weblate Admin <admin@example.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-01 19:46+0000\n"
-"PO-Revision-Date: 2022-06-02 20:16+0000\n"
-"Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
+"POT-Creation-Date: 2024-05-29 22:22+0000\n"
+"PO-Revision-Date: 2024-04-10 22:33+0000\n"
+"Last-Translator: Weblate Admin <admin@example.com>\n"
 "Language-Team: Portuguese <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/pt/>\n"
 "Language: pt\n"
@@ -17,331 +18,331 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 5.4.3\n"
 
-#: includes/LiturgyOfTheDay.php:159
+#: includes/LiturgyOfTheDay.php:165
 msgid "Liturgy of the Day"
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:189
+#: includes/LiturgyOfTheDay.php:196
 msgid "Today is"
 msgstr ""
 
 #. translators: 1. name of the festivity
-#: includes/LiturgyOfTheDay.php:195
+#: includes/LiturgyOfTheDay.php:202
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s."
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:196 includes/LiturgyOfTheDay.php:203
+#: includes/LiturgyOfTheDay.php:203 includes/LiturgyOfTheDay.php:210
 msgid "Vigil Mass"
 msgstr ""
 
 #. translators: 1. grade of the festivity, 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:201
+#: includes/LiturgyOfTheDay.php:208
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
 msgstr ""
 
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:210 includes/LiturgyOfTheDay.php:246
+#: includes/LiturgyOfTheDay.php:217 includes/LiturgyOfTheDay.php:250
 #, php-format
 msgid "Today is %1$s the %2$s of %3$s."
 msgstr ""
 
-#: includes/LiturgyOfTheDay.php:211 includes/LiturgyOfTheDay.php:221
-#: includes/LiturgyOfTheDay.php:229 includes/LiturgyOfTheDay.php:239
-#: includes/LiturgyOfTheDay.php:247 includes/LiturgyOfTheDay.php:261
+#: includes/LiturgyOfTheDay.php:218 includes/LiturgyOfTheDay.php:228
+#: includes/LiturgyOfTheDay.php:235 includes/LiturgyOfTheDay.php:244
+#: includes/LiturgyOfTheDay.php:251 includes/LiturgyOfTheDay.php:265
 msgid "also"
 msgstr ""
 
 #. translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:220 includes/LiturgyOfTheDay.php:238
+#: includes/LiturgyOfTheDay.php:227 includes/LiturgyOfTheDay.php:243
 #, php-format
 msgid "Today is %1$s the %2$s."
 msgstr ""
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: includes/LiturgyOfTheDay.php:228
+#: includes/LiturgyOfTheDay.php:234
 #, php-format
 msgid "Today is %1$s the %2$s, %3$s."
 msgstr ""
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: includes/LiturgyOfTheDay.php:260
+#: includes/LiturgyOfTheDay.php:264
 #, php-format
 msgid "Today is %1$s the day of %2$s."
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:26
+#: includes/enums/LitColor.php:30
 msgid "green"
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:29
+#: includes/enums/LitColor.php:33
 msgid "purple"
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:32
+#: includes/enums/LitColor.php:36
 msgid "white"
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:35
+#: includes/enums/LitColor.php:39
 msgid "red"
 msgstr ""
 
 #. translators: context = liturgical color
-#: includes/enums/LitColor.php:38
+#: includes/enums/LitColor.php:42
 msgid "pink"
 msgstr ""
 
-#: includes/enums/LitCommon.php:56
+#: includes/enums/LitCommon.php:58
 msgid "Proper"
 msgstr ""
 
 #. translators: context = from the Common of nn
-#: includes/enums/LitCommon.php:58
+#: includes/enums/LitCommon.php:60
 msgid "Dedication of a Church"
 msgstr ""
 
 #. translators: context = from the Common of nn
-#: includes/enums/LitCommon.php:60
+#: includes/enums/LitCommon.php:62
 msgid "Blessed Virgin Mary"
 msgstr ""
 
 #. translators: context = from the Common of nn
-#: includes/enums/LitCommon.php:62
+#: includes/enums/LitCommon.php:64
 msgid "Martyrs"
-msgstr ""
+msgstr "Mártires"
 
 #. translators: context = from the Common of nn
-#: includes/enums/LitCommon.php:64
+#: includes/enums/LitCommon.php:66
 msgid "Pastors"
 msgstr ""
 
 #. translators: context = from the Common of nn
-#: includes/enums/LitCommon.php:66
+#: includes/enums/LitCommon.php:68
 msgid "Doctors"
 msgstr ""
 
 #. translators: context = from the Common of nn
-#: includes/enums/LitCommon.php:68
+#: includes/enums/LitCommon.php:70
 msgid "Virgins"
 msgstr ""
 
 #. translators: context = from the Common of nn
-#: includes/enums/LitCommon.php:70
+#: includes/enums/LitCommon.php:72
 msgid "Holy Men and Women"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:73
+#: includes/enums/LitCommon.php:75
 msgid "For One Martyr"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:75
+#: includes/enums/LitCommon.php:77
 msgid "For Several Martyrs"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:77
+#: includes/enums/LitCommon.php:79
 msgid "For Missionary Martyrs"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:79
+#: includes/enums/LitCommon.php:81
 msgid "For One Missionary Martyr"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:81
+#: includes/enums/LitCommon.php:83
 msgid "For Several Missionary Martyrs"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:83
+#: includes/enums/LitCommon.php:85
 msgid "For a Virgin Martyr"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:85
+#: includes/enums/LitCommon.php:87
 msgid "For a Holy Woman Martyr"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:87
+#: includes/enums/LitCommon.php:89
 msgid "For a Pope"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:89
+#: includes/enums/LitCommon.php:91
 msgid "For a Bishop"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:91
+#: includes/enums/LitCommon.php:93
 msgid "For One Pastor"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:93
+#: includes/enums/LitCommon.php:95
 msgid "For Several Pastors"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:95
+#: includes/enums/LitCommon.php:97
 msgid "For Founders of a Church"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:97
+#: includes/enums/LitCommon.php:99
 msgid "For One Founder"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:99
+#: includes/enums/LitCommon.php:101
 msgid "For Several Founders"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:101
+#: includes/enums/LitCommon.php:103
 msgid "For Missionaries"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:103
+#: includes/enums/LitCommon.php:105
 msgid "For One Virgin"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:105
+#: includes/enums/LitCommon.php:107
 msgid "For Several Virgins"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:107
+#: includes/enums/LitCommon.php:109
 msgid "For Several Saints"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:109
+#: includes/enums/LitCommon.php:111
 msgid "For One Saint"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:111
+#: includes/enums/LitCommon.php:113
 msgid "For an Abbot"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:113
+#: includes/enums/LitCommon.php:115
 msgid "For a Monk"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:115
+#: includes/enums/LitCommon.php:117
 msgid "For a Nun"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:117
+#: includes/enums/LitCommon.php:119
 msgid "For Religious"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:119
+#: includes/enums/LitCommon.php:121
 msgid "For Those Who Practiced Works of Mercy"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:121
+#: includes/enums/LitCommon.php:123
 msgid "For Educators"
 msgstr ""
 
 #. translators: context = from the Common of nn: nn
-#: includes/enums/LitCommon.php:123
+#: includes/enums/LitCommon.php:125
 msgid "For Holy Women"
 msgstr ""
 
 #. translators: (singular feminine) glue between "From the Common" and the actual common. Latin: leave empty!
-#: includes/enums/LitCommon.php:168 includes/enums/LitCommon.php:180
+#: includes/enums/LitCommon.php:171 includes/enums/LitCommon.php:183
 msgctxt "(SING_FEMM)"
 msgid "of the"
 msgstr ""
 
 #. translators: (plural feminine) glue between "From the Common" and the actual common. Latin: leave empty!
-#: includes/enums/LitCommon.php:171
+#: includes/enums/LitCommon.php:174
 msgctxt "(PLUR_FEMM)"
 msgid "of"
 msgstr ""
 
 #. translators: (plural masculine) glue between "From the Common" and the actual common. Latin: leave empty!
-#: includes/enums/LitCommon.php:177
+#: includes/enums/LitCommon.php:180
 msgctxt "(PLUR_MASC)"
 msgid "of"
 msgstr ""
 
 #. translators: (singular masculine) glue between "From the Common" and the actual common. Latin: leave empty!
-#: includes/enums/LitCommon.php:183
+#: includes/enums/LitCommon.php:186
 msgctxt "(SING_MASC)"
 msgid "of the"
 msgstr ""
 
-#: includes/enums/LitCommon.php:267
+#: includes/enums/LitCommon.php:274
 msgid "From the Proper of the festivity"
 msgstr ""
 
-#: includes/enums/LitCommon.php:281
+#: includes/enums/LitCommon.php:288
 msgid "From the Common"
 msgstr ""
 
 #. translators: when there are multiple possible commons, this will be the glue "or from the common of..."
-#: includes/enums/LitCommon.php:285
+#: includes/enums/LitCommon.php:292
 msgid "or"
 msgstr ""
 
 #. translators: liturgical rank. Keep lowercase
-#: includes/enums/LitGrade.php:88 includes/enums/LitGrade.php:127
+#: includes/enums/LitGrade.php:93 includes/enums/LitGrade.php:132
 msgid "weekday"
 msgstr ""
 
 #. translators: liturgical rank. Keep Capitalized
-#: includes/enums/LitGrade.php:93
+#: includes/enums/LitGrade.php:98
 msgid "Commemoration"
 msgstr ""
 
 #. translators: liturgical rank. Keep Capitalized
-#: includes/enums/LitGrade.php:98
+#: includes/enums/LitGrade.php:103
 msgid "Optional memorial"
 msgstr "Memória opcional"
 
 #. translators: liturgical rank. Keep Capitalized
-#: includes/enums/LitGrade.php:103
+#: includes/enums/LitGrade.php:108
 msgid "Memorial"
 msgstr "Memória"
 
 #. translators: liturgical rank. Keep UPPERCASE
-#: includes/enums/LitGrade.php:108
+#: includes/enums/LitGrade.php:113
 msgid "FEAST"
 msgstr "FESTA"
 
 #. translators: liturgical rank. Keep UPPERCASE
-#: includes/enums/LitGrade.php:113
+#: includes/enums/LitGrade.php:118
 msgid "FEAST OF THE LORD"
 msgstr "FESTA DO SENHOR"
 
 #. translators: liturgical rank. Keep UPPERCASE
-#: includes/enums/LitGrade.php:118
+#: includes/enums/LitGrade.php:123
 msgid "SOLEMNITY"
 msgstr "SOLENIDADE"
 
 #. translators: liturgical rank. Keep lowercase
-#: includes/enums/LitGrade.php:123
+#: includes/enums/LitGrade.php:128
 msgid "celebration with precedence over solemnities"
 msgstr ""
