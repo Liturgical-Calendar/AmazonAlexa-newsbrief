@@ -108,7 +108,7 @@ class LiturgyOfTheDay
                     $this->Locale = LitLocale::ENGLISH;
                     break;
             }
-            $this->CalendarURL = self::LITCAL_URL . '/' . $this->NationalCalendar;
+            $this->CalendarURL = self::LITCAL_URL . '/nation/' . $this->NationalCalendar;
         }
         if (
             $this->DiocesanCalendar !== null
@@ -125,7 +125,7 @@ class LiturgyOfTheDay
                     $this->Locale = LitLocale::ENGLISH;
                     break;
             }
-            $this->CalendarURL = self::LITCAL_URL . '/' . $this->DiocesanCalendar;
+            $this->CalendarURL = self::LITCAL_URL . '/diocese/' . $this->DiocesanCalendar;
         }
 
         //last resort is Latin for the Universal Calendar
