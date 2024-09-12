@@ -8,8 +8,8 @@ include_once('includes/LitCalFeedItem.php');
 
 class LiturgyOfTheDay
 {
-    const METADATA_URL  = 'https://litcal.johnromanodorazio.com/api/dev/metadata/';
-    const LITCAL_URL    = 'https://litcal.johnromanodorazio.com/api/dev/';
+    const METADATA_URL  = 'https://litcal.johnromanodorazio.com/api/dev/calendars';
+    const LITCAL_URL    = 'https://litcal.johnromanodorazio.com/api/dev/calendar';
     //private string $logFile = 'debug.log';
     private LitCommon $LitCommon;
     private LitGrade $LitGrade;
@@ -17,12 +17,11 @@ class LiturgyOfTheDay
     private ?string $NationalCalendar   = null;
     private ?string $DiocesanCalendar   = null;
     private ?string $Timezone           = null;
-    private array $SUPPORTED_DIOCESES   = [];
-    private array $SUPPORTED_NATIONS    = [];
-    //private array $queryArray           = [];
+    private array $LitCalMetadata       = [];
     private array $LitCalData           = [];
     private array $LitCalFeed           = [];
     private IntlDateFormatter $monthDayFmt;
+    private string $CalendarURL         = '';
 
     public function __construct()
     {
@@ -35,6 +34,7 @@ class LiturgyOfTheDay
         } else {
             ini_set('date.timezone', $this->Timezone);
         }
+        $this->CalendarURL = self::LITCAL_URL;
     }
 
     private function prepareL10N(): void
@@ -72,8 +72,7 @@ class LiturgyOfTheDay
                 }
             } else {
                 $response = json_decode($result, true);
-                $this->SUPPORTED_DIOCESES = $response["LitCalMetadata"]["DiocesanCalendars"];
-                $this->SUPPORTED_NATIONS =  array_keys($response["LitCalMetadata"]["NationalCalendars"]);
+                $this->LitCalMetadata = $response["litcal_metadata"];
             }
         }
         curl_close($ch);
@@ -85,32 +84,37 @@ class LiturgyOfTheDay
         if ($this->Locale !== null) {
             $queryArray["locale"] = $this->Locale;
         }
-        if ($this->NationalCalendar !== null && in_array($this->NationalCalendar, $this->SUPPORTED_NATIONS)) {
-            $queryArray["nationalcalendar"] = $this->NationalCalendar;
+        if (
+            $this->NationalCalendar !== null
+            && in_array($this->NationalCalendar, $this->LitCalMetadata['national_calendars_keys'])
+        ) {
             switch ($this->NationalCalendar) {
                 case "ITALY":
-                    $queryArray["locale"] = LitLocale::ITALIAN;
                     $this->Locale = LitLocale::ITALIAN;
                     break;
                 case "USA":
-                    $queryArray["locale"] = LitLocale::ENGLISH;
                     $this->Locale = LitLocale::ENGLISH;
                     break;
             }
+            $this->CalendarURL = self::LITCAL_URL . '/' . $this->NationalCalendar;
         }
-        if ($this->DiocesanCalendar !== null && array_key_exists($this->DiocesanCalendar, $this->SUPPORTED_DIOCESES)) {
-            $queryArray["diocesancalendar"] = $this->DiocesanCalendar;
-            $queryArray["nationalcalendar"] = $this->SUPPORTED_DIOCESES[$this->DiocesanCalendar]["nation"];
-            switch ($this->SUPPORTED_DIOCESES[$this->DiocesanCalendar]["nation"]) {
+        if (
+            $this->DiocesanCalendar !== null
+            && in_array($this->DiocesanCalendar, $this->LitCalMetadata['diocesan_calendars_keys'])
+        ) {
+            $calendarInfo = array_filter(
+                $this->LitCalMetadata['diocesan_calendars'],
+                fn($diocesanCalendar) => $diocesanCalendar['calendar_id'] === $this->DiocesanCalendar
+            )[0];
+            switch ($calendarInfo["nation"]) {
                 case "ITALY":
-                    $queryArray["locale"] = LitLocale::ITALIAN;
                     $this->Locale = LitLocale::ITALIAN;
                     break;
                 case "USA":
-                    $queryArray["locale"] = LitLocale::ENGLISH;
                     $this->Locale = LitLocale::ENGLISH;
                     break;
             }
+            $this->CalendarURL = self::LITCAL_URL . '/' . $this->DiocesanCalendar;
         }
 
         //last resort is Latin for the Universal Calendar
@@ -126,7 +130,7 @@ class LiturgyOfTheDay
         //die( json_encode( $queryArray ) );
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, self::LITCAL_URL);
+        curl_setopt($ch, CURLOPT_URL, $this->CalendarURL);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($queryArray));
         $result = curl_exec($ch);
@@ -137,7 +141,14 @@ class LiturgyOfTheDay
             if ($resultStatus != 200) {
                 die("Request failed. HTTP status code: " . $resultStatus);
             } else {
-                $this->LitCalData = json_decode($result, true);
+                $jsonData = json_decode($result, true);
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    die("Request failed. Could not decode JSON data.");
+                }
+                if (false === array_key_exists('litcal', $jsonData)) {
+                    die("Request failed. Cannot elaborate JSON data.");
+                }
+                $this->LitCalData = $jsonData['litcal'];
             }
         }
         curl_close($ch);
@@ -149,28 +160,25 @@ class LiturgyOfTheDay
         $dateToday = DateTime::createFromFormat('Y-m-d H:i:s', $dateTimeToday, new DateTimeZone('UTC'));
         $dateTodayTimestamp = intval($dateToday->format("U"));
         $dateToday->add(new DateInterval('PT10M'));
-        if (array_key_exists("LitCal", $this->LitCalData)) {
-            $LitCal = $this->LitCalData["LitCal"];
-            $idx = 0;
-            foreach ($LitCal as $key => $value) {
-                //file_put_contents( $this->logFile, "Processing litcal event $key..." . "\n", FILE_APPEND );
-                if ($value["date"] === $dateTodayTimestamp) {
-                    //file_put_contents( $this->logFile, "Found litcal event $key with timestamp equal to today!" . "\n", FILE_APPEND );
-                    $publishDate = $dateToday->sub(new DateInterval('PT1M'));
-                    // retransform each entry from an associative array to a Festivity class object
-                    $festivity = new Festivity($value);
-                    $festivity->tag = $key;
-                    $mainText = $this->prepareMainText($festivity, $idx);
-                    //file_put_contents( $this->logFile, "mainText = $mainText" . "\n", FILE_APPEND );
-                    $titleText = _("Liturgy of the Day") . " ";
-                    if ($this->Locale === LitLocale::ENGLISH) {
-                        $titleText .= $festivity->date->format('F jS');
-                    } else {
-                        $titleText .= $this->monthDayFmt->format($festivity->date->format('U'));
-                    }
-                    $this->LitCalFeed[] = new LitCalFeedItem($key, $festivity, $publishDate, $titleText, $mainText);
-                    $idx++;
+        $idx = 0;
+        foreach ($this->LitCalData as $key => $value) {
+            //file_put_contents( $this->logFile, "Processing litcal event $key..." . "\n", FILE_APPEND );
+            if ($value["date"] === $dateTodayTimestamp) {
+                //file_put_contents( $this->logFile, "Found litcal event $key with timestamp equal to today!" . "\n", FILE_APPEND );
+                $publishDate = $dateToday->sub(new DateInterval('PT1M'));
+                // retransform each entry from an associative array to a Festivity class object
+                $festivity = new Festivity($value);
+                $festivity->tag = $key;
+                $mainText = $this->prepareMainText($festivity, $idx);
+                //file_put_contents( $this->logFile, "mainText = $mainText" . "\n", FILE_APPEND );
+                $titleText = _("Liturgy of the Day") . " ";
+                if ($this->Locale === LitLocale::ENGLISH) {
+                    $titleText .= $festivity->date->format('F jS');
+                } else {
+                    $titleText .= $this->monthDayFmt->format($festivity->date->format('U'));
                 }
+                $this->LitCalFeed[] = new LitCalFeedItem($key, $festivity, $publishDate, $titleText, $mainText);
+                $idx++;
             }
         }
     }

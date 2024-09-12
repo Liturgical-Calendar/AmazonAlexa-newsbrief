@@ -39,7 +39,7 @@ class Festivity
         }
         $this->type     = LitFeastType::isValid($festivity["type"]) ? $festivity["type"] : "";
         $this->grade    = LitGrade::isValid($festivity["grade"]) ? $festivity["grade"] : -1;
-        $this->displayGrade     = $festivity["displayGrade"];
+        $this->displayGrade     = $festivity["display_grade"];
         if (is_string($festivity["common"])) {
             //Festivity::debugWrite( "*** Festivity.php *** common vartype is string, value = $festivity["common"]" );
             $this->common       = LitCommon::areValid(explode(",", $festivity["common"])) ? explode(",", $festivity["common"]) : [];
@@ -52,7 +52,7 @@ class Festivity
                 $this->common = [];
             }
         }
-        $this->liturgicalYear   = $festivity["liturgicalYear"] ?? '';
-        $this->isVigilMass      = $festivity["isVigilMass"] ?? false;
+        $this->liturgicalYear   = $festivity["liturgical_year"] ?? '';
+        $this->isVigilMass      = $festivity["is_vigil_mass"] ?? false;
     }
 }
