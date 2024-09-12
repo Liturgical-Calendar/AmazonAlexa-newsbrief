@@ -72,7 +72,20 @@ class LiturgyOfTheDay
                 }
             } else {
                 $response = json_decode($result, true);
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    die("Request failed. Could not decode metadata JSON data. " . json_last_error_msg());
+                }
                 $this->LitCalMetadata = $response["litcal_metadata"];
+                if ($this->NationalCalendar !== null) {
+                    if(false === in_array($this->NationalCalendar, $this->LitCalMetadata['national_calendars_keys'])) {
+                        die("Request failed. Requested national calendar is not supported. Supported national calendars are: " . implode(', ', $this->LitCalMetadata['national_calendars_keys']));
+                    }
+                }
+                if ($this->DiocesanCalendar !== null) {
+                    if(false === in_array($this->DiocesanCalendar, $this->LitCalMetadata['diocesan_calendars_keys'])) {
+                        die("Request failed. Requested diocesan calendar is not supported. Supported diocesan calendars are: " . implode(', ', $this->LitCalMetadata['diocesan_calendars_keys']));
+                    }
+                }
             }
         }
         curl_close($ch);
@@ -86,7 +99,6 @@ class LiturgyOfTheDay
         }
         if (
             $this->NationalCalendar !== null
-            && in_array($this->NationalCalendar, $this->LitCalMetadata['national_calendars_keys'])
         ) {
             switch ($this->NationalCalendar) {
                 case "ITALY":
@@ -100,7 +112,6 @@ class LiturgyOfTheDay
         }
         if (
             $this->DiocesanCalendar !== null
-            && in_array($this->DiocesanCalendar, $this->LitCalMetadata['diocesan_calendars_keys'])
         ) {
             $calendarInfo = array_filter(
                 $this->LitCalMetadata['diocesan_calendars'],
@@ -143,7 +154,7 @@ class LiturgyOfTheDay
             } else {
                 $jsonData = json_decode($result, true);
                 if (JSON_ERROR_NONE !== json_last_error()) {
-                    die("Request failed. Could not decode JSON data.");
+                    die("Request failed. Could not decode calendar JSON data. " . json_last_error_msg());
                 }
                 if (false === array_key_exists('litcal', $jsonData)) {
                     die("Request failed. Cannot elaborate JSON data.");
