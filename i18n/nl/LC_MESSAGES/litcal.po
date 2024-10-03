@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # "John R. D'Orazio" <priest@johnromanodorazio.com>, 2024.
+# OpenAI <noreply-mt-openai@weblate.org>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-12 09:49+0000\n"
-"PO-Revision-Date: 2024-06-27 22:33+0000\n"
-"Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
+"PO-Revision-Date: 2024-10-04 09:40+0000\n"
+"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
 "Language-Team: Dutch <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/nl/>\n"
 "Language: nl\n"
@@ -24,13 +25,13 @@ msgstr "Liturgie van de dag"
 
 #: includes/LiturgyOfTheDay.php:215
 msgid "Today is"
-msgstr ""
+msgstr "Vandaag is"
 
 #. translators: 1. name of the festivity
 #: includes/LiturgyOfTheDay.php:221
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s."
-msgstr ""
+msgstr "Vanavond is er een Vigilie Mis voor de %1$s."
 
 #: includes/LiturgyOfTheDay.php:222 includes/LiturgyOfTheDay.php:229
 msgid "Vigil Mass"
@@ -40,39 +41,39 @@ msgstr "Vigiliemis"
 #: includes/LiturgyOfTheDay.php:227
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
-msgstr ""
+msgstr "Vanavond is er een Vigilie Mis voor de %1$s %2$s."
 
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #: includes/LiturgyOfTheDay.php:236 includes/LiturgyOfTheDay.php:269
 #, php-format
 msgid "Today is %1$s the %2$s of %3$s."
-msgstr ""
+msgstr "Vandaag is %1$s de %2$s van %3$s."
 
 #: includes/LiturgyOfTheDay.php:237 includes/LiturgyOfTheDay.php:247
 #: includes/LiturgyOfTheDay.php:254 includes/LiturgyOfTheDay.php:263
 #: includes/LiturgyOfTheDay.php:270 includes/LiturgyOfTheDay.php:284
 msgid "also"
-msgstr ""
+msgstr "ook"
 
 #. translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
 #: includes/LiturgyOfTheDay.php:246 includes/LiturgyOfTheDay.php:262
 #, php-format
 msgid "Today is %1$s the %2$s."
-msgstr ""
+msgstr "Vandaag is %1$s de %2$s."
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #: includes/LiturgyOfTheDay.php:253
 #, php-format
 msgid "Today is %1$s the %2$s, %3$s."
-msgstr ""
+msgstr "Vandaag is %1$s de %2$s, %3$s."
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
 #: includes/LiturgyOfTheDay.php:283
 #, php-format
 msgid "Today is %1$s the day of %2$s."
-msgstr ""
+msgstr "Vandaag is %1$s de dag van %2$s."
 
 #. translators: context = liturgical color
 #: includes/enums/LitColor.php:30
@@ -294,7 +295,7 @@ msgstr "voor de"
 
 #: includes/enums/LitCommon.php:274
 msgid "From the Proper of the festivity"
-msgstr ""
+msgstr "Uit het Eigen van de feestdag"
 
 #: includes/enums/LitCommon.php:288
 msgid "From the Common"
