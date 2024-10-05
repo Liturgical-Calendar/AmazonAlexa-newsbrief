@@ -170,7 +170,7 @@ class LiturgyOfTheDay
             //file_put_contents( $this->logFile, "Processing litcal event $key..." . "\n", FILE_APPEND );
             if ($value["date"] === $dateTodayTimestamp) {
                 //file_put_contents( $this->logFile, "Found litcal event $key with timestamp equal to today!" . "\n", FILE_APPEND );
-                $publishDate = $dateToday->sub(new \DateInterval('PT1M'));
+                $publishDate = $dateToday;
                 // retransform each entry from an associative array to a Festivity class object
                 $festivity = new Festivity($value);
                 $festivity->tag = $key;
