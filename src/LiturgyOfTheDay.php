@@ -14,6 +14,7 @@ class LiturgyOfTheDay
     private const LITCAL_URL            = 'https://litcal.johnromanodorazio.com/api/dev/calendar';
     private string $CalendarURL         = LiturgyOfTheDay::LITCAL_URL;
     private string $Locale              = LitLocale::LATIN;
+    private string $baseLocale          = LitLocale::LATIN;
     private LitCommon $LitCommon;
     private LitGrade $LitGrade;
     private ?string $NationalCalendar   = null;
@@ -78,13 +79,14 @@ class LiturgyOfTheDay
 
     private function prepareL10N(): void
     {
-        $baseLocale = \Locale::getPrimaryLanguage($this->Locale);
+        $this->baseLocale = \Locale::getPrimaryLanguage($this->Locale);
         $localeArray = [
             $this->Locale . '.utf8',
             $this->Locale . '.UTF-8',
-            $baseLocale . '.utf8',
-            $baseLocale . '.UTF-8',
-            $this->Locale
+            $this->baseLocale . '.utf8',
+            $this->baseLocale . '.UTF-8',
+            $this->Locale,
+            $this->baseLocale
         ];
         setlocale(LC_ALL, $localeArray);
         bindtextdomain("litcal", "i18n");
@@ -174,22 +176,23 @@ class LiturgyOfTheDay
                 // retransform each entry from an associative array to a Festivity class object
                 $festivity = new Festivity($value);
                 $festivity->tag = $key;
-                $mainText = $this->prepareMainText($festivity, $idx);
-                //file_put_contents( $this->logFile, "mainText = $mainText" . "\n", FILE_APPEND );
+                ["mainText" => $mainText, "smml" => $smml] = $this->prepareMainText($festivity, $idx);
                 $titleText = _("Liturgy of the Day") . " ";
-                if ($this->Locale === LitLocale::ENGLISH) {
+                if ($this->baseLocale === LitLocale::ENGLISH) {
                     $titleText .= $festivity->date->format('F jS');
                 } else {
                     $titleText .= $this->monthDayFmt->format($festivity->date->format('U'));
                 }
-                $this->LitCalFeed[] = new LitCalFeedItem($key, $festivity, $publishDate, $titleText, $mainText);
+                $this->LitCalFeed[] = new LitCalFeedItem($key, $festivity, $publishDate, $titleText, $mainText, $smml);
                 $idx++;
             }
         }
     }
 
-    private function prepareMainText(Festivity $festivity, int $idx): string
+    private function prepareMainText(Festivity $festivity, int $idx): array
     {
+        $mainText = "";
+        $smml = null;
         //Situations in which we don't need to actually state "Feast of the Lord":
         $filterTagsDisplayGrade = [
             "/OrdSunday[0-9]{1,2}(_vigil){0,1}/",
@@ -283,11 +286,11 @@ class LiturgyOfTheDay
             //Fix some phonetic pronunciations
             foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
                 if (preg_match($key, $mainText) === 1) {
-                    $mainText = "<speak>" . preg_replace($key, $value, $mainText) . "</speak>";
+                    $smml = "<speak>" . preg_replace($key, $value, $mainText) . "</speak>";
                 }
             }
         }
-        return $mainText;
+        return ["mainText" => $mainText, "smml" => $smml];
     }
 
     private function isValidTimezone($timezone)
