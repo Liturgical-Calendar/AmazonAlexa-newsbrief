@@ -3,17 +3,23 @@
 namespace LiturgicalCalendar\AlexaNewsBrief\Enum;
 
 /**
- *  DEFINE THE ORDER OF PRECEDENCE OF THE LITURGICAL DAYS AS INDICATED IN THE
- *  UNIVERSAL NORMS FOR THE LITURGICAL YEAR AND THE GENERAL ROMAN CALENDAR
- *  PROMULGATED BY THE MOTU PROPRIO "MYSTERII PASCHALIS" BY POPE PAUL VI ON FEBRUARY 14 1969
- *  https://w2.vatican.va/content/paul-vi/en/motu_proprio/documents/hf_p-vi_motu-proprio_19690214_mysterii-paschalis.html
- *  A COPY OF THE DOCUMENT IS INCLUDED ALONGSIDE THIS ENGINE, SEEING THAT THERE IS NO DIRECT ONLINE LINK TO THE ACTUAL NORMS
+ * An enumeration representing the Grade or Rank of a liturgical celebration.
+ *
+ * Defines the order of precedence of the liturgical days as indicated in the
+ * universal norms for the liturgical year and the general roman calendar
+ * promulgated by the motu proprio "mysterii paschalis" by pope paul vi on february 14 1969.
+ * See https://w2.vatican.va/content/paul-vi/en/motu_proprio/documents/hf_p-vi_motu-proprio_19690214_mysterii-paschalis.html.
+ * A copy of the document is included in the project repository, seeing that there is no direct online link to the actual norms.
+ * Constants defined here (with values in order of importance) are:
+ * - HIGHER_SOLEMNITY (7): Higher ranking solemnities, that have precedence over all others
+ * - SOLEMNITY (6): Solemnities of the Lord, of the Blessed Virgin Mary, and of the saints
+ * - FEAST_LORD (5): Feasts of the Lord
+ * - FEAST (4): Feasts of the Blessed Virgin Mary and of the saints
+ * - MEMORIAL (3): Memorials of the Blessed Virgin Mary and of the saints
+ * - MEMORIAL_OPT (2): Optional memorials
+ * - COMMEMORATION (1): Commemoration of the Blessed Virgin Mary and of the saints
+ * - WEEKDAY (0): Weekday
  */
-
-/*****************************************************
- * DEFINE THE ORDER OF IMPORTANCE OF THE FESTIVITIES *
- ****************************************************/
-
 class LitGrade
 {
 // I.
@@ -77,16 +83,32 @@ class LitGrade
 
     private string $locale;
 
+    /**
+     * Constructs a new LitGrade object.
+     *
+     * @param string $locale The locale to use for the object.
+     */
     public function __construct(string $locale)
     {
         $this->locale = $locale;
     }
 
+    /**
+     * Check if the given liturgical grade is valid.
+     * @param int $value A liturgical grade.
+     * @return bool True if the given grade is valid, otherwise false.
+     */
     public static function isValid(int $value)
     {
         return in_array($value, self::$values);
     }
 
+    /**
+     * Get the localized name for a given liturgical grade.
+     * @param int $value A liturgical grade.
+     * @param bool $html If true, the localized text will be wrapped with HTML tags.
+     * @return string
+     */
     public function i18n(int $value, bool $html = true)
     {
         switch ($value) {

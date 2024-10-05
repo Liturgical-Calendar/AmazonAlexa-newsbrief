@@ -240,7 +240,7 @@ class LiturgyOfTheDay
         $dateTimeToday = ( new \DateTime('now') )->format("Y-m-d") . " 00:00:00";
         $dateToday = \DateTime::createFromFormat('Y-m-d H:i:s', $dateTimeToday, new \DateTimeZone('UTC'));
         $dateTodayTimestamp = intval($dateToday->format("U"));
-        $dateToday->add(new \DateInterval('PT10M'));
+        $dateToday->add(new \DateInterval('PT15M'));
         $idx = 0;
         foreach ($this->LitCalData as $key => $value) {
             //file_put_contents( $this->logFile, "Processing litcal event $key..." . "\n", FILE_APPEND );

@@ -8,11 +8,14 @@ use LiturgicalCalendar\AlexaNewsBrief\Enum\LitFeastType;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitGrade;
 
 /**
- *  CLASS FESTIVITY
- *  SIMILAR TO THE CLASS USED IN THE LITCAL PHP ENGINE,
- *  EXCEPT THAT IT CONVERTS PHP TIMESTAMP TO DATETIME OBJECT
- *  AND DOES NOT IMPLEMENT JSONSERIALIZABLE OR COMPARATOR FUNCTION
- **/
+ * Represents a liturgical celebration.
+ *
+ * Similar to the class used in the Liturgical Calendar API,
+ * except that it converts php timestamps to datetime objects
+ * and does not implement jsonserializable or a comparator function.
+ * @author  John R. D'Orazio <priest@johnromanodorazio.com>
+ * @package LiturgicalCalendar\AlexaNewsBrief
+ */
 class Festivity
 {
     public string $tag;
@@ -26,6 +29,21 @@ class Festivity
     public string $liturgicalYear;
     public bool $isVigilMass;
 
+
+    /**
+     * Constructor for Festivity class.
+     *
+     * @param array $festivity an array representing a liturgical celebration, with the following keys:
+     *      - name {string}: the name of the festivity
+     *      - date {int}: a PHP timestamp representing the date of the festivity
+     *      - color {array}: an array of strings or a single string representing the liturgical color(s) for the festivity
+     *      - type {string}: whether the festivity if "mobile" or "fixed"
+     *      - grade {int}: the liturgical grade of the festivity (e.g. 7=HIGHER_SOLEMNITY, 6=SOLEMNITY, 5=FEAST_LORD, etc.)
+     *      - display_grade: the localized version of the grade of the festivity, for display on frontend applications (e.g. "Feast of the Lord", "Memorial", etc.)
+     *      - common: an array of strings or a single string representing the common(s) for the festivity
+     *      - liturgical_year: the liturgical year of the festivity (e.g. "A", "B", etc.)
+     *      - is_vigil_mass: boolean indicating if the festivity is a vigil Mass
+     */
     public function __construct(array $festivity)
     {
         $this->name     = $festivity["name"];
