@@ -207,7 +207,7 @@ class LiturgyOfTheDay
 
         //Fix some phonetic pronunciations
         foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
-            if (preg_match("/$key/", $festivity->name) === 1) {
+            if (preg_match($key, $festivity->name) === 1) {
                 $festivity->name = str_replace($key, $value, $festivity->name);
             }
         }
