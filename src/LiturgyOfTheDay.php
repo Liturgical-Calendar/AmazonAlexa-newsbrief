@@ -24,7 +24,7 @@ class LiturgyOfTheDay
     private \IntlDateFormatter $monthDayFmt;
     private array $queryParams          = [];
     private const PHONETIC_PRONUNCATION_MAPPING = [
-        '/.*Blessed( Virgin Mary).*/' => '<speak><phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme></speak> $1',
+        '/Blessed( Virgin Mary)/' => '<speak><phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme></speak> $1',
     ];
 
     public function __construct()
@@ -205,13 +205,6 @@ class LiturgyOfTheDay
             }
         }
 
-        //Fix some phonetic pronunciations
-        foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
-            if (preg_match($key, $festivity->name) === 1) {
-                $festivity->name = preg_replace($key, $value, $festivity->name);
-            }
-        }
-
         if ($festivity->grade === LitGrade::WEEKDAY) {
             $mainText = _("Today is") . " " . $festivity->name . ".";
         } else {
@@ -285,6 +278,13 @@ class LiturgyOfTheDay
                     ( $idx > 0 ? _("also") : "" ),
                     $festivity->name
                 );
+            }
+
+            //Fix some phonetic pronunciations
+            foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
+                if (preg_match($key, $mainText) === 1) {
+                    $mainText = preg_replace($key, $value, $mainText);
+                }
             }
         }
         return $mainText;
