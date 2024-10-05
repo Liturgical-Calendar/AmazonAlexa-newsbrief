@@ -11,15 +11,15 @@ class LitCalFeedItem implements \JsonSerializable
     public string $mainText;
     public string $redirectionUrl;
     public string $updateDate;
-    public ?string $smml = null;
+    public ?string $ssml = null;
 
-    public function __construct(string $key, Festivity $festivity, \DateTime $publishDate, string $titleText, string $mainText, ?string $smml)
+    public function __construct(string $key, Festivity $festivity, \DateTime $publishDate, string $titleText, string $mainText, ?string $ssml = null)
     {
         $this->uid = "urn:uuid:" . md5("LITCAL-" . $key . '-' . $festivity->date->format('Y'));
         $this->updateDate       = $publishDate->format("Y-m-d\TH:i:s\Z");
         $this->titleText        = $titleText;
-        if (null !== $smml) {
-            $this->smml = $smml;
+        if (null !== $ssml) {
+            $this->ssml = $ssml;
         }
         $this->mainText         = $mainText;
         $this->redirectionUrl   = "https://litcal.johnromanodorazio.com/";
@@ -27,8 +27,8 @@ class LitCalFeedItem implements \JsonSerializable
 
     public function jsonSerialize(): array
     {
-        if (null === $this->smml) {
-            unset($this->smml);
+        if (null === $this->ssml) {
+            unset($this->ssml);
         }
         return get_object_vars($this);
     }

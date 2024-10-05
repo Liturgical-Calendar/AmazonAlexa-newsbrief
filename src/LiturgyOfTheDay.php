@@ -8,6 +8,26 @@ use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
 use LiturgicalCalendar\AlexaNewsBrief\Festivity;
 use LiturgicalCalendar\AlexaNewsBrief\LitCalFeedItem;
 
+/**
+ * The LiturgyOfTheDay class is the main class of the Liturgical Calendar Alexa News Brief.
+ *
+ * It fetches metadata about all available calendars from the Liturgical Calendar API and
+ * initialize the LiturgyOfTheDay object with the locale from the
+ * GET parameter "locale". If the GET parameter "nationalcalendar" is
+ * set, use it to set the national calendar and the locale. If the GET
+ * parameter "diocesancalendar" is set, use it to set the diocesan
+ * calendar, national calendar, and the locale. If the GET parameter
+ * "timezone" is set, use it to set the timezone.
+ *
+ * It also sets up the locale and gettext translation environment.
+ *
+ * It fetches the liturgical data for the given locale and calendar from the Liturgical Calendar API
+ * and stores the "litcal" array in $this->LitCalData.
+ *
+ * It then filters out only the events for today and converts each of these events into a Festivity object,
+ * and calls prepareMainText to generate the main text and optional SSML for each event. Finally, it creates a new
+ * LitCalFeedItem for each event and adds it to the $this->LitCalFeed array.
+ */
 class LiturgyOfTheDay
 {
     private const METADATA_URL          = 'https://litcal.johnromanodorazio.com/api/dev/calendars';
@@ -28,6 +48,19 @@ class LiturgyOfTheDay
         '/Blessed( Virgin Mary)/' => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme>$1',
     ];
 
+    /**
+     * Construct the Liturgy of the Day object.
+     *
+     * Fetches metadata about all available calendars from the Liturgical Calendar API and
+     * initialize the LiturgyOfTheDay object with the locale from the
+     * GET parameter "locale". If the GET parameter "nationalcalendar" is
+     * set, use it to set the national calendar and the locale. If the GET
+     * parameter "diocesancalendar" is set, use it to set the diocesan
+     * calendar, national calendar, and the locale. If the GET parameter
+     * "timezone" is set, use it to set the timezone.
+     *
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->sendMetadataReq();
@@ -77,6 +110,17 @@ class LiturgyOfTheDay
         }
     }
 
+    /**
+     * Sets up the locale and gettext translation environment.
+     *
+     * We set the locale to either $this->Locale or the language part of $this->Locale (which is the locale
+     * from the national calendar if applicable, Latin otherwise), since the national calendar locale is the
+     * actual locale used for the translations. The country code shouldn't be too
+     * relevant for the translations.
+     *
+     * We also set up the gettext translation environment, which is used to
+     * translate the texts for the liturgical day.
+     */
     private function prepareL10N(): void
     {
         $this->baseLocale = \Locale::getPrimaryLanguage($this->Locale);
@@ -96,6 +140,16 @@ class LiturgyOfTheDay
         $this->monthDayFmt  = \IntlDateFormatter::create($this->Locale, \IntlDateFormatter::FULL, \IntlDateFormatter::FULL, 'UTC', \IntlDateFormatter::GREGORIAN, 'd MMMM');
     }
 
+    /**
+     * Sends a request to the Liturgical Calendar API's /calendars path to retrieve
+     * metadata about all available liturgical calendars.
+     *
+     * If the request fails, it will die with an error message.
+     *
+     * If the request succeeds, it will decode the JSON response
+     * and store the "litcal_metadata" array in $this->LitCalMetadata.
+     * @throws \Exception
+     */
     private function sendMetadataReq(): void
     {
         $ch = curl_init(self::METADATA_URL);
@@ -126,6 +180,20 @@ class LiturgyOfTheDay
     }
 
 
+    /**
+     * @throws \Exception
+     */
+    /**
+     * Sends a request to the calendar API at $this->CalendarURL
+     * with the query parameters $this->queryParams, with the
+     * Accept-Language header set to $this->Locale and the
+     * Accept header set to application/json.
+     *
+     * If the request fails, it will die with an error message.
+     *
+     * If the request succeeds, it will decode the JSON response
+     * and store the "litcal" array in $this->LitCalData.
+     */
     private function sendReq()
     {
         $ch = curl_init();
@@ -161,6 +229,12 @@ class LiturgyOfTheDay
         curl_close($ch);
     }
 
+    /**
+     * This function takes the LitCal data and filters out only the events for today.
+     * It then converts each of these events into a Festivity object, and calls prepareMainText
+     * to generate the main text and optional SSML for each event. Finally, it creates a new LitCalFeedItem
+     * for each event and adds it to the $this->LitCalFeed array.
+     */
     private function filterEventsToday()
     {
         $dateTimeToday = ( new \DateTime('now') )->format("Y-m-d") . " 00:00:00";
@@ -176,23 +250,33 @@ class LiturgyOfTheDay
                 // retransform each entry from an associative array to a Festivity class object
                 $festivity = new Festivity($value);
                 $festivity->tag = $key;
-                ["mainText" => $mainText, "smml" => $smml] = $this->prepareMainText($festivity, $idx);
+                ["mainText" => $mainText, "ssml" => $ssml] = $this->prepareMainText($festivity, $idx);
                 $titleText = _("Liturgy of the Day") . " ";
                 if ($this->baseLocale === LitLocale::ENGLISH) {
                     $titleText .= $festivity->date->format('F jS');
                 } else {
                     $titleText .= $this->monthDayFmt->format($festivity->date->format('U'));
                 }
-                $this->LitCalFeed[] = new LitCalFeedItem($key, $festivity, $publishDate, $titleText, $mainText, $smml);
+                $this->LitCalFeed[] = new LitCalFeedItem($key, $festivity, $publishDate, $titleText, $mainText, $ssml);
                 $idx++;
             }
         }
     }
 
+    /**
+     * Prepares the main text for a given Festivity, given its index in the LitCalFeed array.
+     *
+     * This function takes into account the grade of the festivity and its relative position in the LitCalFeed array and returns
+     * a string that can be used as the main text for that festivity.
+     *
+     * @param Festivity $festivity The Festivity to generate the main text for.
+     * @param int $idx The index of the Festivity in the LitCalFeed array.
+     * @return array A two-element array containing the main text and the SSML string, if any.
+     */
     private function prepareMainText(Festivity $festivity, int $idx): array
     {
         $mainText = "";
-        $smml = null;
+        $ssml = null;
         //Situations in which we don't need to actually state "Feast of the Lord":
         $filterTagsDisplayGrade = [
             "/OrdSunday[0-9]{1,2}(_vigil){0,1}/",
@@ -286,13 +370,19 @@ class LiturgyOfTheDay
             //Fix some phonetic pronunciations
             foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
                 if (preg_match($key, $mainText) === 1) {
-                    $smml = "<speak>" . preg_replace($key, $value, $mainText) . "</speak>";
+                    $ssml = "<speak>" . preg_replace($key, $value, $mainText) . "</speak>";
                 }
             }
         }
-        return ["mainText" => $mainText, "smml" => $smml];
+        return ["mainText" => $mainText, "ssml" => $ssml];
     }
 
+    /**
+     * Determines if the given timezone is valid.
+     *
+     * @param string $timezone
+     * @return boolean
+     */
     private function isValidTimezone($timezone)
     {
         if (in_array($timezone, \DateTimeZone::listIdentifiers())) {
@@ -301,6 +391,14 @@ class LiturgyOfTheDay
         return false;
     }
 
+    /**
+     * Sends the Alexa Flash Briefing response.
+     *
+     * This method will send either a single JSON object or an array of JSON objects, depending on the number of Festivity objects
+     * in the LitCalFeed array.  If the LitCalFeed array contains only one Festivity, it will send the JSON representation of the
+     * single Festivity.  If the LitCalFeed array contains more than one Festivity, it will send the JSON representation of the
+     * LitCalFeed array itself.
+     */
     private function sendResponse()
     {
         header('Content-Type: application/json');
@@ -311,6 +409,11 @@ class LiturgyOfTheDay
         }
     }
 
+    /**
+     * Initializes the LiturgicalCalendar\AlexaNewsBrief\LiturgyOfTheDay object.
+     *
+     * This method will call the other methods in the correct order to generate and send the Alexa Flash Briefing response.
+     */
     public function init()
     {
         $this->sendReq();
