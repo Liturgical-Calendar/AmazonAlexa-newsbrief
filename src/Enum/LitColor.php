@@ -1,5 +1,9 @@
 <?php
 
+namespace LiturgicalCalendar\AlexaNewsBrief\Enum;
+
+use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
+
 class LitColor
 {
     public const GREEN     = "green";
@@ -27,19 +31,19 @@ class LitColor
         switch ($value) {
             case self::GREEN:
                 /**translators: context = liturgical color */
-                return $locale === 'LA' ? 'viridis'     : _("green");
+                return $locale === LitLocale::LATIN ? 'viridis'     : _("green");
             case self::PURPLE:
                 /**translators: context = liturgical color */
-                return $locale === 'LA' ? 'purpura'     : _("purple");
+                return $locale === LitLocale::LATIN ? 'purpura'     : _("purple");
             case self::WHITE:
                 /**translators: context = liturgical color */
-                return $locale === 'LA' ? 'albus'       : _("white");
+                return $locale === LitLocale::LATIN ? 'albus'       : _("white");
             case self::RED:
                 /**translators: context = liturgical color */
-                return $locale === 'LA' ? 'ruber'       : _("red");
+                return $locale === LitLocale::LATIN ? 'ruber'       : _("red");
             case self::PINK:
                 /**translators: context = liturgical color */
-                return $locale === 'LA' ? 'rosea'       : _("pink");
+                return $locale === LitLocale::LATIN ? 'rosea'       : _("pink");
         }
     }
 }

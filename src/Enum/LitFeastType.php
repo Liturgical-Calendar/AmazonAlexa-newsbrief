@@ -1,5 +1,7 @@
 <?php
 
+namespace LiturgicalCalendar\AlexaNewsBrief\Enum;
+
 class LitFeastType
 {
     public const FIXED     = "fixed";

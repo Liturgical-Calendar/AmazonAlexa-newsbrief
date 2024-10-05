@@ -1,9 +1,11 @@
 <?php
 
-include_once('includes/enums/LitColor.php');
-include_once('includes/enums/LitCommon.php');
-include_once('includes/enums/LitFeastType.php');
-include_once('includes/enums/LitGrade.php');
+namespace LiturgicalCalendar\AlexaNewsBrief;
+
+use LiturgicalCalendar\AlexaNewsBrief\Enum\LitColor;
+use LiturgicalCalendar\AlexaNewsBrief\Enum\LitCommon;
+use LiturgicalCalendar\AlexaNewsBrief\Enum\LitFeastType;
+use LiturgicalCalendar\AlexaNewsBrief\Enum\LitGrade;
 
 /**
  *  CLASS FESTIVITY
@@ -15,7 +17,7 @@ class Festivity
 {
     public string $tag;
     public string $name;
-    public DateTime $date;
+    public \DateTime $date;
     public array $color;
     public string $type;
     public int $grade;
@@ -27,7 +29,7 @@ class Festivity
     public function __construct(array $festivity)
     {
         $this->name     = $festivity["name"];
-        $this->date     = DateTime::createFromFormat('U', $festivity["date"], new DateTimeZone('UTC'));
+        $this->date     = \DateTime::createFromFormat('U', $festivity["date"], new \DateTimeZone('UTC'));
         if (is_array($festivity["color"])) {
             if (LitColor::areValid($festivity["color"])) {
                 $this->color = $festivity["color"];

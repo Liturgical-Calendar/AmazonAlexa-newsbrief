@@ -1,7 +1,8 @@
 <?php
 
-include_once("includes/pgettext.php");
-include_once("includes/enums/LitLocale.php");
+namespace LiturgicalCalendar\AlexaNewsBrief\Enum;
+
+use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
 
 class LitCommon
 {
