@@ -1,0 +1,30 @@
+{
+    "name": "liturgical-calendar/alexa-newsbrief",
+    "description": "Liturgy of the Day as an Amazon Alexa skill available for your daily news brief, using the Liturgical Calendar API",
+    "type": "library",
+    "license": "Apache-2.0",
+    "autoload": {
+        "psr-4": {
+            "LiturgicalCalendar\\AlexaNewsbrief\\": "src/"
+        },
+        "files": ["src/pgettext.php"]
+    },
+    "authors": [
+        {
+            "name": "John R. D'Orazio",
+            "email": "priest@johnromanodorazio.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "LiturgicalCalendar\\AlexaNewsbrief\\Utilities::postInstall"
+        ],
+        "post-update-cmd": [
+            "LiturgicalCalendar\\AlexaNewsbrief\\Utilities::postInstall"
+        ]
+    }
+}

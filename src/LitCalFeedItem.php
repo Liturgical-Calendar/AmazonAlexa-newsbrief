@@ -1,6 +1,8 @@
 <?php
 
-include_once('includes/Festivity.php');
+namespace LiturgicalCalendar\AlexaNewsBrief;
+
+use LiturgicalCalendar\AlexaNewsBrief\Festivity;
 
 class LitCalFeedItem
 {
@@ -10,7 +12,7 @@ class LitCalFeedItem
     public string $redirectionUrl;
     public string $updateDate;
 
-    public function __construct(string $key, Festivity $festivity, DateTime $publishDate, string $titleText, string $mainText)
+    public function __construct(string $key, Festivity $festivity, \DateTime $publishDate, string $titleText, string $mainText)
     {
         $this->uid = "urn:uuid:" . md5("LITCAL-" . $key . '-' . $festivity->date->format('Y'));
         $this->updateDate       = $publishDate->format("Y-m-d\TH:i:s\Z");
