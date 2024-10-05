@@ -44,7 +44,9 @@ class LiturgyOfTheDay
                 $this->LitCalMetadata['national_calendars'],
                 fn($nationalCalendar) => $nationalCalendar['calendar_id'] === $this->NationalCalendar
             ))[0];
-            $this->Locale = $NationalCalendarMetadata["locale"];
+            if ($this->NationalCalendar !== 'VA') {
+                $this->Locale = $NationalCalendarMetadata["settings"]["locale"];
+            }
         }
 
         if (isset($_GET["diocesancalendar"]) && $_GET["diocesancalendar"] !== "") {
@@ -62,7 +64,7 @@ class LiturgyOfTheDay
                 $this->LitCalMetadata['national_calendars'],
                 fn($nationalCalendar) => $nationalCalendar['calendar_id'] === $DiocesanCalendarMetadata["nation"]
             ))[0];
-            $this->Locale = $NationalCalendarMetadata["locale"];
+            $this->Locale = $NationalCalendarMetadata["settings"]["locale"];
         }
 
         if (isset($_GET["timezone"]) && LiturgyOfTheDay::isValidTimezone($_GET["timezone"])) {
