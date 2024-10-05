@@ -4,7 +4,7 @@ namespace LiturgicalCalendar\AlexaNewsBrief;
 
 use LiturgicalCalendar\AlexaNewsBrief\Festivity;
 
-class LitCalFeedItem
+class LitCalFeedItem implements \JsonSerializable
 {
     public string $uid;
     public string $titleText;
@@ -23,5 +23,13 @@ class LitCalFeedItem
         }
         $this->mainText         = $mainText;
         $this->redirectionUrl   = "https://litcal.johnromanodorazio.com/";
+    }
+
+    public function jsonSerialize(): array
+    {
+        if (null === $this->smml) {
+            unset($this->smml);
+        }
+        return get_object_vars($this);
     }
 }
