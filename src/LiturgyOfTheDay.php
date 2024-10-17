@@ -45,8 +45,8 @@ class LiturgyOfTheDay
     private \IntlDateFormatter $monthDayFmt;
     private array $queryParams          = [];
     private const PHONETIC_PRONUNCATION_MAPPING = [
-        '/Blessed( Virgin Mary)/' => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme>$1',
-        '/Antiochia/'             => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
+        '/Blessed /'   => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme> ',
+        '/Antiochia/' => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
     ];
 
     /**
@@ -373,7 +373,7 @@ class LiturgyOfTheDay
             // Create the <speak> root element
             $speak = new \SimpleXMLElement('<speak></speak>');
             $voice = $speak->addChild('voice');
-            $lang = $voice->addChild('lang');
+            $lang = $voice->addChild('lang', $mainText);
             $namespaces = [
                 'xml' => 'http://www.w3.org/XML/1998/namespace'
             ];
@@ -417,22 +417,21 @@ class LiturgyOfTheDay
                     break;
             }
 
-            //Fix some phonetic pronunciations
-            foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
-                if (preg_match($key, $mainText) === 1) {
-                    $ssml = preg_replace($key, $value, $mainText);
-                }
-            }
-
-            $lang[0] = $ssml !== null ? $ssml : $mainText;
-
             // Convert SimpleXMLElement to DOMDocument
             $dom = new \DOMDocument('1.0', 'UTF-8');
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = false;
             $dom->loadXML($speak->asXML());
+            $ssml = $dom->saveXML($dom->documentElement);
+
+            //Fix some phonetic pronunciations
+            foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
+                if (preg_match($key, $mainText) === 1) {
+                    $ssml = preg_replace($key, $value, $ssml);
+                }
+            }
         }
-        return ["mainText" => $mainText, "ssml" => $dom->saveXML($dom->documentElement)];
+        return ["mainText" => $mainText, "ssml" => $ssml];
     }
 
     /**
