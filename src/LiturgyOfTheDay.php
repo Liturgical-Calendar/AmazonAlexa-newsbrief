@@ -46,6 +46,7 @@ class LiturgyOfTheDay
     private array $queryParams          = [];
     private const PHONETIC_PRONUNCATION_MAPPING = [
         '/Blessed( Virgin Mary)/' => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme>$1',
+        '/Antiochia/'             => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
     ];
 
     /**
@@ -367,14 +368,71 @@ class LiturgyOfTheDay
                 );
             }
 
+            $mainText = preg_replace('/  +/', ' ', $mainText);
+
+            // Create the <speak> root element
+            $speak = new \SimpleXMLElement('<speak></speak>');
+            $voice = $speak->addChild('voice');
+            $lang = $voice->addChild('lang');
+            $namespaces = [
+                'xml' => 'http://www.w3.org/XML/1998/namespace'
+            ];
+            // translate PHP Locale identifier to Unicode BCP 47 locale identifiers
+            $locale = str_replace('_', '-', $this->Locale);
+            // https://developer.amazon.com/it-IT/docs/alexa/custom-skills/speech-synthesis-markup-language-ssml-reference.html#supported-locales-for-the-xmllang-attribute
+            switch ($this->baseLocale) {
+                case "en":
+                    // Supported voices: Ivy, Joanna, Joey, Justin, Kendra, Kimberly, Matthew, Salli
+                    $voice->addAttribute('name', 'Kendra');
+                    $lang->addAttribute('xml:lang', 'en-US', $namespaces['xml']);
+                    break;
+                case "es":
+                    // Supported voices: Conchita, Enrique, Lucia
+                    $voice->addAttribute('name', 'Conchita');
+                    $lang->addAttribute('xml:lang', 'es-ES', $namespaces['xml']);
+                    break;
+                case "fr":
+                    // Supported voices: Celine, Lea, Mathieu
+                    $voice->addAttribute('name', 'Celine');
+                    $lang->addAttribute('xml:lang', 'fr-FR', $namespaces['xml']);
+                    break;
+                case "de":
+                    // Supported voice: Hans, Marlene, Vicki
+                    $voice->addAttribute('name', 'Marlene');
+                    $lang->addAttribute('xml:lang', 'de-DE', $namespaces['xml']);
+                    break;
+                case "it":
+                    // Supported voices: Carla, Giorgio, Bianca
+                    $voice->addAttribute('name', 'Carla');
+                    $lang->addAttribute('xml:lang', 'it-IT', $namespaces['xml']);
+                    break;
+                case "pt":
+                    // Supported voices: Vitoria, Camila, Ricardo
+                    $voice->addAttribute('name', 'Vitoria');
+                    $lang->addAttribute('xml:lang', 'pt-BR', $namespaces['xml']);
+                    break;
+                default:
+                    $voice->addAttribute('name', 'Kendra');
+                    $lang->addAttribute('xml:lang', $locale, $namespaces['xml']);
+                    break;
+            }
+
             //Fix some phonetic pronunciations
             foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
                 if (preg_match($key, $mainText) === 1) {
-                    $ssml = "<speak>" . preg_replace($key, $value, $mainText) . "</speak>";
+                    $ssml = preg_replace($key, $value, $mainText);
                 }
             }
+
+            $lang[0] = $ssml !== null ? $ssml : $mainText;
+
+            // Convert SimpleXMLElement to DOMDocument
+            $dom = new \DOMDocument('1.0', 'UTF-8');
+            $dom->preserveWhiteSpace = false;
+            $dom->formatOutput = false;
+            $dom->loadXML($speak->asXML());
         }
-        return ["mainText" => $mainText, "ssml" => $ssml];
+        return ["mainText" => $mainText, "ssml" => $dom->saveXML($dom->documentElement)];
     }
 
     /**
