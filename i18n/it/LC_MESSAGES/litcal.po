@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # root <priest@johnromanodorazio.com>, 2021.
 # John R. D'Orazio <priest@johnromanodorazio.com>, 2021, 2022.
+# Weblate Admin <admin@example.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-17 20:18+0000\n"
-"PO-Revision-Date: 2022-10-12 11:17+0000\n"
-"Last-Translator: John R. D'Orazio <priest@johnromanodorazio.com>\n"
+"PO-Revision-Date: 2024-11-03 16:24+0000\n"
+"Last-Translator: Weblate Admin <admin@example.com>\n"
 "Language-Team: Italian <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/it/>\n"
 "Language: it\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 5.6.1\n"
 
 #: src/LiturgyOfTheDay.php:255
 msgid "Liturgy of the Day"
@@ -319,7 +320,7 @@ msgstr "Commemorazione"
 #. translators: liturgical rank. Keep Capitalized
 #: src/Enum/LitGrade.php:127
 msgid "Optional memorial"
-msgstr "Memoria facoltativa"
+msgstr "memoria facoltativa"
 
 #. translators: liturgical rank. Keep Capitalized
 #: src/Enum/LitGrade.php:132
