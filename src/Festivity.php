@@ -40,7 +40,7 @@ class Festivity
      *      - color {array}: an array of strings or a single string representing the liturgical color(s) for the festivity
      *      - type {string}: whether the festivity if "mobile" or "fixed"
      *      - grade {int}: the liturgical grade of the festivity (e.g. 7=HIGHER_SOLEMNITY, 6=SOLEMNITY, 5=FEAST_LORD, etc.)
-     *      - display_grade {string}: the localized version of the grade of the festivity, for display on frontend applications
+     *      - grade_display {string}: the localized version of the grade of the festivity, for display on frontend applications
      *        (e.g. "Feast of the Lord", "Memorial", etc.)
      *      - common {array}: an array of strings or a single string representing the common(s) for the festivity
      *      - liturgical_year {string}: the liturgical year of the festivity (e.g. "A", "B", etc.)
@@ -62,7 +62,7 @@ class Festivity
         }
         $this->type     = LitFeastType::isValid($festivity["type"]) ? $festivity["type"] : "";
         $this->grade    = LitGrade::isValid($festivity["grade"]) ? $festivity["grade"] : -1;
-        $this->displayGrade     = $festivity["display_grade"];
+        $this->displayGrade     = $festivity["grade_display"];
         if (is_string($festivity["common"])) {
             //Festivity::debugWrite( "*** Festivity.php *** common vartype is string, value = $festivity["common"]" );
             $this->common       = LitCommon::areValid(explode(",", $festivity["common"])) ? explode(",", $festivity["common"]) : [];
