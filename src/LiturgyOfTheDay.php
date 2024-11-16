@@ -138,7 +138,14 @@ class LiturgyOfTheDay
         textdomain("litcal");
         $this->LitCommon    = new LitCommon($this->Locale);
         $this->LitGrade     = new LitGrade($this->Locale);
-        $this->monthDayFmt  = \IntlDateFormatter::create($this->Locale, \IntlDateFormatter::FULL, \IntlDateFormatter::FULL, 'UTC', \IntlDateFormatter::GREGORIAN, 'd MMMM');
+        $this->monthDayFmt  = \IntlDateFormatter::create(
+            $this->Locale,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::FULL,
+            'UTC',
+            \IntlDateFormatter::GREGORIAN,
+            'd MMMM'
+        );
     }
 
     /**
@@ -243,14 +250,13 @@ class LiturgyOfTheDay
         $dateTodayTimestamp = intval($dateToday->format("U"));
         $dateToday->add(new \DateInterval('PT15M'));
         $idx = 0;
-        foreach ($this->LitCalData as $key => $value) {
-            //file_put_contents( $this->logFile, "Processing litcal event $key..." . "\n", FILE_APPEND );
+        foreach ($this->LitCalData as $value) {
+            //file_put_contents( $this->logFile, "Processing litcal event $value['event_key']..." . "\n", FILE_APPEND );
             if ($value["date"] === $dateTodayTimestamp) {
-                //file_put_contents( $this->logFile, "Found litcal event $key with timestamp equal to today!" . "\n", FILE_APPEND );
+                //file_put_contents( $this->logFile, "Found litcal event $value['event_key'] with timestamp equal to today!" . "\n", FILE_APPEND );
                 $publishDate = $dateToday;
                 // retransform each entry from an associative array to a Festivity class object
                 $festivity = new Festivity($value);
-                $festivity->tag = $key;
                 ["mainText" => $mainText, "ssml" => $ssml] = $this->prepareMainText($festivity, $idx);
                 $titleText = _("Liturgy of the Day") . " ";
                 if ($this->baseLocale === LitLocale::ENGLISH) {
@@ -258,7 +264,7 @@ class LiturgyOfTheDay
                 } else {
                     $titleText .= $this->monthDayFmt->format($festivity->date->format('U'));
                 }
-                $this->LitCalFeed[] = new LitCalFeedItem($key, $festivity, $publishDate, $titleText, $mainText, $ssml);
+                $this->LitCalFeed[] = new LitCalFeedItem($festivity, $publishDate, $titleText, $mainText, $ssml);
                 $idx++;
             }
         }
@@ -383,7 +389,7 @@ class LiturgyOfTheDay
             switch ($this->baseLocale) {
                 case "en":
                     // Supported voices: Ivy, Joanna, Joey, Justin, Kendra, Kimberly, Matthew, Salli
-                    $voice->addAttribute('name', 'Kendra');
+                    $voice->addAttribute('name', 'Joanna');
                     $lang->addAttribute('xml:lang', 'en-US', $namespaces['xml']);
                     break;
                 case "es":
@@ -412,7 +418,7 @@ class LiturgyOfTheDay
                     $lang->addAttribute('xml:lang', 'pt-BR', $namespaces['xml']);
                     break;
                 default:
-                    $voice->addAttribute('name', 'Kendra');
+                    $voice->addAttribute('name', 'Joanna');
                     $lang->addAttribute('xml:lang', $locale, $namespaces['xml']);
                     break;
             }

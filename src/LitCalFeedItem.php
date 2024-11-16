@@ -38,16 +38,15 @@ class LitCalFeedItem implements \JsonSerializable
      * The mainText property is set to $mainText.
      * The redirectionUrl property is set to "https://litcal.johnromanodorazio.com/"
      *
-     * @param string $key The key for the festivity.
      * @param Festivity $festivity The Festivity object.
      * @param \DateTime $publishDate The publish date.
      * @param string $titleText The title text.
      * @param string $mainText The main text.
      * @param string $ssml The optional SSML string.
      */
-    public function __construct(string $key, Festivity $festivity, \DateTime $publishDate, string $titleText, string $mainText, ?string $ssml = null)
+    public function __construct(Festivity $festivity, \DateTime $publishDate, string $titleText, string $mainText, ?string $ssml = null)
     {
-        $this->uid = "urn:uuid:" . md5("LITCAL-" . $key . '-' . $festivity->date->format('Y'));
+        $this->uid = "urn:uuid:" . md5("LITCAL-" . $festivity->tag . '-' . $festivity->date->format('Y'));
         $this->updateDate       = $publishDate->format("Y-m-d\TH:i:s\Z");
         $this->titleText        = $titleText;
         if (null !== $ssml) {
