@@ -34,18 +34,21 @@ class Festivity
      * Constructor for Festivity class.
      *
      * @param array $festivity an array representing a liturgical celebration, with the following keys:
+     *      - event_key {string}: the unique identifier for the festivity
      *      - name {string}: the name of the festivity
      *      - date {int}: a PHP timestamp representing the date of the festivity
      *      - color {array}: an array of strings or a single string representing the liturgical color(s) for the festivity
      *      - type {string}: whether the festivity if "mobile" or "fixed"
      *      - grade {int}: the liturgical grade of the festivity (e.g. 7=HIGHER_SOLEMNITY, 6=SOLEMNITY, 5=FEAST_LORD, etc.)
-     *      - display_grade: the localized version of the grade of the festivity, for display on frontend applications (e.g. "Feast of the Lord", "Memorial", etc.)
-     *      - common: an array of strings or a single string representing the common(s) for the festivity
-     *      - liturgical_year: the liturgical year of the festivity (e.g. "A", "B", etc.)
-     *      - is_vigil_mass: boolean indicating if the festivity is a vigil Mass
+     *      - display_grade {string}: the localized version of the grade of the festivity, for display on frontend applications
+     *        (e.g. "Feast of the Lord", "Memorial", etc.)
+     *      - common {array}: an array of strings or a single string representing the common(s) for the festivity
+     *      - liturgical_year {string}: the liturgical year of the festivity (e.g. "A", "B", etc.)
+     *      - is_vigil_mass {bool}: boolean indicating if the festivity is a vigil Mass
      */
     public function __construct(array $festivity)
     {
+        $this->tag      = $festivity["event_key"];
         $this->name     = $festivity["name"];
         $this->date     = \DateTime::createFromFormat('U', $festivity["date"], new \DateTimeZone('UTC'));
         if (is_array($festivity["color"])) {
