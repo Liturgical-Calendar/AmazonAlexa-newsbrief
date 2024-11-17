@@ -24,7 +24,7 @@ class Festivity
     public array $color;
     public string $type;
     public int $grade;
-    public string $displayGrade;
+    public ?string $displayGrade;
     public array $common;
     public string $liturgicalYear;
     public bool $isVigilMass;
@@ -40,7 +40,7 @@ class Festivity
      *      - color {array}: an array of strings or a single string representing the liturgical color(s) for the festivity
      *      - type {string}: whether the festivity if "mobile" or "fixed"
      *      - grade {int}: the liturgical grade of the festivity (e.g. 7=HIGHER_SOLEMNITY, 6=SOLEMNITY, 5=FEAST_LORD, etc.)
-     *      - grade_display {string}: the localized version of the grade of the festivity, for display on frontend applications
+     *      - grade_display {?string}: the localized version of the grade of the festivity, for display on frontend applications
      *        (e.g. "Feast of the Lord", "Memorial", etc.)
      *      - common {array}: an array of strings or a single string representing the common(s) for the festivity
      *      - liturgical_year {string}: the liturgical year of the festivity (e.g. "A", "B", etc.)
