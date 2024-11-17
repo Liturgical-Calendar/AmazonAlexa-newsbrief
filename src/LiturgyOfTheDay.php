@@ -35,6 +35,7 @@ class LiturgyOfTheDay
     private string $CalendarURL         = LiturgyOfTheDay::LITCAL_URL;
     private string $Locale              = LitLocale::LATIN;
     private string $baseLocale          = LitLocale::LATIN;
+    private string $setLocale           = LitLocale::LATIN;
     private LitCommon $LitCommon;
     private LitGrade $LitGrade;
     private ?string $NationalCalendar   = null;
@@ -47,6 +48,153 @@ class LiturgyOfTheDay
     private const PHONETIC_PRONUNCATION_MAPPING = [
         '/Blessed /'   => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme> ',
         '/Antiochia/' => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
+    ];
+    private const ROMAN_NUMERAL_PATTERN_1_34 = '/^(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX|XXI|XXII|XXIII|XXIV|XXV|XXVI|XXVII|XXVIII|XXIX|XXX|XXXI|XXXII|XXXIII|XXXIV) /';
+    private const ROMAN_TO_ARABIC_MAPPING = [
+        'I' => 1, 'II' => 2, 'III' => 3, 'IV' => 4, 'V' => 5, 'VI' => 6, 'VII' => 7, 'VIII' => 8, 'IX' => 9,
+        'X' => 10, 'XI' => 11, 'XII' => 12, 'XIII' => 13, 'XIV' => 14, 'XV' => 15, 'XVI' => 16, 'XVII' => 17, 'XVIII' => 18, 'XIX' => 19,
+        'XX' => 20, 'XXI' => 21, 'XXII' => 22, 'XXIII' => 23, 'XXIV' => 24, 'XXV' => 25, 'XXVI' => 26, 'XXVII' => 27, 'XXVIII' => 28, 'XXIX' => 29,
+        'XXX' => 30, 'XXXI' => 31, 'XXXII' => 32, 'XXXIII' => 33, 'XXXIV' => 34
+    ];
+    private \NumberFormatter $numberFormatter;
+    private static $genericSpelloutOrdinal          = [
+        'af', //Afrikaans
+        'am', //Amharic
+        'as', //Assamese
+        'az', //Azerbaijani
+        'bn', //Bengali
+        'bo', //Tibetan
+        'chr', //Cherokee,
+        'de', //German : has also spellout-ordinal-n, spellout-ordinal-r, spellout-ordinal-s
+              //        these seem to affect the article "the" preceding the ordinal,
+              //        making it masculine, feminine, or neuter (or plural)
+              //        but which is which between n-r-s? I believe r = masc, n = plural, s = neut?
+              //        perhaps depends also on case: genitive, dative, etc.
+        'dsb', //Lower Sorbian
+        'dz', //Dzongha
+        'en', //English
+        'ee', //Ewe
+        'es', //Esperanto
+        'fi', //Finnish : also supports a myriad of other forms, too complicated to handle!
+        'fil', //Filipino
+        'gl', //Gallegan
+        'gu', //Gujarati
+        'ha', //Hausa
+        'haw', //Hawaiian
+        'hsb', //Upper Sorbian
+        'hu', //Hungarian
+        'id', //Indonesian
+        'ig', //Igbo
+        'ja', //Japanese
+        'kk', //Kazakh
+        'km', //Khmer
+        'kn', //Kannada
+        'kok', //Konkani
+        'jy', //Kirghiz
+        'lb', //Luxembourgish
+        'lkt', //Lakota
+        'ln', //Lingala
+        'lo', //Lao
+        'ml', //Malayalam
+        'mn', //Mongolian
+        'mr', //Marathi
+        'ms', //Malay
+        'my', //Burmese
+        'ne', //Nepali
+        'nl', //Dutch
+        'om', //Oromo
+        'or', //Oriva
+        'pa', //Panjabi
+        'ps', //Pushto
+        'si', //Sinhalese
+        'smn', //Inari Sami
+        'sr', //Serbian
+        'sw', //Swahili
+        'ta', //Tamil
+        'te', //Telugu
+        'th', //Thai
+        'to', //Tonga
+        'tr', //Turkish
+        'ug', //Uighur
+        'ur', //Urdu
+        'uz', //Uzbek
+        'vi', //Vietnamese
+        'wae', //Walser
+        'yi', //Yiddish
+        'yo', //Yoruba
+        'zh', //Chinese
+        'zu'  //Zulu
+    ];
+
+    /**
+     * Languages that use spellout-ordinal-masculine and spellout-ordinal-feminine
+     */
+    private static $mascFemSpelloutOrdinal          = [
+        'ar', //Arabic
+        'ca', //Catalan
+        'es', //Spanish : also supports plural forms, as well as a masculine adjective form (? spellout-ordinal-masculine-adjective)
+        'fr', //French
+        'he', //Hebrew
+        'hi', //Hindi
+        'it', //Italian
+        'pt'  //Portuguese
+    ];
+
+    /**
+     * Languages that use spellout-ordinal-masculine, spellout-ordinal-feminine, and spellout-ordinal-neuter
+     */
+    private static $mascFemNeutSpelloutOrdinal      = [
+        'bg', //Bulgarian
+        'be', //Belarusian
+        'el', //Greek
+        'hr', //Croatian
+        'nb', //Norwegian Bokmål
+        'ru', //Russian : also supports a myriad of other cases, too complicated to handle for now
+        'sv'  //Swedish : also supports spellout-ordinal-reale ?
+    ];
+
+    //even though these do not yet support spellout-ordinal, however they do support digits-ordinal
+    /*private static $noSpelloutOrdinal               = [
+        'bs', //Bosnian
+        'cs', //Czech
+        'cy', //Welsh
+        'et', //Estonian
+        'fa', //Persian
+        'fo', //Faroese
+        'ga', //Irish
+        'hy', //Armenian
+        'is', //Icelandic
+        'ka', //Georgian
+        'kl', //Greenlandic aka Kalaallisut
+        'ko', //Korean : supports specific forms spellout-ordinal-native etc. but too complicated to handle for now
+        'lt', //Lithuanian
+        'lv', //Latvian
+        'mk', //Macedonian
+        'mt', //Maltese
+        'nn', //Norwegian Nynorsk
+        'pl', //Polish
+        'ro', //Romanian
+        'se', //Northern Sami
+        'sk', //Slovak
+        'sl', //Slovenian
+        'sq', //Albanian
+        'uq'  //Ukrainian
+    ];*/
+
+    /**
+     * Whatever does spellout-ordinal-common mean?
+     * ChatGPT tells us:
+     * In Danish, ordinals are formed by adding "-te" (for most ordinals) or "-ende" (for some specific cases).
+     * Danish ordinal formation becomes relatively regular after the first few numbers, with "-te" being the primary suffix.
+     * In Danish, ordinals may change depending on gender. For example, "2nd -> second": Anden (for common gender) vs. andet (for neuter gender).
+     * Examples:
+     *  - "anden plads" (second place)
+     *  - "andet hus" (second house) for neuter gender
+     *
+     * So apparently it is very similar to spellout-ordinal with a few cases using neutral gender.
+     */
+    private static $commonNeutSpelloutOrdinal       = [
+        'da'  //Danish
     ];
 
     /**
@@ -127,13 +275,23 @@ class LiturgyOfTheDay
         $this->baseLocale = \Locale::getPrimaryLanguage($this->Locale);
         $localeArray = [
             $this->Locale . '.utf8',
-            $this->Locale . '.UTF-8',
-            $this->baseLocale . '.utf8',
-            $this->baseLocale . '.UTF-8',
-            $this->Locale,
-            $this->baseLocale
+            $this->Locale . '.UTF-8'
         ];
-        setlocale(LC_ALL, $localeArray);
+        if ($this->baseLocale !== $this->Locale) {
+            $localeArray[] = $this->baseLocale . '.utf8';
+            $localeArray[] = $this->baseLocale . '.UTF-8';
+            $localeArray[] = $this->baseLocale . '_' . LitLocale::$primaryRegion[$this->baseLocale] . '.utf8';
+            $localeArray[] = $this->baseLocale . '_' . LitLocale::$primaryRegion[$this->baseLocale] . '.UTF-8';
+            $localeArray[] = $this->baseLocale . '_' . LitLocale::$primaryRegion[$this->baseLocale];
+            $localeArray[] = $this->baseLocale;
+        }
+        if ($this->baseLocale === $this->Locale) {
+            $localeArray[] = $this->Locale . '_' . LitLocale::$primaryRegion[$this->Locale] . '.utf8';
+            $localeArray[] = $this->Locale . '_' . LitLocale::$primaryRegion[$this->Locale] . '.UTF-8';
+            $localeArray[] = $this->Locale . '_' . LitLocale::$primaryRegion[$this->Locale];
+            $localeArray[] = $this->Locale;
+        }
+        $this->setLocale = setlocale(LC_ALL, $localeArray);
         bindtextdomain("litcal", "i18n");
         textdomain("litcal");
         $this->LitCommon    = new LitCommon($this->Locale);
@@ -146,6 +304,16 @@ class LiturgyOfTheDay
             \IntlDateFormatter::GREGORIAN,
             'd MMMM'
         );
+        $this->numberFormatter = new \NumberFormatter($this->baseLocale, \NumberFormatter::SPELLOUT);
+        if (in_array($this->baseLocale, self::$genericSpelloutOrdinal)) {
+            $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
+        } elseif (in_array($this->baseLocale, self::$mascFemSpelloutOrdinal) || in_array($this->baseLocale, self::$mascFemNeutSpelloutOrdinal)) {
+            $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal-feminine");
+        } elseif (in_array($this->baseLocale, self::$commonNeutSpelloutOrdinal)) {
+            $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal-common");
+        } else {
+            $this->numberFormatter = new \NumberFormatter($this->baseLocale, \NumberFormatter::ORDINAL);
+        }
     }
 
     /**
@@ -270,6 +438,14 @@ class LiturgyOfTheDay
         }
     }
 
+    private static function detectRomanNumeral($str): int|false
+    {
+        if (preg_match(self::ROMAN_NUMERAL_PATTERN_1_34, $str, $matches) === 1) {
+            return self::ROMAN_TO_ARABIC_MAPPING[$matches[1]];
+        }
+        return false;
+    }
+
     /**
      * Prepares the main text for a given Festivity, given its index in the LitCalFeed array.
      *
@@ -296,6 +472,14 @@ class LiturgyOfTheDay
             if (preg_match($pattern, $festivity->tag) === 1) {
                 $isSundayOrdAdvLentEaster = true;
                 break;
+            }
+        }
+
+        if ($isSundayOrdAdvLentEaster) {
+            $startsWithRoman = self::detectRomanNumeral($festivity->name);
+            if ($startsWithRoman !== false) {
+                $replacement = $this->numberFormatter->format($startsWithRoman);
+                $festivity->name = preg_replace(self::ROMAN_NUMERAL_PATTERN_1_34, $replacement . ' ', $festivity->name);
             }
         }
 

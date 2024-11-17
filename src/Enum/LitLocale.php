@@ -12,9 +12,19 @@ class LitLocale
     public const PORTUGUESE            = "pt";
     public const SPANISH               = "es";
     public static array $values = [ "en", "fr", "de", "it", "la", "pt", "es" ];
+    public static array $primaryRegion = [
+        "en" => "US",
+        "fr" => "FR",
+        "de" => "DE",
+        "it" => "IT",
+        "la" => "VA",
+        "pt" => "PT",
+        "es" => "ES"
+    ];
 
     public static function isValid($value)
     {
-        return in_array($value, self::$values);
+        $baseLocale = \Locale::getPrimaryLanguage($value);
+        return in_array($baseLocale, self::$values);
     }
 }
