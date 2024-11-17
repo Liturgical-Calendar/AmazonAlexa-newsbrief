@@ -318,14 +318,23 @@ class LiturgyOfTheDay
                     );
                 }
             } elseif ($festivity->grade < LitGrade::HIGHER_SOLEMNITY) {
-                if ($festivity->displayGrade != "") {
-                    $mainText = sprintf(
-                        /**translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
-                        _('Today is %1$s the %2$s of %3$s.'),
-                        ( $idx > 0 ? _("also") : "" ),
-                        $festivity->displayGrade,
-                        $festivity->name
-                    );
+                if ($festivity->displayGrade !== null) {
+                    if ($festivity->displayGrade === '') {
+                        $mainText = sprintf(
+                            /**translators: 1. (also|''), 2. name of the festivity */
+                            _('Today is %1$s the %2$s.'),
+                            ( $idx > 0 ? _("also") : "" ),
+                            $festivity->name
+                        );
+                    } else {
+                        $mainText = sprintf(
+                            /**translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
+                            _('Today is %1$s the %2$s of %3$s.'),
+                            ( $idx > 0 ? _("also") : "" ),
+                            $festivity->displayGrade,
+                            $festivity->name
+                        );
+                    }
                 } else {
                     if ($festivity->grade === LitGrade::FEAST_LORD) {
                         if ($isSundayOrdAdvLentEaster) {
