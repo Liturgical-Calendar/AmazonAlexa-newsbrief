@@ -338,11 +338,7 @@ class LiturgyOfTheDay
 
         $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($resultStatus !== 200) {
-            if ($resultStatus === 412) {
-                die("the index.json file simply doesn't exist yet");
-            } else {
-                die("Metadata request failed. HTTP status code: " . $resultStatus);
-            }
+            die("Metadata request failed. HTTP status code: " . $resultStatus);
         }
 
         $response = json_decode($result, true);
