@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-17 10:54+0000\n"
+"POT-Creation-Date: 2024-11-28 16:09+0000\n"
 "PO-Revision-Date: 2024-11-17 08:54+0000\n"
 "Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
 "Language-Team: French <https://translate.johnromanodorazio.com/projects/"
@@ -22,26 +22,26 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.6.1\n"
 
-#: src/LiturgyOfTheDay.php:429
+#: src/LiturgyOfTheDay.php:425
 msgid "Liturgy of the Day"
 msgstr "Liturgie du jour"
 
-#: src/LiturgyOfTheDay.php:487
+#: src/LiturgyOfTheDay.php:483
 msgid "Today is"
 msgstr "Aujourd'hui c'est"
 
 #. translators: 1. name of the festivity
-#: src/LiturgyOfTheDay.php:493
+#: src/LiturgyOfTheDay.php:489
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s."
 msgstr "Ce soir, il y aura une messe de veillée pour le %1$s."
 
-#: src/LiturgyOfTheDay.php:494 src/LiturgyOfTheDay.php:501
+#: src/LiturgyOfTheDay.php:490 src/LiturgyOfTheDay.php:497
 msgid "Vigil Mass"
 msgstr "Messe de la vigile"
 
 #. translators: 1. grade of the festivity, 2. name of the festivity
-#: src/LiturgyOfTheDay.php:499
+#: src/LiturgyOfTheDay.php:495
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
 msgstr "Ce soir, il y aura une messe de veillée pour le %1$s %2$s."
@@ -49,34 +49,34 @@ msgstr "Ce soir, il y aura une messe de veillée pour le %1$s %2$s."
 #. translators: 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
-#: src/LiturgyOfTheDay.php:509 src/LiturgyOfTheDay.php:527
-#: src/LiturgyOfTheDay.php:543
+#: src/LiturgyOfTheDay.php:505 src/LiturgyOfTheDay.php:523
+#: src/LiturgyOfTheDay.php:539
 #, php-format
 msgid "Today is %1$s the %2$s."
 msgstr "Aujourd'hui, c'est %1$s la %2$s."
 
-#: src/LiturgyOfTheDay.php:510 src/LiturgyOfTheDay.php:517
-#: src/LiturgyOfTheDay.php:528 src/LiturgyOfTheDay.php:535
-#: src/LiturgyOfTheDay.php:544 src/LiturgyOfTheDay.php:551
-#: src/LiturgyOfTheDay.php:565
+#: src/LiturgyOfTheDay.php:506 src/LiturgyOfTheDay.php:513
+#: src/LiturgyOfTheDay.php:524 src/LiturgyOfTheDay.php:531
+#: src/LiturgyOfTheDay.php:540 src/LiturgyOfTheDay.php:547
+#: src/LiturgyOfTheDay.php:561
 msgid "also"
 msgstr "aussi"
 
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: src/LiturgyOfTheDay.php:516 src/LiturgyOfTheDay.php:550
+#: src/LiturgyOfTheDay.php:512 src/LiturgyOfTheDay.php:546
 #, php-format
 msgid "Today is %1$s the %2$s of %3$s."
 msgstr "Aujourd'hui, c'est %1$s la %2$s de %3$s."
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: src/LiturgyOfTheDay.php:534
+#: src/LiturgyOfTheDay.php:530
 #, php-format
 msgid "Today is %1$s the %2$s, %3$s."
 msgstr "Aujourd'hui, c'est le %1$s %2$s, %3$s."
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: src/LiturgyOfTheDay.php:564
+#: src/LiturgyOfTheDay.php:560
 #, php-format
 msgid "Today is %1$s the day of %2$s."
 msgstr "Aujourd'hui, c'est %1$s le jour de %2$s."
