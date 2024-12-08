@@ -30,9 +30,8 @@ use LiturgicalCalendar\AlexaNewsBrief\LitCalFeedItem;
  */
 class LiturgyOfTheDay
 {
-    private const METADATA_URL          = 'https://litcal.johnromanodorazio.com/api/dev/calendars';
-    private const LITCAL_URL            = 'https://litcal.johnromanodorazio.com/api/dev/calendar';
-    private string $CalendarURL         = LiturgyOfTheDay::LITCAL_URL;
+    private string $MetadataURL;
+    private string $CalendarURL;
     private string $Locale              = LitLocale::LATIN;
     private string $baseLocale          = LitLocale::LATIN;
     private string $setLocale           = LitLocale::LATIN;
@@ -209,8 +208,10 @@ class LiturgyOfTheDay
      *
      * @throws \Exception
      */
-    public function __construct()
+    public function __construct(string $apiURL)
     {
+        $this->MetadataURL = $apiURL . '/calendars';
+        $this->CalendarURL = $apiURL . '/calendar';
         $this->sendMetadataReq();
 
         $this->Locale = isset($_GET["locale"]) && LitLocale::isValid($_GET["locale"])
@@ -223,7 +224,7 @@ class LiturgyOfTheDay
                     . implode(', ', $this->LitCalMetadata['national_calendars_keys']));
             }
             $this->NationalCalendar = $_GET["nationalcalendar"];
-            $this->CalendarURL = self::LITCAL_URL . '/nation/' . $this->NationalCalendar;
+            $this->CalendarURL = $this->CalendarURL . '/nation/' . $this->NationalCalendar;
             $NationalCalendarMetadata = array_values(array_filter(
                 $this->LitCalMetadata['national_calendars'],
                 fn($nationalCalendar) => $nationalCalendar['calendar_id'] === $this->NationalCalendar
@@ -240,7 +241,7 @@ class LiturgyOfTheDay
                     . implode(', ', $this->LitCalMetadata['diocesan_calendars_keys']));
             }
             $this->DiocesanCalendar = $_GET["diocesancalendar"];
-            $this->CalendarURL = self::LITCAL_URL . '/diocese/' . $this->DiocesanCalendar;
+            $this->CalendarURL = $this->CalendarURL . '/diocese/' . $this->DiocesanCalendar;
             $DiocesanCalendarMetadata = array_values(array_filter(
                 $this->LitCalMetadata['diocesan_calendars'],
                 fn($diocesanCalendar) => $diocesanCalendar['calendar_id'] === $this->DiocesanCalendar
@@ -329,7 +330,7 @@ class LiturgyOfTheDay
      */
     private function sendMetadataReq(): void
     {
-        $ch = curl_init(self::METADATA_URL);
+        $ch = curl_init($this->MetadataURL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
 
