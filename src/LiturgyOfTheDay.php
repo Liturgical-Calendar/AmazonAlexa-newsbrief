@@ -44,7 +44,6 @@ class LiturgyOfTheDay
     private array $LitCalData           = [];
     private array $LitCalFeed           = [];
     private \IntlDateFormatter $monthDayFmt;
-    private array $queryParams          = [];
     private const PHONETIC_PRONUNCATION_MAPPING = [
         '/Blessed /'   => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme> ',
         '/Antiochia/' => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
@@ -359,8 +358,7 @@ class LiturgyOfTheDay
      */
     /**
      * Sends a request to the calendar API at $this->CalendarURL
-     * with the query parameters $this->queryParams, with the
-     * Accept-Language header set to $this->Locale and the
+     * with the Accept-Language header set to $this->Locale and the
      * Accept header set to application/json.
      *
      * If the request fails, it will die with an error message.
@@ -374,7 +372,7 @@ class LiturgyOfTheDay
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $this->CalendarURL);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->queryParams));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(["year_type" => "CIVIL"]));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Accept-Language: $this->Locale",
             "Accept: application/json"
@@ -413,7 +411,8 @@ class LiturgyOfTheDay
     {
         $dateTimeToday = ( new \DateTime('now') )->format("Y-m-d") . " 00:00:00";
         $dateToday = \DateTime::createFromFormat('Y-m-d H:i:s', $dateTimeToday, new \DateTimeZone('UTC'));
-        $dateTodayTimestamp = intval($dateToday->format("U"));
+        $dateTodayTimestampStr = $dateToday->format("U");
+        $dateTodayTimestamp = intval($dateTodayTimestampStr);
         $dateToday->add(new \DateInterval('PT15M'));
         $idx = 0;
         foreach ($this->LitCalData as $value) {
@@ -660,6 +659,8 @@ class LiturgyOfTheDay
             echo json_encode($this->LitCalFeed[0]);
         } elseif (count($this->LitCalFeed) > 1) {
             echo json_encode($this->LitCalFeed);
+        } else {
+            die("Missing data from response: LitCalFeed seems to by empty or null? " . count($this->LitCalFeed));
         }
     }
 
