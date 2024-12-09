@@ -43,9 +43,14 @@ class LiturgyOfTheDay
     private array $LitCalData           = [];
     private array $LitCalFeed           = [];
     private \IntlDateFormatter $monthDayFmt;
+    private const MANUAL_FIXES = [
+        'it' => [
+            '/SOLENNITÀ di Immacolata Concezione/' => "SOLENNITÀ dell'Immacolata Concezione",
+        ],
+    ];
     private const PHONETIC_PRONUNCATION_MAPPING = [
         '/Blessed /'   => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme> ',
-        '/Antiochia/' => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
+        '/Antiochia/'  => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
     ];
     private const ROMAN_NUMERAL_PATTERN_1_34 = '/^(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX|XXI|XXII|XXIII|XXIV|XXV|XXVI|XXVII|XXVIII|XXIX|XXX|XXXI|XXXII|XXXIII|XXXIV) /';
     private const ROMAN_TO_ARABIC_MAPPING = [
@@ -566,6 +571,11 @@ class LiturgyOfTheDay
             }
 
             $mainText = preg_replace('/  +/', ' ', $mainText);
+            if (array_key_exists($this->baseLocale, LiturgyOfTheDay::MANUAL_FIXES)) {
+                foreach( LiturgyOfTheDay::MANUAL_FIXES[$this->baseLocale] as $pattern => $replacement ) {
+                    $mainText = preg_replace($pattern, $replacement, $mainText);
+                }
+            }
 
             // Create the <speak> root element
             $speak = new \SimpleXMLElement('<speak></speak>');
@@ -661,7 +671,7 @@ class LiturgyOfTheDay
         } elseif (count($this->LitCalFeed) > 1) {
             echo json_encode($this->LitCalFeed);
         } else {
-            die("Missing data from response: LitCalFeed seems to by empty or null? " . count($this->LitCalFeed));
+            die("Missing data from response: LitCalFeed seems to be empty or null? " . count($this->LitCalFeed));
         }
     }
 
