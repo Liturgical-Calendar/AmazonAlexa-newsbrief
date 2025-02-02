@@ -7,13 +7,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-09 04:42+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-02-03 20:05+0000\n"
+"Last-Translator: Lovro <development.lovro@gmail.com>\n"
+"Language-Team: Croatian <https://translate.johnromanodorazio.com/projects/"
+"liturgical-calendar/alexa-newsbrief/hr/>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #: src/LiturgyOfTheDay.php:432
 msgid "Liturgy of the Day"
@@ -77,7 +81,7 @@ msgstr ""
 #. translators: context = liturgical color
 #: src/Enum/LitColor.php:72
 msgid "green"
-msgstr ""
+msgstr "zelena"
 
 #. translators: context = liturgical color
 #: src/Enum/LitColor.php:75
@@ -87,17 +91,17 @@ msgstr ""
 #. translators: context = liturgical color
 #: src/Enum/LitColor.php:78
 msgid "white"
-msgstr ""
+msgstr "bijela"
 
 #. translators: context = liturgical color
 #: src/Enum/LitColor.php:81
 msgid "red"
-msgstr ""
+msgstr "crvena"
 
 #. translators: context = liturgical color
 #: src/Enum/LitColor.php:84
 msgid "pink"
-msgstr ""
+msgstr "ružičasta"
 
 #: src/Enum/LitCommon.php:69
 msgid "Proper"
@@ -303,12 +307,12 @@ msgstr ""
 #. translators: when there are multiple possible commons, this will be the glue "or from the common of..."
 #: src/Enum/LitCommon.php:362
 msgid "or"
-msgstr ""
+msgstr "ili"
 
 #. translators: liturgical rank. Keep lowercase
 #: src/Enum/LitGrade.php:117 src/Enum/LitGrade.php:156
 msgid "weekday"
-msgstr ""
+msgstr "svagdan"
 
 #. translators: liturgical rank. Keep Capitalized
 #: src/Enum/LitGrade.php:122
@@ -323,7 +327,7 @@ msgstr ""
 #. translators: liturgical rank. Keep Capitalized
 #: src/Enum/LitGrade.php:132
 msgid "Memorial"
-msgstr ""
+msgstr "Spomendan"
 
 #. translators: liturgical rank. Keep UPPERCASE
 #: src/Enum/LitGrade.php:137
@@ -343,4 +347,4 @@ msgstr ""
 #. translators: liturgical rank. Keep lowercase
 #: src/Enum/LitGrade.php:152
 msgid "celebration with precedence over solemnities"
-msgstr ""
+msgstr "slavlje s prednošću nad svetkovinom"
