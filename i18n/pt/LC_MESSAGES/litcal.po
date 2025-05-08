@@ -5,13 +5,14 @@
 # John R. D'Orazio <priest@johnromanodorazio.com>, 2022.
 # Weblate Admin <admin@example.com>, 2024.
 # OpenAI <noreply-mt-openai@weblate.org>, 2024.
+# Ronaldo Soares Couto <ronaldocouto@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-17 08:46+0000\n"
-"PO-Revision-Date: 2024-10-04 09:40+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
+"POT-Creation-Date: 2024-12-09 04:42+0000\n"
+"PO-Revision-Date: 2025-04-11 06:02+0000\n"
+"Last-Translator: Ronaldo Soares Couto <ronaldocouto@gmail.com>\n"
 "Language-Team: Portuguese <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/pt/>\n"
 "Language: pt\n"
@@ -19,28 +20,28 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.8.4\n"
 
-#: src/LiturgyOfTheDay.php:261
+#: src/LiturgyOfTheDay.php:432
 msgid "Liturgy of the Day"
 msgstr "Liturgia do Dia"
 
-#: src/LiturgyOfTheDay.php:303
+#: src/LiturgyOfTheDay.php:490
 msgid "Today is"
 msgstr "Hoje é"
 
 #. translators: 1. name of the festivity
-#: src/LiturgyOfTheDay.php:309
+#: src/LiturgyOfTheDay.php:496
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s."
 msgstr "Esta noite haverá uma Missa de Vigília para o %1$s."
 
-#: src/LiturgyOfTheDay.php:310 src/LiturgyOfTheDay.php:317
+#: src/LiturgyOfTheDay.php:497 src/LiturgyOfTheDay.php:504
 msgid "Vigil Mass"
 msgstr "Missa da Vigília"
 
 #. translators: 1. grade of the festivity, 2. name of the festivity
-#: src/LiturgyOfTheDay.php:315
+#: src/LiturgyOfTheDay.php:502
 #, php-format
 msgid "This evening there will be a Vigil Mass for the %1$s %2$s."
 msgstr "Esta noite haverá uma Missa de Vigília para o %1$s %2$s."
@@ -48,34 +49,34 @@ msgstr "Esta noite haverá uma Missa de Vigília para o %1$s %2$s."
 #. translators: 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity
 #. translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity
-#: src/LiturgyOfTheDay.php:325 src/LiturgyOfTheDay.php:343
-#: src/LiturgyOfTheDay.php:359
+#: src/LiturgyOfTheDay.php:512 src/LiturgyOfTheDay.php:530
+#: src/LiturgyOfTheDay.php:546
 #, php-format
 msgid "Today is %1$s the %2$s."
 msgstr "Hoje é %1$s dia %2$s."
 
-#: src/LiturgyOfTheDay.php:326 src/LiturgyOfTheDay.php:333
-#: src/LiturgyOfTheDay.php:344 src/LiturgyOfTheDay.php:351
-#: src/LiturgyOfTheDay.php:360 src/LiturgyOfTheDay.php:367
-#: src/LiturgyOfTheDay.php:381
+#: src/LiturgyOfTheDay.php:513 src/LiturgyOfTheDay.php:520
+#: src/LiturgyOfTheDay.php:531 src/LiturgyOfTheDay.php:538
+#: src/LiturgyOfTheDay.php:547 src/LiturgyOfTheDay.php:554
+#: src/LiturgyOfTheDay.php:568
 msgid "also"
 msgstr "também"
 
 #. translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity
 #. translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: src/LiturgyOfTheDay.php:332 src/LiturgyOfTheDay.php:366
+#: src/LiturgyOfTheDay.php:519 src/LiturgyOfTheDay.php:553
 #, php-format
 msgid "Today is %1$s the %2$s of %3$s."
 msgstr "Hoje é %1$s dia %2$s de %3$s."
 
 #. translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity
-#: src/LiturgyOfTheDay.php:350
+#: src/LiturgyOfTheDay.php:537
 #, php-format
 msgid "Today is %1$s the %2$s, %3$s."
 msgstr "Hoje é %1$s dia %2$s, %3$s."
 
 #. translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity
-#: src/LiturgyOfTheDay.php:380
+#: src/LiturgyOfTheDay.php:567
 #, php-format
 msgid "Today is %1$s the day of %2$s."
 msgstr "Hoje é %1$s dia de %2$s."
@@ -142,7 +143,7 @@ msgstr "Virgens"
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:83
 msgid "Holy Men and Women"
-msgstr "Santos e Santas"
+msgstr "Homens e Mulheres Santos"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:86
