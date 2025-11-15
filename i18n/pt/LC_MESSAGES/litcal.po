@@ -6,13 +6,14 @@
 # Weblate Admin <admin@example.com>, 2024.
 # OpenAI <noreply-mt-openai@weblate.org>, 2024.
 # Ronaldo Soares Couto <ronaldocouto@gmail.com>, 2025.
+# "John R. D'Orazio" <priest@johnromanodorazio.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-09 04:42+0000\n"
-"PO-Revision-Date: 2025-04-11 06:02+0000\n"
-"Last-Translator: Ronaldo Soares Couto <ronaldocouto@gmail.com>\n"
+"PO-Revision-Date: 2025-11-16 01:22+0000\n"
+"Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
 "Language-Team: Portuguese <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/pt/>\n"
 "Language: pt\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.8.4\n"
+"X-Generator: Weblate 5.13.3\n"
 
 #: src/LiturgyOfTheDay.php:432
 msgid "Liturgy of the Day"
@@ -223,7 +224,7 @@ msgstr "Para Missionários"
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:116
 msgid "For One Virgin"
-msgstr "Para Uma Virgem"
+msgstr "Para uma Virgem"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:118
