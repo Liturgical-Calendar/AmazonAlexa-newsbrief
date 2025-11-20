@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# "John R. D'Orazio" <priest@johnromanodorazio.com>, 2024.
+# "John R. D'Orazio" <priest@johnromanodorazio.com>, 2024, 2025.
 # OpenAI <noreply-mt-openai@weblate.org>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-09 04:42+0000\n"
-"PO-Revision-Date: 2024-10-04 09:40+0000\n"
-"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
+"PO-Revision-Date: 2025-11-21 17:22+0000\n"
+"Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
 "Language-Team: Dutch <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.1\n"
+"X-Generator: Weblate 5.13.3\n"
 
 #: src/LiturgyOfTheDay.php:432
 msgid "Liturgy of the Day"
@@ -347,4 +347,4 @@ msgstr "HOOGFEEST"
 #. translators: liturgical rank. Keep lowercase
 #: src/Enum/LitGrade.php:152
 msgid "celebration with precedence over solemnities"
-msgstr "viering met voorrang op hoogfesten"
+msgstr "viering met voorrang op hoogfeesten"
