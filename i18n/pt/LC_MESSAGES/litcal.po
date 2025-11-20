@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-09 04:42+0000\n"
-"PO-Revision-Date: 2025-11-16 01:22+0000\n"
+"PO-Revision-Date: 2025-11-21 17:22+0000\n"
 "Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
 "Language-Team: Portuguese <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/pt/>\n"
@@ -280,7 +280,7 @@ msgstr "Para Santas"
 #: src/Enum/LitCommon.php:203 src/Enum/LitCommon.php:215
 msgctxt "(SING_FEMM)"
 msgid "of the"
-msgstr "do"
+msgstr "da"
 
 #. translators: (plural feminine) glue between "From the Common" and the actual common. Latin: leave empty!
 #: src/Enum/LitCommon.php:206
