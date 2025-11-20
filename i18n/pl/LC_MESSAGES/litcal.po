@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-09 04:42+0000\n"
-"PO-Revision-Date: 2025-11-16 01:22+0000\n"
+"PO-Revision-Date: 2025-11-21 17:22+0000\n"
 "Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
 "Language-Team: Polish <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/pl/>\n"
@@ -126,7 +126,7 @@ msgstr "Męczennicy"
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:77
 msgid "Pastors"
-msgstr "Pastorzy"
+msgstr "Pasterze"
 
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:79
@@ -196,7 +196,7 @@ msgstr "Dla jednego pastora"
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:106
 msgid "For Several Pastors"
-msgstr "Dla kilku pastorów"
+msgstr "Dla kilku pasterzy"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:108
@@ -323,12 +323,12 @@ msgstr "Obchody"
 #. translators: liturgical rank. Keep Capitalized
 #: src/Enum/LitGrade.php:127
 msgid "Optional memorial"
-msgstr "Opcjonalne upamiętnienie"
+msgstr "Wspomnienie dowolne"
 
 #. translators: liturgical rank. Keep Capitalized
 #: src/Enum/LitGrade.php:132
 msgid "Memorial"
-msgstr "Upamiętnienie"
+msgstr "Wspomnienie"
 
 #. translators: liturgical rank. Keep UPPERCASE
 #: src/Enum/LitGrade.php:137
