@@ -2,18 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Gábor <pleineux@gmail.com>, 2025.
+# "John R. D'Orazio" <priest@johnromanodorazio.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-09 04:42+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-12-02 13:22+0000\n"
+"Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
+"Language-Team: Hungarian <https://translate.johnromanodorazio.com/projects/"
+"liturgical-calendar/alexa-newsbrief/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.13.3\n"
 
 #: src/LiturgyOfTheDay.php:432
 msgid "Liturgy of the Day"
@@ -101,7 +105,7 @@ msgstr ""
 
 #: src/Enum/LitCommon.php:69
 msgid "Proper"
-msgstr ""
+msgstr "Proprium"
 
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:71
