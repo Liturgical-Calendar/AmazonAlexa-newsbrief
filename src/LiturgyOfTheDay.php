@@ -260,7 +260,7 @@ class LiturgyOfTheDay
         $this->sendMetadataReq();
 
         $this->Locale = isset($_GET['locale']) && LitLocale::isValid($_GET['locale'])
-            ? \Locale::canonicalize($_GET['locale'])
+            ? ( \Locale::canonicalize($_GET['locale']) ?? LitLocale::LATIN )
             : LitLocale::LATIN;
 
         if (isset($_GET['nationalcalendar']) && $_GET['nationalcalendar'] !== '') {
@@ -319,7 +319,7 @@ class LiturgyOfTheDay
      */
     private function prepareL10N(): void
     {
-        $this->baseLocale = \Locale::getPrimaryLanguage($this->Locale);
+        $this->baseLocale = \Locale::getPrimaryLanguage($this->Locale) ?? LitLocale::LATIN;
         $localeArray      = [
             $this->Locale . '.utf8',
             $this->Locale . '.UTF-8'
@@ -341,7 +341,7 @@ class LiturgyOfTheDay
         $this->setLocale = setlocale(LC_ALL, $localeArray);
         bindtextdomain('litcal', 'i18n');
         textdomain('litcal');
-        $this->monthDayFmt     = \IntlDateFormatter::create(
+        $monthDayFmt = \IntlDateFormatter::create(
             $this->Locale,
             \IntlDateFormatter::FULL,
             \IntlDateFormatter::FULL,
@@ -349,6 +349,10 @@ class LiturgyOfTheDay
             \IntlDateFormatter::GREGORIAN,
             'd MMMM'
         );
+        if ($monthDayFmt === null) {
+            throw new \RuntimeException('Failed to create IntlDateFormatter');
+        }
+        $this->monthDayFmt     = $monthDayFmt;
         $this->numberFormatter = new \NumberFormatter($this->baseLocale, \NumberFormatter::SPELLOUT);
         if (in_array($this->baseLocale, self::$genericSpelloutOrdinal)) {
             $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, '%spellout-ordinal');
@@ -388,7 +392,7 @@ class LiturgyOfTheDay
 
         /** @var array<string, mixed>|null $response */
         $response = json_decode($result, true);
-        if (JSON_ERROR_NONE !== json_last_error()) {
+        if (JSON_ERROR_NONE !== json_last_error() || !is_array($response)) {
             die('Metadata request failed. Could not decode metadata JSON data. ' . json_last_error_msg());
         }
 
@@ -430,7 +434,7 @@ class LiturgyOfTheDay
 
         /** @var array<string, mixed>|null $jsonData */
         $jsonData = json_decode($result, true);
-        if (JSON_ERROR_NONE !== json_last_error()) {
+        if (JSON_ERROR_NONE !== json_last_error() || !is_array($jsonData)) {
             die('Request failed. Could not decode calendar JSON data. ' . json_last_error_msg());
         }
 
@@ -518,8 +522,9 @@ class LiturgyOfTheDay
         if ($isSundayOrdAdvLentEaster) {
             $startsWithRoman = self::detectRomanNumeral($event->name);
             if ($startsWithRoman !== false) {
-                $replacement = $this->numberFormatter->format($startsWithRoman);
-                $event->name = preg_replace(self::ROMAN_NUMERAL_PATTERN_1_34, $replacement . ' ', $event->name);
+                $replacement  = $this->numberFormatter->format($startsWithRoman);
+                $replacedName = preg_replace(self::ROMAN_NUMERAL_PATTERN_1_34, $replacement . ' ', $event->name);
+                $event->name  = $replacedName ?? $event->name;
             }
         }
 
@@ -609,10 +614,10 @@ class LiturgyOfTheDay
                 );
             }
 
-            $mainText = preg_replace('/  +/', ' ', $mainText);
+            $mainText = preg_replace('/  +/', ' ', $mainText) ?? $mainText;
             if (array_key_exists($this->baseLocale, LiturgyOfTheDay::MANUAL_FIXES)) {
                 foreach (LiturgyOfTheDay::MANUAL_FIXES[$this->baseLocale] as $pattern => $replacement) {
-                    $mainText = preg_replace($pattern, $replacement, $mainText);
+                    $mainText = preg_replace($pattern, $replacement, $mainText) ?? $mainText;
                 }
             }
 
@@ -674,8 +679,8 @@ class LiturgyOfTheDay
                 if ($ssml !== false) {
                     //Fix some phonetic pronunciations
                     foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
-                        if ($mainText !== null && preg_match($key, $mainText) === 1) {
-                            $ssml = preg_replace($key, $value, $ssml);
+                        if (preg_match($key, $mainText) === 1) {
+                            $ssml = preg_replace($key, $value, $ssml) ?? $ssml;
                         }
                     }
                 } else {
@@ -683,7 +688,7 @@ class LiturgyOfTheDay
                 }
             }
         }
-        return ['mainText' => $mainText ?? '', 'ssml' => is_string($ssml) ? $ssml : null];
+        return ['mainText' => $mainText, 'ssml' => is_string($ssml) ? $ssml : null];
     }
 
     /**
