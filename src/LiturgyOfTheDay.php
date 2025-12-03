@@ -35,8 +35,6 @@ class LiturgyOfTheDay
     private string $Locale              = LitLocale::LATIN;
     private string $baseLocale          = LitLocale::LATIN;
     private string|false $setLocale     = LitLocale::LATIN;
-    private LitCommon $LitCommon;
-    private LitGrade $LitGrade;
     private ?string $NationalCalendar   = null;
     private ?string $DiocesanCalendar   = null;
 
@@ -317,8 +315,6 @@ class LiturgyOfTheDay
         $this->setLocale = setlocale(LC_ALL, $localeArray);
         bindtextdomain("litcal", "i18n");
         textdomain("litcal");
-        $this->LitCommon    = new LitCommon($this->Locale);
-        $this->LitGrade     = new LitGrade($this->Locale);
         $this->monthDayFmt  = \IntlDateFormatter::create(
             $this->Locale,
             \IntlDateFormatter::FULL,
@@ -501,7 +497,7 @@ class LiturgyOfTheDay
             }
         }
 
-        if ($event->grade === LitGrade::WEEKDAY) {
+        if ($event->grade === LitGrade::WEEKDAY->value) {
             $mainText = _("Today is") . " " . $event->name . ".";
         } else {
             if ($event->isVigilMass) {
@@ -512,14 +508,15 @@ class LiturgyOfTheDay
                         trim(str_replace(_("Vigil Mass"), "", $event->name))
                     );
                 } else {
+                    $gradeEnum = LitGrade::tryFrom($event->grade);
                     $mainText = sprintf(
                         /**translators: 1. grade of the festivity, 2. name of the festivity */
                         _('This evening there will be a Vigil Mass for the %1$s %2$s.'),
-                        $this->LitGrade->i18n($event->grade, false),
+                        $gradeEnum?->i18n($this->Locale, false) ?? '',
                         trim(str_replace(_("Vigil Mass"), "", $event->name))
                     );
                 }
-            } elseif ($event->grade < LitGrade::HIGHER_SOLEMNITY) {
+            } elseif ($event->grade < LitGrade::HIGHER_SOLEMNITY->value) {
                 if ($event->displayGrade !== null) {
                     if ($event->displayGrade === '') {
                         $mainText = sprintf(
@@ -538,7 +535,7 @@ class LiturgyOfTheDay
                         );
                     }
                 } else {
-                    if ($event->grade === LitGrade::FEAST_LORD) {
+                    if ($event->grade === LitGrade::FEAST_LORD->value) {
                         if ($isSundayOrdAdvLentEaster) {
                             $mainText = sprintf(
                                 /**translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity */
@@ -551,7 +548,7 @@ class LiturgyOfTheDay
                                 /**translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
                                 _('Today is %1$s the %2$s, %3$s.'),
                                 ( $idx > 0 ? _("also") : "" ),
-                                $this->LitGrade->i18n($event->grade, false),
+                                LitGrade::FEAST_LORD->i18n($this->Locale, false),
                                 $event->name
                             );
                         }
@@ -563,18 +560,19 @@ class LiturgyOfTheDay
                             $event->name
                         );
                     } else {
+                        $gradeEnum = LitGrade::tryFrom($event->grade);
                         $mainText = sprintf(
                             /**translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
                             _('Today is %1$s the %2$s of %3$s.'),
                             ( $idx > 0 ? _("also") : "" ),
-                            $this->LitGrade->i18n($event->grade, false),
+                            $gradeEnum?->i18n($this->Locale, false) ?? '',
                             $event->name
                         );
                     }
                 }
 
-                if ($event->grade < LitGrade::FEAST && $event->common != LitCommon::PROPRIO) {
-                    $mainText = $mainText . " " . $this->LitCommon->c($event->common);
+                if ($event->grade < LitGrade::FEAST->value && !in_array(LitCommon::PROPRIO->value, $event->common, true)) {
+                    $mainText = $mainText . " " . LitCommon::toReadableString($event->common, $this->Locale);
                 }
             } else {
                 $mainText = sprintf(
