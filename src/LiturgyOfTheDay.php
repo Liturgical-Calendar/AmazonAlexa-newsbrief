@@ -3,9 +3,9 @@
 namespace LiturgicalCalendar\AlexaNewsBrief;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Nyholm\Psr7\Request;
+use Nyholm\Psr7\Response;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitCommon;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitGrade;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
