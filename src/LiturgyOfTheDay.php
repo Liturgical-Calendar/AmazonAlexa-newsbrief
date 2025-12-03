@@ -4,6 +4,8 @@ namespace LiturgicalCalendar\AlexaNewsBrief;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitCommon;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitGrade;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
@@ -727,17 +729,34 @@ class LiturgyOfTheDay
      * LiturgicalEvent objects in the LitCalFeed array. If the LitCalFeed array contains only one event, it will
      * send the JSON representation of the single event. If the LitCalFeed array contains more than one event,
      * it will send the JSON representation of the LitCalFeed array itself.
+     *
+     * Uses PSR-7 Response and Laminas SapiEmitter for standards-compliant output.
      */
     private function sendResponse(): void
     {
-        header('Content-Type: application/json');
-        if (count($this->LitCalFeed) === 1) {
-            echo json_encode($this->LitCalFeed[0]);
-        } elseif (count($this->LitCalFeed) > 1) {
-            echo json_encode($this->LitCalFeed);
-        } else {
-            die('Missing data from response: LitCalFeed seems to be empty or null? ' . count($this->LitCalFeed));
+        $emitter = new SapiEmitter();
+
+        if (count($this->LitCalFeed) === 0) {
+            $response = new Response(
+                500,
+                ['Content-Type' => 'application/json'],
+                json_encode(['error' => 'Missing data from response: LitCalFeed is empty']) ?: ''
+            );
+            $emitter->emit($response);
+            return;
         }
+
+        $data = count($this->LitCalFeed) === 1
+            ? $this->LitCalFeed[0]
+            : $this->LitCalFeed;
+
+        $response = new Response(
+            200,
+            ['Content-Type' => 'application/json'],
+            json_encode($data) ?: ''
+        );
+
+        $emitter->emit($response);
     }
 
     /**
