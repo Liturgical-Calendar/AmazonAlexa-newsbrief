@@ -36,8 +36,8 @@ AmazonAlexa-newsbrief/
 │   └── Enum/                  # Type-safe enums
 │       ├── LitColor.php
 │       ├── LitCommon.php
+│       ├── LitEventType.php
 │       ├── LitGrade.php
-│       ├── LitFeastType.php
 │       └── LitLocale.php
 ├── index.php                   # Entry point
 ├── i18n/                       # Translation files
