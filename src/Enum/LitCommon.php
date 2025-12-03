@@ -55,6 +55,8 @@ enum LitCommon: string
     case PRO_EDUCATORIBUS                           = 'For Educators';
     case PRO_SANCTIS_MULIERIBUS                     = 'For Holy Women';
 
+    case NONE = '';
+
     /**
      * Latin names of the Commons of Saints.
      *
@@ -94,7 +96,8 @@ enum LitCommon: string
         'PRO_RELIGIOSIS'                             => 'Pro religiosis',
         'PRO_IIS_QUI_OPERA_MISERICORDIAE_EXERCUERUNT' => 'Pro iis qui opera misericordiae exercuerunt',
         'PRO_EDUCATORIBUS'                           => 'Pro educatoribus',
-        'PRO_SANCTIS_MULIERIBUS'                     => 'Pro sanctis mulieribus'
+        'PRO_SANCTIS_MULIERIBUS'                     => 'Pro sanctis mulieribus',
+        'NONE'                                       => ''
     ];
 
     /**
@@ -111,6 +114,64 @@ enum LitCommon: string
         self::DOCTORUM,
         self::VIRGINUM,
         self::SANCTORUM_ET_SANCTARUM
+    ];
+
+    /**
+     * Commons of Martyrs.
+     *
+     * @var array<LitCommon>
+     */
+    public const COMMUNE_MARTYRUM = [
+        self::PRO_UNO_MARTYRE,
+        self::PRO_PLURIBUS_MARTYRIBUS,
+        self::PRO_MISSIONARIIS_MARTYRIBUS,
+        self::PRO_UNO_MISSIONARIO_MARTYRE,
+        self::PRO_PLURIBUS_MISSIONARIIS_MARTYRIBUS,
+        self::PRO_VIRGINE_MARTYRE,
+        self::PRO_SANCTA_MULIERE_MARTYRE
+    ];
+
+    /**
+     * Commons of Pastors.
+     *
+     * @var array<LitCommon>
+     */
+    public const COMMUNE_PASTORUM = [
+        self::PRO_PAPA,
+        self::PRO_EPISCOPO,
+        self::PRO_UNO_PASTORE,
+        self::PRO_PLURIBUS_PASTORIBUS,
+        self::PRO_FUNDATORIBUS_ECCLESIARUM,
+        self::PRO_UNO_FUNDATORE,
+        self::PRO_PLURIBUS_FUNDATORIBUS,
+        self::PRO_MISSIONARIIS
+    ];
+
+    /**
+     * Commons of Virgins.
+     *
+     * @var array<LitCommon>
+     */
+    public const COMMUNE_VIRGINUM = [
+        self::PRO_UNA_VIRGINE,
+        self::PRO_PLURIBUS_VIRGINIBUS
+    ];
+
+    /**
+     * Commons of Holy Men and Women.
+     *
+     * @var array<LitCommon>
+     */
+    public const COMMUNE_SANCTORUM = [
+        self::PRO_PLURIBUS_SANCTIS,
+        self::PRO_UNO_SANCTO,
+        self::PRO_ABBATE,
+        self::PRO_MONACHO,
+        self::PRO_MONIALI,
+        self::PRO_RELIGIOSIS,
+        self::PRO_IIS_QUI_OPERA_MISERICORDIAE_EXERCUERUNT,
+        self::PRO_EDUCATORIBUS,
+        self::PRO_SANCTIS_MULIERIBUS
     ];
 
     /**
@@ -193,6 +254,7 @@ enum LitCommon: string
             self::PRO_EDUCATORIBUS                      => _('For Educators'),
             /**translators: context = from the Common of nn: nn */
             self::PRO_SANCTIS_MULIERIBUS                => _('For Holy Women'),
+            self::NONE                                  => '',
         };
     }
 
