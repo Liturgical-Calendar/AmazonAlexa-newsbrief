@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitCommon;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Psr\SimpleCache\CacheInterface;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitGrade;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
 use LiturgicalCalendar\AlexaNewsBrief\LitCalFeedItem;
@@ -37,6 +38,7 @@ class LiturgyOfTheDay
 {
     private Psr17Factory $psr17Factory;
     private ClientInterface $httpClient;
+    private ?CacheInterface $cache = null;
     private string $MetadataURL;
     private string $CalendarURL;
     private string $Locale            = LitLocale::LATIN;
@@ -260,12 +262,14 @@ class LiturgyOfTheDay
      *
      * @param string $apiURL The base URL of the Liturgical Calendar API.
      * @param ClientInterface|null $httpClient Optional PSR-18 HTTP client. If not provided, a default Guzzle client is used.
+     * @param CacheInterface|null $cache Optional PSR-16 cache. If provided, metadata and calendar data will be cached.
      * @throws \Exception
      */
-    public function __construct(string $apiURL, ?ClientInterface $httpClient = null)
+    public function __construct(string $apiURL, ?ClientInterface $httpClient = null, ?CacheInterface $cache = null)
     {
         $this->psr17Factory = new Psr17Factory();
         $this->httpClient   = $httpClient ?? new Client();
+        $this->cache        = $cache;
         $this->MetadataURL  = $apiURL . '/calendars';
         $this->CalendarURL  = $apiURL . '/calendar';
         $this->sendMetadataReq();
@@ -419,9 +423,17 @@ class LiturgyOfTheDay
         }
     }
 
+    /** Cache TTL for metadata: 1 week in seconds */
+    private const METADATA_CACHE_TTL = 604800;
+
+    /** Cache TTL for calendar data: 1 day in seconds */
+    private const CALENDAR_CACHE_TTL = 86400;
+
     /**
      * Sends a request to the Liturgical Calendar API's /calendars path to retrieve
      * metadata about all available liturgical calendars.
+     *
+     * If caching is enabled, the metadata will be cached for 1 week.
      *
      * If the request fails, it will die with an error message.
      *
@@ -432,6 +444,19 @@ class LiturgyOfTheDay
      */
     private function sendMetadataReq(): void
     {
+        $cacheKey = 'litcal_metadata_' . md5($this->MetadataURL);
+
+        // Try to get from cache first
+        if ($this->cache !== null) {
+            $cachedMetadata = $this->cache->get($cacheKey);
+            if (is_array($cachedMetadata)) {
+                /** @var array<string, mixed> $typedMetadata */
+                $typedMetadata        = $cachedMetadata;
+                $this->LitCalMetadata = $typedMetadata;
+                return;
+            }
+        }
+
         $request = $this->psr17Factory->createRequest('GET', $this->MetadataURL)
             ->withHeader('Accept', 'application/json');
 
@@ -459,6 +484,11 @@ class LiturgyOfTheDay
             /** @var array<string, mixed> $typedMetadata */
             $typedMetadata        = $litcalMetadata;
             $this->LitCalMetadata = $typedMetadata;
+
+            // Store in cache
+            if ($this->cache !== null) {
+                $this->cache->set($cacheKey, $typedMetadata, self::METADATA_CACHE_TTL);
+            }
         }
     }
 
@@ -468,6 +498,8 @@ class LiturgyOfTheDay
      * with the Accept-Language header set to $this->Locale and the
      * Accept header set to application/json.
      *
+     * If caching is enabled, the calendar data will be cached for 1 day.
+     *
      * If the request fails, it will die with an error message.
      *
      * If the request succeeds, it will decode the JSON response
@@ -475,6 +507,19 @@ class LiturgyOfTheDay
      */
     private function sendReq(): void
     {
+        $cacheKey = 'litcal_calendar_' . md5($this->CalendarURL . '_' . $this->Locale);
+
+        // Try to get from cache first
+        if ($this->cache !== null) {
+            $cachedData = $this->cache->get($cacheKey);
+            if (is_array($cachedData)) {
+                /** @var array<int, array<string, mixed>> $typedData */
+                $typedData        = $cachedData;
+                $this->LitCalData = $typedData;
+                return;
+            }
+        }
+
         $body    = $this->psr17Factory->createStream(http_build_query(['year_type' => 'CIVIL']));
         $request = $this->psr17Factory->createRequest('POST', $this->CalendarURL)
             ->withHeader('Accept-Language', $this->Locale)
@@ -509,6 +554,11 @@ class LiturgyOfTheDay
         /** @var array<int, array<string, mixed>> $litcalData */
         $litcalData       = is_array($litcal) ? $litcal : [];
         $this->LitCalData = $litcalData;
+
+        // Store in cache
+        if ($this->cache !== null) {
+            $this->cache->set($cacheKey, $litcalData, self::CALENDAR_CACHE_TTL);
+        }
     }
 
     /**
@@ -526,11 +576,10 @@ class LiturgyOfTheDay
         $publishDate->add(new \DateInterval('PT15M'));
         $idx = 0;
         foreach ($this->LitCalData as $value) {
-            // API now returns RFC 3339 datetime strings like "2018-05-21T00:00:00+00:00"
-            // Extract the date portion for comparison
-            $dateValue    = isset($value['date']) && is_string($value['date']) ? $value['date'] : 'now';
-            $eventDate    = new \DateTime($dateValue);
-            $eventDateStr = $eventDate->format('Y-m-d');
+            // API returns RFC 3339 datetime strings like "2018-05-21T00:00:00+00:00"
+            // Extract date portion (YYYY-MM-DD) directly from string for performance
+            $dateValue    = isset($value['date']) && is_string($value['date']) ? $value['date'] : '';
+            $eventDateStr = substr($dateValue, 0, 10);
             if ($eventDateStr === $dateTodayStr) {
                 // retransform each entry from an associative array to a LiturgicalEvent class object
                 $event                                     = new LiturgicalEvent($value);

@@ -3,6 +3,8 @@
 include './vendor/autoload.php';
 
 use LiturgicalCalendar\AlexaNewsBrief\LiturgyOfTheDay;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Psr16Cache;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__, ['.env', '.env.local', '.env.development', '.env.staging', '.env.production'], false);
 $dotenv->safeLoad();
@@ -19,7 +21,12 @@ if (isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'development') {
     $apiUrl = 'https://litcal.johnromanodorazio.com/api/dev';
 }
 
-$LiturgyOfTheDay = new LiturgyOfTheDay($apiUrl);
+// Create PSR-16 filesystem cache
+$cacheDir        = __DIR__ . '/cache';
+$filesystemCache = new FilesystemAdapter('litcal', 0, $cacheDir);
+$cache           = new Psr16Cache($filesystemCache);
+
+$LiturgyOfTheDay = new LiturgyOfTheDay($apiUrl, null, $cache);
 $LiturgyOfTheDay->init();
 
 die();

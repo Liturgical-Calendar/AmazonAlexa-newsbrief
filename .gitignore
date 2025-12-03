@@ -1,4 +1,5 @@
 /vendor/
+/cache/
 /**/.env
 /**/.env.*
 !/**/.env.example
