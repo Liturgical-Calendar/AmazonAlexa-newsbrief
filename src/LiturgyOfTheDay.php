@@ -748,7 +748,7 @@ class LiturgyOfTheDay
             // Create the <speak> root element
             $speak      = new \SimpleXMLElement('<speak></speak>');
             $voice      = $speak->addChild('voice');
-            $lang       = $voice->addChild('lang', $mainText);
+            $lang       = $voice->addChild('lang', htmlspecialchars($mainText, ENT_XML1, 'UTF-8'));
             $namespaces = [
                 'xml' => 'http://www.w3.org/XML/1998/namespace'
             ];
