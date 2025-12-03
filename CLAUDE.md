@@ -18,10 +18,33 @@ Designed as a Composer-installable package to power Alexa news brief skills that
 - **Language:** PHP 8.1+
 - **Package Manager:** Composer
 - **Framework:** PSR-4 autoloaded library
-- **HTTP:** cURL-based API communication
 - **Localization:** GNU gettext + custom pgettext
 - **Environment:** vlucas/phpdotenv
-- **Quality Tools:** PHPStan (level 5), PHP_CodeSniffer (PSR-12), CaptainHook
+- **Quality Tools:** PHPStan (level 10), PHP_CodeSniffer (PSR-12), CaptainHook
+
+## PSR Compliance
+
+This library implements the following PSR standards:
+
+| PSR     | Description          | Implementation                              |
+|---------|----------------------|---------------------------------------------|
+| PSR-4   | Autoloading          | Composer autoloader                         |
+| PSR-7   | HTTP Messages        | `nyholm/psr7` for Request/Response objects  |
+| PSR-16  | Simple Cache         | `symfony/cache` with filesystem adapter     |
+| PSR-17  | HTTP Factories       | `Nyholm\Psr7\Factory\Psr17Factory`          |
+| PSR-18  | HTTP Client          | `guzzlehttp/guzzle` for API requests        |
+
+## Caching
+
+API responses are cached using PSR-16 Simple Cache with a filesystem adapter:
+
+| Cache Target     | TTL         | Description                                |
+|------------------|-------------|--------------------------------------------|
+| Metadata         | 1 week      | Calendar list from `/calendars` endpoint   |
+| Calendar data    | 1 day       | Liturgical events from `/calendar` endpoint|
+
+Cache is stored in the `/cache/` directory (gitignored). Cache is optional and can be
+disabled by not passing a `CacheInterface` to the constructor.
 
 ## Project Structure
 
@@ -34,11 +57,13 @@ AmazonAlexa-newsbrief/
 │   ├── Utilities.php          # Helper methods
 │   ├── pgettext.php           # Custom translation function
 │   └── Enum/                  # Type-safe enums
+│       ├── EnumToArrayTrait.php
 │       ├── LitColor.php
 │       ├── LitCommon.php
 │       ├── LitEventType.php
 │       ├── LitGrade.php
-│       └── LitLocale.php
+│       ├── LitLocale.php
+│       └── LitMassVariousNeeds.php
 ├── index.php                   # Entry point
 ├── i18n/                       # Translation files
 │   ├── litcal.pot             # Template
@@ -80,8 +105,15 @@ composer require liturgical-calendar/alexa-newsbrief
 
 ```php
 use LiturgicalCalendar\AlexaNewsBrief\LiturgyOfTheDay;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Psr16Cache;
 
-$liturgy = new LiturgyOfTheDay($apiUrl);
+// Optional: Configure PSR-16 cache
+$filesystemCache = new FilesystemAdapter('litcal', 0, '/path/to/cache');
+$cache           = new Psr16Cache($filesystemCache);
+
+// Initialize with API URL, optional HTTP client, optional cache
+$liturgy = new LiturgyOfTheDay($apiUrl, null, $cache);
 $liturgy->init();  // Fetches data, initializes translations, generates feed items
 ```
 
@@ -91,7 +123,7 @@ $liturgy->init();  // Fetches data, initializes translations, generates feed ite
 
 - **Standard:** PSR-12 with 170-character line limit
 - **Configuration:** `phpcs.xml`
-- **Static Analysis:** PHPStan level 5 (`phpstan.neon.dist`)
+- **Static Analysis:** PHPStan level 10 (`phpstan.neon.dist`)
 - **Git Hooks:** CaptainHook (`captainhook.json`)
 
 ```bash
