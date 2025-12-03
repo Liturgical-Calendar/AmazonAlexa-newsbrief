@@ -842,7 +842,13 @@ class LiturgyOfTheDay
             ? $this->LitCalFeed[0]
             : $this->LitCalFeed;
 
-        $body     = $this->psr17Factory->createStream(json_encode($data) ?: '');
+        $jsonData = json_encode($data);
+        if ($jsonData === false) {
+            error_log('Failed to encode response data: ' . json_last_error_msg());
+            $jsonData = '';
+        }
+
+        $body     = $this->psr17Factory->createStream($jsonData);
         $response = $this->psr17Factory->createResponse(200)
             ->withHeader('Content-Type', 'application/json')
             ->withBody($body);
