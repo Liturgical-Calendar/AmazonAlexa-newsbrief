@@ -1,6 +1,11 @@
 /vendor/
+/cache/
 /**/.env
 /**/.env.*
 !/**/.env.example
 /**/.envrc
 !/**/.envrc.example
+phpstan.neon
+!phpstan.neon.dist
+*.cache
+*.log

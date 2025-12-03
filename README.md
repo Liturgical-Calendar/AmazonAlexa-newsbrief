@@ -1,15 +1,43 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/liturgical-calendar/amazonalexa-newsbrief/badge)](https://www.codefactor.io/repository/github/liturgical-calendar/amazonalexa-newsbrief)
 
 # AmazonAlexa-newsbrief
-Liturgy of the Day as an Amazon Alexa skill available for your daily news brief, using the Liturgical Calendar API
 
-Currently there are three skills available on the Alexa skill store:
+Liturgy of the Day as an Amazon Alexa skill available for your daily news brief, using the Liturgical Calendar API.
 
-* **Liturgy of the Day (English, USA)** : has four feeds to choose from, according to timezone within the USA. The calendar is the national liturgical calendar for the United States. Available for free on the store here: https://www.amazon.com/dp/B08PW27RCH
-* **Liturgia del Giorno (Italiano)** : unico feed con il calendario liturgico nazionale per l'Italia. Disponibile gratuitamente sullo store qui: https://www.amazon.it/dp/B08PZ67XHY
-* **Liturgia del Giorno - Diocesi di Roma** : unico feed con il calendario liturgico specifico della Diocesi di Roma. Disponibile gratuitamente sullo store qui: https://www.amazon.it/dp/B08PZCF5RX
+## Features
 
-# Translation
+- **PSR Compliant**: Implements PSR-4 (autoloading), PSR-7 (HTTP messages), PSR-16 (caching), PSR-17 (HTTP factories),
+  and PSR-18 (HTTP client)
+- **Filesystem Caching**: Optional PSR-16 cache support with configurable TTL (1 week for metadata, 1 day for calendar)
+- **Internationalization**: Supports 8 languages via GNU gettext
+- **SSML Support**: Speech Synthesis Markup Language for proper pronunciation
+
+## Requirements
+
+- PHP 8.2+
+- Composer
+- Node.js (optional, for markdown linting)
+
+## Installation
+
+```bash
+composer require liturgical-calendar/alexa-newsbrief
+```
+
+## Alexa Skills
+
+Three skills are available on the Alexa skill store:
+
+- **Liturgy of the Day (English, USA)**: has four feeds to choose from, according to timezone within the USA.
+  The calendar is the national liturgical calendar for the United States.
+  Available for free on the store here: <https://www.amazon.com/dp/B08PW27RCH>
+- **Liturgia del Giorno (Italiano)**: unico feed con il calendario liturgico nazionale per l'Italia.
+  Disponibile gratuitamente sullo store qui: <https://www.amazon.it/dp/B08PZ67XHY>
+- **Liturgia del Giorno - Diocesi di Roma**: unico feed con il calendario liturgico specifico della Diocesi di Roma.
+  Disponibile gratuitamente sullo store qui: <https://www.amazon.it/dp/B08PZCF5RX>
+
+## Translation
+
 <a href="https://translate.johnromanodorazio.com/engage/liturgical-calendar/">
 <img src="https://translate.johnromanodorazio.com/widgets/liturgical-calendar/-/alexa-newsbrief/open-graph.png" alt="Translation status" />
 </a>
