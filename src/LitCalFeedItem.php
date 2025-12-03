@@ -65,10 +65,16 @@ class LitCalFeedItem implements \JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        $vars = get_object_vars($this);
-        if (null === $this->ssml) {
-            unset($vars['ssml']);
+        $data = [
+            'uid'            => $this->uid,
+            'updateDate'     => $this->updateDate,
+            'titleText'      => $this->titleText,
+            'mainText'       => $this->mainText,
+            'redirectionUrl' => $this->redirectionUrl,
+        ];
+        if (null !== $this->ssml) {
+            $data['ssml'] = $this->ssml;
         }
-        return $vars;
+        return $data;
     }
 }

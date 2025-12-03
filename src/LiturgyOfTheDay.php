@@ -270,48 +270,91 @@ class LiturgyOfTheDay
         $this->CalendarURL  = $apiURL . '/calendar';
         $this->sendMetadataReq();
 
-        $this->Locale = isset($_GET['locale']) && LitLocale::isValid($_GET['locale'])
-            ? ( \Locale::canonicalize($_GET['locale']) ?? LitLocale::LATIN )
+        $localeParam  = isset($_GET['locale']) && is_string($_GET['locale']) ? $_GET['locale'] : null;
+        $this->Locale = $localeParam !== null && LitLocale::isValid($localeParam)
+            ? ( \Locale::canonicalize($localeParam) ?? LitLocale::LATIN )
             : LitLocale::LATIN;
 
-        if (isset($_GET['nationalcalendar']) && $_GET['nationalcalendar'] !== '') {
-            if (false === in_array($_GET['nationalcalendar'], $this->LitCalMetadata['national_calendars_keys'])) {
-                die("Request failed. Requested national calendar '{$_GET["nationalcalendar"]}' is not supported. Supported national calendars are: "
-                    . implode(', ', $this->LitCalMetadata['national_calendars_keys']));
+        $nationalCalendarKeys = isset($this->LitCalMetadata['national_calendars_keys'])
+            && is_array($this->LitCalMetadata['national_calendars_keys'])
+            ? $this->LitCalMetadata['national_calendars_keys']
+            : [];
+        $nationalCalendars    = isset($this->LitCalMetadata['national_calendars'])
+            && is_array($this->LitCalMetadata['national_calendars'])
+            ? $this->LitCalMetadata['national_calendars']
+            : [];
+        $diocesanCalendarKeys = isset($this->LitCalMetadata['diocesan_calendars_keys'])
+            && is_array($this->LitCalMetadata['diocesan_calendars_keys'])
+            ? $this->LitCalMetadata['diocesan_calendars_keys']
+            : [];
+        $diocesanCalendars    = isset($this->LitCalMetadata['diocesan_calendars'])
+            && is_array($this->LitCalMetadata['diocesan_calendars'])
+            ? $this->LitCalMetadata['diocesan_calendars']
+            : [];
+
+        $nationalCalendarParam = isset($_GET['nationalcalendar']) && is_string($_GET['nationalcalendar'])
+            ? $_GET['nationalcalendar']
+            : '';
+        if ($nationalCalendarParam !== '') {
+            if (false === in_array($nationalCalendarParam, $nationalCalendarKeys, true)) {
+                die("Request failed. Requested national calendar '{$nationalCalendarParam}' is not supported. Supported national calendars are: "
+                    . implode(', ', $nationalCalendarKeys));
             }
-            $this->NationalCalendar   = $_GET['nationalcalendar'];
+            $this->NationalCalendar   = $nationalCalendarParam;
             $this->CalendarURL        = $this->CalendarURL . '/nation/' . $this->NationalCalendar;
             $NationalCalendarMetadata = array_values(array_filter(
-                $this->LitCalMetadata['national_calendars'],
-                fn($nationalCalendar) => $nationalCalendar['calendar_id'] === $this->NationalCalendar
-            ))[0];
-            if ($this->NationalCalendar !== 'VA') {
+                $nationalCalendars,
+                fn($nationalCalendar) => is_array($nationalCalendar)
+                    && isset($nationalCalendar['calendar_id'])
+                    && $nationalCalendar['calendar_id'] === $this->NationalCalendar
+            ))[0] ?? [];
+            if ($this->NationalCalendar !== 'VA' && is_array($NationalCalendarMetadata)) {
                 // TODO: allow to request a different locale among those that are supported by the requested calendar
-                $this->Locale = $NationalCalendarMetadata['locales'][0];
+                $locales      = isset($NationalCalendarMetadata['locales']) && is_array($NationalCalendarMetadata['locales'])
+                    ? $NationalCalendarMetadata['locales']
+                    : [];
+                $this->Locale = isset($locales[0]) && is_string($locales[0]) ? $locales[0] : LitLocale::LATIN;
             }
         }
 
-        if (isset($_GET['diocesancalendar']) && $_GET['diocesancalendar'] !== '') {
-            if (false === in_array($_GET['diocesancalendar'], $this->LitCalMetadata['diocesan_calendars_keys'])) {
-                die("Request failed. Requested diocesan calendar '{$_GET["diocesancalendar"]}' is not supported. Supported diocesan calendars are: "
-                    . implode(', ', $this->LitCalMetadata['diocesan_calendars_keys']));
+        $diocesanCalendarParam = isset($_GET['diocesancalendar']) && is_string($_GET['diocesancalendar'])
+            ? $_GET['diocesancalendar']
+            : '';
+        if ($diocesanCalendarParam !== '') {
+            if (false === in_array($diocesanCalendarParam, $diocesanCalendarKeys, true)) {
+                die("Request failed. Requested diocesan calendar '{$diocesanCalendarParam}' is not supported. Supported diocesan calendars are: "
+                    . implode(', ', $diocesanCalendarKeys));
             }
-            $this->DiocesanCalendar   = $_GET['diocesancalendar'];
+            $this->DiocesanCalendar   = $diocesanCalendarParam;
             $this->CalendarURL        = $this->CalendarURL . '/diocese/' . $this->DiocesanCalendar;
             $DiocesanCalendarMetadata = array_values(array_filter(
-                $this->LitCalMetadata['diocesan_calendars'],
-                fn($diocesanCalendar) => $diocesanCalendar['calendar_id'] === $this->DiocesanCalendar
-            ))[0];
+                $diocesanCalendars,
+                fn($diocesanCalendar) => is_array($diocesanCalendar)
+                    && isset($diocesanCalendar['calendar_id'])
+                    && $diocesanCalendar['calendar_id'] === $this->DiocesanCalendar
+            ))[0] ?? [];
+            $diocesanNation           = is_array($DiocesanCalendarMetadata) && isset($DiocesanCalendarMetadata['nation'])
+                && is_string($DiocesanCalendarMetadata['nation'])
+                ? $DiocesanCalendarMetadata['nation']
+                : '';
             $NationalCalendarMetadata = array_values(array_filter(
-                $this->LitCalMetadata['national_calendars'],
-                fn($nationalCalendar) => $nationalCalendar['calendar_id'] === $DiocesanCalendarMetadata['nation']
-            ))[0];
+                $nationalCalendars,
+                fn($nationalCalendar) => is_array($nationalCalendar)
+                    && isset($nationalCalendar['calendar_id'])
+                    && $nationalCalendar['calendar_id'] === $diocesanNation
+            ))[0] ?? [];
             // TODO: allow to request a different locale among those that are supported by the requested calendar
-            $this->Locale = $NationalCalendarMetadata['locales'][0];
+            if (is_array($NationalCalendarMetadata)) {
+                $locales      = isset($NationalCalendarMetadata['locales']) && is_array($NationalCalendarMetadata['locales'])
+                    ? $NationalCalendarMetadata['locales']
+                    : [];
+                $this->Locale = isset($locales[0]) && is_string($locales[0]) ? $locales[0] : LitLocale::LATIN;
+            }
         }
 
-        if (isset($_GET['timezone']) && LiturgyOfTheDay::isValidTimezone($_GET['timezone'])) {
-            ini_set('date.timezone', $_GET['timezone']);
+        $timezoneParam = isset($_GET['timezone']) && is_string($_GET['timezone']) ? $_GET['timezone'] : null;
+        if ($timezoneParam !== null && self::isValidTimezone($timezoneParam)) {
+            ini_set('date.timezone', $timezoneParam);
         } else {
             ini_set('date.timezone', 'Europe/Vatican');
         }
@@ -411,7 +454,12 @@ class LiturgyOfTheDay
             die('Metadata request failed. Could not decode metadata JSON data. ' . json_last_error_msg());
         }
 
-        ['litcal_metadata' => $this->LitCalMetadata] = $responseData;
+        $litcalMetadata = $responseData['litcal_metadata'] ?? [];
+        if (is_array($litcalMetadata)) {
+            /** @var array<string, mixed> $typedMetadata */
+            $typedMetadata        = $litcalMetadata;
+            $this->LitCalMetadata = $typedMetadata;
+        }
     }
 
 
@@ -457,7 +505,10 @@ class LiturgyOfTheDay
             die('Request failed. Cannot elaborate JSON data.');
         }
 
-        ['litcal' => $this->LitCalData] = $jsonData;
+        $litcal = $jsonData['litcal'];
+        /** @var array<int, array<string, mixed>> $litcalData */
+        $litcalData       = is_array($litcal) ? $litcal : [];
+        $this->LitCalData = $litcalData;
     }
 
     /**
@@ -477,7 +528,8 @@ class LiturgyOfTheDay
         foreach ($this->LitCalData as $value) {
             // API now returns RFC 3339 datetime strings like "2018-05-21T00:00:00+00:00"
             // Extract the date portion for comparison
-            $eventDate    = new \DateTime($value['date']);
+            $dateValue    = isset($value['date']) && is_string($value['date']) ? $value['date'] : 'now';
+            $eventDate    = new \DateTime($dateValue);
             $eventDateStr = $eventDate->format('Y-m-d');
             if ($eventDateStr === $dateTodayStr) {
                 // retransform each entry from an associative array to a LiturgicalEvent class object

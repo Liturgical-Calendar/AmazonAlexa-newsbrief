@@ -53,15 +53,37 @@ class LiturgicalEvent
      */
     public function __construct(array $event)
     {
-        $this->tag            = $event['event_key'];
-        $this->name           = $event['name'];
-        $this->date           = new \DateTime($event['date']);
-        $this->color          = LitColor::areValid($event['color']) ? $event['color'] : ['???'];
-        $this->type           = LitEventType::isValid($event['type']) ? $event['type'] : '';
-        $this->grade          = LitGrade::isValid($event['grade']) ? $event['grade'] : -1;
-        $this->displayGrade   = $event['grade_display'];
-        $this->common         = LitCommon::areValidCommons($event['common']) ? $event['common'] : [];
-        $this->liturgicalYear = $event['liturgical_year'] ?? '';
-        $this->isVigilMass    = $event['is_vigil_mass'] ?? false;
+        $eventKey     = is_string($event['event_key']) ? $event['event_key'] : '';
+        $name         = is_string($event['name']) ? $event['name'] : '';
+        $date         = is_string($event['date']) ? $event['date'] : 'now';
+        $color        = is_array($event['color']) ? $event['color'] : [];
+        $type         = is_string($event['type']) ? $event['type'] : '';
+        $grade        = is_int($event['grade']) ? $event['grade'] : -1;
+        $displayGrade = isset($event['grade_display']) && is_string($event['grade_display'])
+            ? $event['grade_display']
+            : null;
+        $common       = is_array($event['common']) ? $event['common'] : [];
+        $liturgYear   = isset($event['liturgical_year']) && is_string($event['liturgical_year'])
+            ? $event['liturgical_year']
+            : '';
+        $isVigilMass  = isset($event['is_vigil_mass']) && is_bool($event['is_vigil_mass'])
+            ? $event['is_vigil_mass']
+            : false;
+
+        /** @var array<string> $colorStrings */
+        $colorStrings = array_filter($color, 'is_string');
+        /** @var array<string> $commonStrings */
+        $commonStrings = array_filter($common, 'is_string');
+
+        $this->tag            = $eventKey;
+        $this->name           = $name;
+        $this->date           = new \DateTime($date);
+        $this->color          = LitColor::areValid($colorStrings) ? $colorStrings : ['???'];
+        $this->type           = LitEventType::isValid($type) ? $type : '';
+        $this->grade          = LitGrade::isValid($grade) ? $grade : -1;
+        $this->displayGrade   = $displayGrade;
+        $this->common         = LitCommon::areValidCommons($commonStrings) ? $commonStrings : [];
+        $this->liturgicalYear = $liturgYear;
+        $this->isVigilMass    = $isVigilMass;
     }
 }
