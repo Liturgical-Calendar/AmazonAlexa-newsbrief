@@ -267,15 +267,15 @@ class LitCommon
 
     /**
      * Determines if the given value is a valid "Common" value.
-     * This method can handle a single value, or a comma-separated list of values.
-     * If the value contains a colon (:), it is split into separate values.
+     * If the value contains a colon (:), it is split into separate values
+     * (e.g., "Martyrs:For One Martyr").
      * @param string $value The value to test.
      * @return bool True if the value is valid, otherwise false.
      */
-    public static function isValid(string $value)
+    public static function isValid(string $value): bool
     {
-        if (strpos($value, ',') || strpos($value, ':')) {
-            $values = preg_split('/[,:]/', $value);
+        if (strpos($value, ':') !== false) {
+            $values = explode(':', $value);
             return self::areValid($values);
         }
         return in_array($value, self::$values);
@@ -283,15 +283,14 @@ class LitCommon
 
     /**
      * Determines if all of the given values are valid "Common" values.
-     * This method can handle an array of values, or a comma-separated list of values.
-     * If the value contains a colon (:), it is split into separate values.
-     * @param string[] $values The values to test.
+     * If any value contains a colon (:), it is split into separate values.
+     * @param array<string> $values The values to test.
      * @return bool True if all of the values are valid, otherwise false.
      */
-    public static function areValid(array $values)
+    public static function areValid(array $values): bool
     {
-        $values = array_reduce($values, function ($carry, $key) {
-            return strpos($key, ':') ? ( $carry + explode(':', $key) ) : ( [ ...$carry, $key ] );
+        $values = array_reduce($values, function (array $carry, string $key): array {
+            return strpos($key, ':') !== false ? array_merge($carry, explode(':', $key)) : [...$carry, $key];
         }, []);
         return empty(array_diff($values, self::$values));
     }
@@ -339,35 +338,29 @@ class LitCommon
     /**
      * Returns a translated human readable string of the Common or the Proper
      *
-     * @param string|array<string> $common the Common or the Proper to return the human readable string for
-     * @return string|array<string> the human readable string, or an array of such strings
+     * @param array<string> $common the Common or the Proper to return the human readable string for
+     * @return string the human readable string
      */
-    public function c(string|array $common = ""): string|array
+    public function c(array $common = []): string
     {
-        if (( is_string($common) && $common !== "" ) || is_array($common)) {
-            if ((is_string($common) && $common === LitCommon::PROPRIO) || ( is_array($common) && in_array(LitCommon::PROPRIO, $common) )) {
-                $common = $this->locale === LitLocale::LATIN ? "De Proprio" : _("From the Proper of the festivity");
-            } else {
-                if (is_string($common)) {
-                    $commons = explode(",", $common);
-                } else {
-                    $commons = $common;
-                }
-                $commons = array_map(function ($txt) {
-                    if (strpos($txt, ":") !== false) {
-                        [$commonGeneral, $commonSpecific] = explode(":", $txt);
-                    } else {
-                        $commonGeneral = $txt;
-                        $commonSpecific = "";
-                    }
-                    $fromTheCommon = $this->locale === LitLocale::LATIN ? "De Commune" : _("From the Common");
-                    $result = $fromTheCommon . " " . $this->getPossessive($commonGeneral) . " " . $this->i18n($commonGeneral);
-                    return $commonSpecific != "" ? $result . ": " . $this->i18n($commonSpecific) : $result;
-                }, $commons);
-                /**translators: when there are multiple possible commons, this will be the glue "or from the common of..." */
-                $common = implode("; " . _("or") . " ", $commons);
-            }
+        if (count($common) === 0) {
+            return "";
         }
-        return $common;
+        if (in_array(LitCommon::PROPRIO, $common)) {
+            return $this->locale === LitLocale::LATIN ? "De Proprio" : _("From the Proper of the festivity");
+        }
+        $commons = array_map(function (string $txt): string {
+            if (strpos($txt, ":") !== false) {
+                [$commonGeneral, $commonSpecific] = explode(":", $txt);
+            } else {
+                $commonGeneral = $txt;
+                $commonSpecific = "";
+            }
+            $fromTheCommon = $this->locale === LitLocale::LATIN ? "De Commune" : _("From the Common");
+            $result = $fromTheCommon . " " . $this->getPossessive($commonGeneral) . " " . $this->i18n($commonGeneral);
+            return $commonSpecific !== "" ? $result . ": " . $this->i18n($commonSpecific) : $result;
+        }, $common);
+        /**translators: when there are multiple possible commons, this will be the glue "or from the common of..." */
+        return implode("; " . _("or") . " ", $commons);
     }
 }

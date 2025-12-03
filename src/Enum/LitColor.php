@@ -35,15 +35,9 @@ class LitColor
 
     /**
      * Returns true if the given value is a valid liturgical color.
-     *
-     * If $value is a comma-separated string of values, it will be split into an
-     * array and passed to {@see LitColor::areValid()}.
      */
     public static function isValid(string $value): bool
     {
-        if (strpos($value, ',')) {
-            return LitColor::areValid(explode(',', $value));
-        }
         return in_array($value, self::$values);
     }
 
