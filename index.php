@@ -27,7 +27,7 @@ try {
     $cacheDir        = __DIR__ . '/cache';
     $filesystemCache = new FilesystemAdapter('litcal', 0, $cacheDir);
     $cache           = new Psr16Cache($filesystemCache);
-} catch (\Exception $e) {
+} catch (\Throwable $e) {
     error_log('Failed to initialize cache: ' . $e->getMessage());
     // Continue without cache - LiturgyOfTheDay handles null cache gracefully
 }
