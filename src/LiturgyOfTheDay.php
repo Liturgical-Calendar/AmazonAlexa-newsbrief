@@ -34,7 +34,7 @@ class LiturgyOfTheDay
     private string $CalendarURL;
     private string $Locale              = LitLocale::LATIN;
     private string $baseLocale          = LitLocale::LATIN;
-    private string $setLocale           = LitLocale::LATIN;
+    private string|false $setLocale     = LitLocale::LATIN;
     private LitCommon $LitCommon;
     private LitGrade $LitGrade;
     private ?string $NationalCalendar   = null;
@@ -355,7 +355,7 @@ class LiturgyOfTheDay
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
 
-        if (curl_errno($ch)) {
+        if (curl_errno($ch) || !is_string($result)) {
             die("Could not send request. Curl error: " . curl_error($ch));
         }
 
@@ -364,6 +364,7 @@ class LiturgyOfTheDay
             die("Metadata request failed. HTTP status code: " . $resultStatus);
         }
 
+        /** @var array<string, mixed>|null $response */
         $response = json_decode($result, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
             die("Metadata request failed. Could not decode metadata JSON data. " . json_last_error_msg());
@@ -387,9 +388,8 @@ class LiturgyOfTheDay
      */
     private function sendReq(): void
     {
-        $ch = curl_init();
+        $ch = curl_init($this->CalendarURL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $this->CalendarURL);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(["year_type" => "CIVIL"]));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -397,7 +397,7 @@ class LiturgyOfTheDay
             "Accept: application/json"
         ]);
         $result = curl_exec($ch);
-        if (curl_errno($ch)) {
+        if (curl_errno($ch) || !is_string($result)) {
             die("Could not send request. Curl error: " . curl_error($ch));
         }
 
@@ -406,6 +406,7 @@ class LiturgyOfTheDay
             die("Request to API /calendar route failed at URL '$this->CalendarURL'. HTTP status code: " . $resultStatus);
         }
 
+        /** @var array<string, mixed>|null $jsonData */
         $jsonData = json_decode($result, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
             die("Request failed. Could not decode calendar JSON data. " . json_last_error_msg());
@@ -642,17 +643,23 @@ class LiturgyOfTheDay
             $dom = new \DOMDocument('1.0', 'UTF-8');
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = false;
-            $dom->loadXML($speak->asXML());
-            $ssml = $dom->saveXML($dom->documentElement);
-
-            //Fix some phonetic pronunciations
-            foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
-                if (preg_match($key, $mainText) === 1) {
-                    $ssml = preg_replace($key, $value, $ssml);
+            $speakXml = $speak->asXML();
+            if ($speakXml !== false) {
+                $dom->loadXML($speakXml);
+                $ssml = $dom->saveXML($dom->documentElement);
+                if ($ssml !== false) {
+                    //Fix some phonetic pronunciations
+                    foreach (LiturgyOfTheDay::PHONETIC_PRONUNCATION_MAPPING as $key => $value) {
+                        if ($mainText !== null && preg_match($key, $mainText) === 1) {
+                            $ssml = preg_replace($key, $value, $ssml);
+                        }
+                    }
+                } else {
+                    $ssml = null;
                 }
             }
         }
-        return ["mainText" => $mainText, "ssml" => $ssml];
+        return ["mainText" => $mainText ?? "", "ssml" => is_string($ssml) ? $ssml : null];
     }
 
     /**

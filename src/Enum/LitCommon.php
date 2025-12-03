@@ -296,24 +296,19 @@ class LitCommon
     }
 
     /**
-     * Translate the given value or values into the current locale.
-     * If the value is an array, each element of the array is translated.
-     * If the value is a string, it is assumed to be a valid "Common" value.
+     * Translate the given value into the current locale.
      * If the value is not a valid "Common" value, it is returned unchanged.
      *
-     * @param string|array<string> $value The value or values to translate.
-     * @return string|array<string> The translated value or values.
+     * @param string $value The value to translate.
+     * @return string The translated value.
      */
-    public function i18n(string|array $value): string|array
+    public function i18n(string $value): string
     {
-        if (is_array($value) && self::areValid($value)) {
-            return array_map([$this, 'i18n'], $value);
-        } elseif (self::isValid($value)) {
+        if (self::isValid($value)) {
             if ($this->locale === LitLocale::LATIN) {
-                return self::LATIN[ $value ];
-            } else {
-                return $this->translate[ $value ];
+                return self::LATIN[$value];
             }
+            return $this->translate[$value];
         }
         return $value;
     }
@@ -322,16 +317,12 @@ class LitCommon
      * If the locale is Latin, returns an empty string.
      * Otherwise returns the possessive form of the given string,
      * according to the rules defined in the possessive() method.
-     * If the given string is an array, applies the same rules to each element of the array.
      *
-     * @param string|array<string> $value the string or array of strings to get the possessive of
-     * @return string|array<string> the possessive form of the given string, or an array of such strings
+     * @param string $value the string to get the possessive of
+     * @return string the possessive form of the given string
      */
-    public function getPossessive(string|array $value): string|array
+    public function getPossessive(string $value): string
     {
-        if (is_array($value)) {
-            return array_map([$this, 'getPossessive'], $value);
-        }
         return $this->locale === LitLocale::LATIN ? "" : self::possessive($value);
     }
 
