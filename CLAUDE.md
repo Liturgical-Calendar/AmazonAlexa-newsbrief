@@ -15,7 +15,7 @@ Designed as a Composer-installable package to power Alexa news brief skills that
 
 ## Main Technologies
 
-- **Language:** PHP 8.1+
+- **Language:** PHP 8.2+
 - **Package Manager:** Composer
 - **Framework:** PSR-4 autoloaded library
 - **Localization:** GNU gettext + custom pgettext
