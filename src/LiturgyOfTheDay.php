@@ -32,43 +32,71 @@ class LiturgyOfTheDay
 {
     private string $MetadataURL;
     private string $CalendarURL;
-    private string $Locale              = LitLocale::LATIN;
-    private string $baseLocale          = LitLocale::LATIN;
-    private string|false $setLocale     = LitLocale::LATIN;
-    private ?string $NationalCalendar   = null;
-    private ?string $DiocesanCalendar   = null;
+    private string $Locale            = LitLocale::LATIN;
+    private string $baseLocale        = LitLocale::LATIN;
+    private string|false $setLocale   = LitLocale::LATIN;
+    private ?string $NationalCalendar = null;
+    private ?string $DiocesanCalendar = null;
 
     /** @var array<string, mixed> */
-    private array $LitCalMetadata       = [];
+    private array $LitCalMetadata = [];
 
     /** @var array<int, array<string, mixed>> */
-    private array $LitCalData           = [];
+    private array $LitCalData = [];
 
     /** @var array<LitCalFeedItem> */
-    private array $LitCalFeed           = [];
+    private array $LitCalFeed = [];
     private \IntlDateFormatter $monthDayFmt;
-    private const MANUAL_FIXES = [
-        'it' => [
-            '/SOLENNITÀ di Immacolata Concezione/' => "SOLENNITÀ dell'Immacolata Concezione",
-        ],
+    private const MANUAL_FIXES                  = [
+        'it' => ['/SOLENNITÀ di Immacolata Concezione/' => "SOLENNITÀ dell'Immacolata Concezione"],
     ];
     private const PHONETIC_PRONUNCATION_MAPPING = [
-        '/Blessed /'   => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme> ',
-        '/Antiochia/'  => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
+        '/Blessed /'  => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme> ',
+        '/Antiochia/' => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
     ];
-    private const ROMAN_NUMERAL_PATTERN_1_34 =
+    private const ROMAN_NUMERAL_PATTERN_1_34    =
         '/^(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|' .
         'XX|XXI|XXII|XXIII|XXIV|XXV|XXVI|XXVII|XXVIII|XXIX|XXX|XXXI|XXXII|XXXIII|XXXIV) /';
-    private const ROMAN_TO_ARABIC_MAPPING = [
-        'I' => 1, 'II' => 2, 'III' => 3, 'IV' => 4, 'V' => 5, 'VI' => 6, 'VII' => 7, 'VIII' => 8, 'IX' => 9,
-        'X' => 10, 'XI' => 11, 'XII' => 12, 'XIII' => 13, 'XIV' => 14, 'XV' => 15, 'XVI' => 16, 'XVII' => 17, 'XVIII' => 18, 'XIX' => 19,
-        'XX' => 20, 'XXI' => 21, 'XXII' => 22, 'XXIII' => 23, 'XXIV' => 24, 'XXV' => 25, 'XXVI' => 26, 'XXVII' => 27, 'XXVIII' => 28, 'XXIX' => 29,
-        'XXX' => 30, 'XXXI' => 31, 'XXXII' => 32, 'XXXIII' => 33, 'XXXIV' => 34
+    private const ROMAN_TO_ARABIC_MAPPING       = [
+        'I'      => 1,
+        'II'     => 2,
+        'III'    => 3,
+        'IV'     => 4,
+        'V'      => 5,
+        'VI'     => 6,
+        'VII'    => 7,
+        'VIII'   => 8,
+        'IX'     => 9,
+        'X'      => 10,
+        'XI'     => 11,
+        'XII'    => 12,
+        'XIII'   => 13,
+        'XIV'    => 14,
+        'XV'     => 15,
+        'XVI'    => 16,
+        'XVII'   => 17,
+        'XVIII'  => 18,
+        'XIX'    => 19,
+        'XX'     => 20,
+        'XXI'    => 21,
+        'XXII'   => 22,
+        'XXIII'  => 23,
+        'XXIV'   => 24,
+        'XXV'    => 25,
+        'XXVI'   => 26,
+        'XXVII'  => 27,
+        'XXVIII' => 28,
+        'XXIX'   => 29,
+        'XXX'    => 30,
+        'XXXI'   => 31,
+        'XXXII'  => 32,
+        'XXXIII' => 33,
+        'XXXIV'  => 34
     ];
     private \NumberFormatter $numberFormatter;
 
     /** @var array<string> */
-    private static array $genericSpelloutOrdinal    = [
+    private static array $genericSpelloutOrdinal = [
         'af', //Afrikaans
         'am', //Amharic
         'as', //Assamese
@@ -142,7 +170,7 @@ class LiturgyOfTheDay
      *
      * @var array<string>
      */
-    private static array $mascFemSpelloutOrdinal    = [
+    private static array $mascFemSpelloutOrdinal = [
         'ar', //Arabic
         'ca', //Catalan
         'es', //Spanish : also supports plural forms, as well as a masculine adjective form (? spellout-ordinal-masculine-adjective)
@@ -210,9 +238,7 @@ class LiturgyOfTheDay
      *
      * @var array<string>
      */
-    private static array $commonNeutSpelloutOrdinal = [
-        'da'  //Danish
-    ];
+    private static array $commonNeutSpelloutOrdinal = ['da'];  //Danish
 
     /**
      * Construct the Liturgy of the Day object.
@@ -233,48 +259,48 @@ class LiturgyOfTheDay
         $this->CalendarURL = $apiURL . '/calendar';
         $this->sendMetadataReq();
 
-        $this->Locale = isset($_GET["locale"]) && LitLocale::isValid($_GET["locale"])
-            ? \Locale::canonicalize($_GET["locale"])
+        $this->Locale = isset($_GET['locale']) && LitLocale::isValid($_GET['locale'])
+            ? \Locale::canonicalize($_GET['locale'])
             : LitLocale::LATIN;
 
-        if (isset($_GET["nationalcalendar"]) && $_GET["nationalcalendar"] !== "") {
-            if (false === in_array($_GET["nationalcalendar"], $this->LitCalMetadata['national_calendars_keys'])) {
+        if (isset($_GET['nationalcalendar']) && $_GET['nationalcalendar'] !== '') {
+            if (false === in_array($_GET['nationalcalendar'], $this->LitCalMetadata['national_calendars_keys'])) {
                 die("Request failed. Requested national calendar '{$_GET["nationalcalendar"]}' is not supported. Supported national calendars are: "
                     . implode(', ', $this->LitCalMetadata['national_calendars_keys']));
             }
-            $this->NationalCalendar = $_GET["nationalcalendar"];
-            $this->CalendarURL = $this->CalendarURL . '/nation/' . $this->NationalCalendar;
+            $this->NationalCalendar   = $_GET['nationalcalendar'];
+            $this->CalendarURL        = $this->CalendarURL . '/nation/' . $this->NationalCalendar;
             $NationalCalendarMetadata = array_values(array_filter(
                 $this->LitCalMetadata['national_calendars'],
                 fn($nationalCalendar) => $nationalCalendar['calendar_id'] === $this->NationalCalendar
             ))[0];
             if ($this->NationalCalendar !== 'VA') {
                 // TODO: allow to request a different locale among those that are supported by the requested calendar
-                $this->Locale = $NationalCalendarMetadata["locales"][0];
+                $this->Locale = $NationalCalendarMetadata['locales'][0];
             }
         }
 
-        if (isset($_GET["diocesancalendar"]) && $_GET["diocesancalendar"] !== "") {
-            if (false === in_array($_GET["diocesancalendar"], $this->LitCalMetadata['diocesan_calendars_keys'])) {
+        if (isset($_GET['diocesancalendar']) && $_GET['diocesancalendar'] !== '') {
+            if (false === in_array($_GET['diocesancalendar'], $this->LitCalMetadata['diocesan_calendars_keys'])) {
                 die("Request failed. Requested diocesan calendar '{$_GET["diocesancalendar"]}' is not supported. Supported diocesan calendars are: "
                     . implode(', ', $this->LitCalMetadata['diocesan_calendars_keys']));
             }
-            $this->DiocesanCalendar = $_GET["diocesancalendar"];
-            $this->CalendarURL = $this->CalendarURL . '/diocese/' . $this->DiocesanCalendar;
+            $this->DiocesanCalendar   = $_GET['diocesancalendar'];
+            $this->CalendarURL        = $this->CalendarURL . '/diocese/' . $this->DiocesanCalendar;
             $DiocesanCalendarMetadata = array_values(array_filter(
                 $this->LitCalMetadata['diocesan_calendars'],
                 fn($diocesanCalendar) => $diocesanCalendar['calendar_id'] === $this->DiocesanCalendar
             ))[0];
             $NationalCalendarMetadata = array_values(array_filter(
                 $this->LitCalMetadata['national_calendars'],
-                fn($nationalCalendar) => $nationalCalendar['calendar_id'] === $DiocesanCalendarMetadata["nation"]
+                fn($nationalCalendar) => $nationalCalendar['calendar_id'] === $DiocesanCalendarMetadata['nation']
             ))[0];
             // TODO: allow to request a different locale among those that are supported by the requested calendar
-            $this->Locale = $NationalCalendarMetadata["locales"][0];
+            $this->Locale = $NationalCalendarMetadata['locales'][0];
         }
 
-        if (isset($_GET["timezone"]) && LiturgyOfTheDay::isValidTimezone($_GET["timezone"])) {
-            ini_set('date.timezone', $_GET["timezone"]);
+        if (isset($_GET['timezone']) && LiturgyOfTheDay::isValidTimezone($_GET['timezone'])) {
+            ini_set('date.timezone', $_GET['timezone']);
         } else {
             ini_set('date.timezone', 'Europe/Vatican');
         }
@@ -294,7 +320,7 @@ class LiturgyOfTheDay
     private function prepareL10N(): void
     {
         $this->baseLocale = \Locale::getPrimaryLanguage($this->Locale);
-        $localeArray = [
+        $localeArray      = [
             $this->Locale . '.utf8',
             $this->Locale . '.UTF-8'
         ];
@@ -313,9 +339,9 @@ class LiturgyOfTheDay
             $localeArray[] = $this->Locale;
         }
         $this->setLocale = setlocale(LC_ALL, $localeArray);
-        bindtextdomain("litcal", "i18n");
-        textdomain("litcal");
-        $this->monthDayFmt  = \IntlDateFormatter::create(
+        bindtextdomain('litcal', 'i18n');
+        textdomain('litcal');
+        $this->monthDayFmt     = \IntlDateFormatter::create(
             $this->Locale,
             \IntlDateFormatter::FULL,
             \IntlDateFormatter::FULL,
@@ -325,11 +351,11 @@ class LiturgyOfTheDay
         );
         $this->numberFormatter = new \NumberFormatter($this->baseLocale, \NumberFormatter::SPELLOUT);
         if (in_array($this->baseLocale, self::$genericSpelloutOrdinal)) {
-            $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal");
+            $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, '%spellout-ordinal');
         } elseif (in_array($this->baseLocale, self::$mascFemSpelloutOrdinal) || in_array($this->baseLocale, self::$mascFemNeutSpelloutOrdinal)) {
-            $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal-feminine");
+            $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, '%spellout-ordinal-feminine');
         } elseif (in_array($this->baseLocale, self::$commonNeutSpelloutOrdinal)) {
-            $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, "%spellout-ordinal-common");
+            $this->numberFormatter->setTextAttribute(\NumberFormatter::DEFAULT_RULESET, '%spellout-ordinal-common');
         } else {
             $this->numberFormatter = new \NumberFormatter($this->baseLocale, \NumberFormatter::ORDINAL);
         }
@@ -352,21 +378,21 @@ class LiturgyOfTheDay
         $result = curl_exec($ch);
 
         if (curl_errno($ch) || !is_string($result)) {
-            die("Could not send request. Curl error: " . curl_error($ch));
+            die('Could not send request. Curl error: ' . curl_error($ch));
         }
 
         $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($resultStatus !== 200) {
-            die("Metadata request failed. HTTP status code: " . $resultStatus);
+            die('Metadata request failed. HTTP status code: ' . $resultStatus);
         }
 
         /** @var array<string, mixed>|null $response */
         $response = json_decode($result, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
-            die("Metadata request failed. Could not decode metadata JSON data. " . json_last_error_msg());
+            die('Metadata request failed. Could not decode metadata JSON data. ' . json_last_error_msg());
         }
 
-        ["litcal_metadata" => $this->LitCalMetadata] = $response;
+        ['litcal_metadata' => $this->LitCalMetadata] = $response;
 
         curl_close($ch);
     }
@@ -387,14 +413,14 @@ class LiturgyOfTheDay
         $ch = curl_init($this->CalendarURL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(["year_type" => "CIVIL"]));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['year_type' => 'CIVIL']));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Accept-Language: $this->Locale",
-            "Accept: application/json"
+            'Accept: application/json'
         ]);
         $result = curl_exec($ch);
         if (curl_errno($ch) || !is_string($result)) {
-            die("Could not send request. Curl error: " . curl_error($ch));
+            die('Could not send request. Curl error: ' . curl_error($ch));
         }
 
         $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -405,14 +431,14 @@ class LiturgyOfTheDay
         /** @var array<string, mixed>|null $jsonData */
         $jsonData = json_decode($result, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
-            die("Request failed. Could not decode calendar JSON data. " . json_last_error_msg());
+            die('Request failed. Could not decode calendar JSON data. ' . json_last_error_msg());
         }
 
         if (false === array_key_exists('litcal', $jsonData)) {
-            die("Request failed. Cannot elaborate JSON data.");
+            die('Request failed. Cannot elaborate JSON data.');
         }
 
-        ["litcal" =>  $this->LitCalData] = $jsonData;
+        ['litcal' => $this->LitCalData] = $jsonData;
 
         curl_close($ch);
     }
@@ -425,7 +451,7 @@ class LiturgyOfTheDay
      */
     private function filterEventsToday(): void
     {
-        $dateToday = new \DateTime('now', new \DateTimeZone('UTC'));
+        $dateToday    = new \DateTime('now', new \DateTimeZone('UTC'));
         $dateTodayStr = $dateToday->format('Y-m-d');
         // For the publishDate, add 15 minutes offset
         $publishDate = clone $dateToday;
@@ -434,13 +460,13 @@ class LiturgyOfTheDay
         foreach ($this->LitCalData as $value) {
             // API now returns RFC 3339 datetime strings like "2018-05-21T00:00:00+00:00"
             // Extract the date portion for comparison
-            $eventDate = new \DateTime($value["date"]);
+            $eventDate    = new \DateTime($value['date']);
             $eventDateStr = $eventDate->format('Y-m-d');
             if ($eventDateStr === $dateTodayStr) {
                 // retransform each entry from an associative array to a LiturgicalEvent class object
-                $event = new LiturgicalEvent($value);
-                ["mainText" => $mainText, "ssml" => $ssml] = $this->prepareMainText($event, $idx);
-                $titleText = _("Liturgy of the Day") . " ";
+                $event                                     = new LiturgicalEvent($value);
+                ['mainText' => $mainText, 'ssml' => $ssml] = $this->prepareMainText($event, $idx);
+                $titleText                                 = _('Liturgy of the Day') . ' ';
                 if ($this->baseLocale === LitLocale::ENGLISH) {
                     $titleText .= $event->date->format('F jS');
                 } else {
@@ -472,14 +498,14 @@ class LiturgyOfTheDay
      */
     private function prepareMainText(LiturgicalEvent $event, int $idx): array
     {
-        $mainText = "";
-        $ssml = null;
+        $mainText = '';
+        $ssml     = null;
         //Situations in which we don't need to actually state "Feast of the Lord":
-        $filterTagsDisplayGrade = [
-            "/OrdSunday[0-9]{1,2}(_vigil){0,1}/",
-            "/Advent[1-4](_vigil){0,1}/",
-            "/Lent[1-5](_vigil){0,1}/",
-            "/Easter[1-7](_vigil){0,1}/"
+        $filterTagsDisplayGrade   = [
+            '/OrdSunday[0-9]{1,2}(_vigil){0,1}/',
+            '/Advent[1-4](_vigil){0,1}/',
+            '/Lent[1-5](_vigil){0,1}/',
+            '/Easter[1-7](_vigil){0,1}/'
         ];
         $isSundayOrdAdvLentEaster = false;
         foreach ($filterTagsDisplayGrade as $pattern) {
@@ -498,22 +524,22 @@ class LiturgyOfTheDay
         }
 
         if ($event->grade === LitGrade::WEEKDAY->value) {
-            $mainText = _("Today is") . " " . $event->name . ".";
+            $mainText = _('Today is') . ' ' . $event->name . '.';
         } else {
             if ($event->isVigilMass) {
                 if ($isSundayOrdAdvLentEaster) {
                     $mainText = sprintf(
                         /**translators: 1. name of the festivity */
                         _('This evening there will be a Vigil Mass for the %1$s.'),
-                        trim(str_replace(_("Vigil Mass"), "", $event->name))
+                        trim(str_replace(_('Vigil Mass'), '', $event->name))
                     );
                 } else {
                     $gradeEnum = LitGrade::tryFrom($event->grade);
-                    $mainText = sprintf(
+                    $mainText  = sprintf(
                         /**translators: 1. grade of the festivity, 2. name of the festivity */
                         _('This evening there will be a Vigil Mass for the %1$s %2$s.'),
                         $gradeEnum?->i18n($this->Locale, false) ?? '',
-                        trim(str_replace(_("Vigil Mass"), "", $event->name))
+                        trim(str_replace(_('Vigil Mass'), '', $event->name))
                     );
                 }
             } elseif ($event->grade < LitGrade::HIGHER_SOLEMNITY->value) {
@@ -522,14 +548,14 @@ class LiturgyOfTheDay
                         $mainText = sprintf(
                             /**translators: 1. (also|''), 2. name of the festivity */
                             _('Today is %1$s the %2$s.'),
-                            ( $idx > 0 ? _("also") : "" ),
+                            ( $idx > 0 ? _('also') : '' ),
                             $event->name
                         );
                     } else {
                         $mainText = sprintf(
                             /**translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
                             _('Today is %1$s the %2$s of %3$s.'),
-                            ( $idx > 0 ? _("also") : "" ),
+                            ( $idx > 0 ? _('also') : '' ),
                             $event->displayGrade,
                             $event->name
                         );
@@ -540,31 +566,31 @@ class LiturgyOfTheDay
                             $mainText = sprintf(
                                 /**translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity */
                                 _('Today is %1$s the %2$s.'),
-                                ( $idx > 0 ? _("also") : "" ),
+                                ( $idx > 0 ? _('also') : '' ),
                                 $event->name
                             );
                         } else {
                             $mainText = sprintf(
                                 /**translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
                                 _('Today is %1$s the %2$s, %3$s.'),
-                                ( $idx > 0 ? _("also") : "" ),
+                                ( $idx > 0 ? _('also') : '' ),
                                 LitGrade::FEAST_LORD->i18n($this->Locale, false),
                                 $event->name
                             );
                         }
-                    } elseif (strpos($event->tag, "SatMemBVM") !== false) {
+                    } elseif (strpos($event->tag, 'SatMemBVM') !== false) {
                         $mainText = sprintf(
                             /**translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity */
                             _('Today is %1$s the %2$s.'),
-                            ( $idx > 0 ? _("also") : "" ),
+                            ( $idx > 0 ? _('also') : '' ),
                             $event->name
                         );
                     } else {
                         $gradeEnum = LitGrade::tryFrom($event->grade);
-                        $mainText = sprintf(
+                        $mainText  = sprintf(
                             /**translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
                             _('Today is %1$s the %2$s of %3$s.'),
-                            ( $idx > 0 ? _("also") : "" ),
+                            ( $idx > 0 ? _('also') : '' ),
                             $gradeEnum?->i18n($this->Locale, false) ?? '',
                             $event->name
                         );
@@ -572,13 +598,13 @@ class LiturgyOfTheDay
                 }
 
                 if ($event->grade < LitGrade::FEAST->value && !in_array(LitCommon::PROPRIO->value, $event->common, true)) {
-                    $mainText = $mainText . " " . LitCommon::toReadableString($event->common, $this->Locale);
+                    $mainText = $mainText . ' ' . LitCommon::toReadableString($event->common, $this->Locale);
                 }
             } else {
                 $mainText = sprintf(
                     /**translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity  */
                     _('Today is %1$s the day of %2$s.'),
-                    ( $idx > 0 ? _("also") : "" ),
+                    ( $idx > 0 ? _('also') : '' ),
                     $event->name
                 );
             }
@@ -591,9 +617,9 @@ class LiturgyOfTheDay
             }
 
             // Create the <speak> root element
-            $speak = new \SimpleXMLElement('<speak></speak>');
-            $voice = $speak->addChild('voice');
-            $lang = $voice->addChild('lang', $mainText);
+            $speak      = new \SimpleXMLElement('<speak></speak>');
+            $voice      = $speak->addChild('voice');
+            $lang       = $voice->addChild('lang', $mainText);
             $namespaces = [
                 'xml' => 'http://www.w3.org/XML/1998/namespace'
             ];
@@ -601,32 +627,32 @@ class LiturgyOfTheDay
             $locale = str_replace('_', '-', $this->Locale);
             // https://developer.amazon.com/it-IT/docs/alexa/custom-skills/speech-synthesis-markup-language-ssml-reference.html#supported-locales-for-the-xmllang-attribute
             switch ($this->baseLocale) {
-                case "en":
+                case 'en':
                     // Supported voices: Ivy, Joanna, Joey, Justin, Kendra, Kimberly, Matthew, Salli
                     $voice->addAttribute('name', 'Joanna');
                     $lang->addAttribute('xml:lang', 'en-US', $namespaces['xml']);
                     break;
-                case "es":
+                case 'es':
                     // Supported voices: Conchita, Enrique, Lucia
                     $voice->addAttribute('name', 'Conchita');
                     $lang->addAttribute('xml:lang', 'es-ES', $namespaces['xml']);
                     break;
-                case "fr":
+                case 'fr':
                     // Supported voices: Celine, Lea, Mathieu
                     $voice->addAttribute('name', 'Celine');
                     $lang->addAttribute('xml:lang', 'fr-FR', $namespaces['xml']);
                     break;
-                case "de":
+                case 'de':
                     // Supported voice: Hans, Marlene, Vicki
                     $voice->addAttribute('name', 'Marlene');
                     $lang->addAttribute('xml:lang', 'de-DE', $namespaces['xml']);
                     break;
-                case "it":
+                case 'it':
                     // Supported voices: Carla, Giorgio, Bianca
                     $voice->addAttribute('name', 'Carla');
                     $lang->addAttribute('xml:lang', 'it-IT', $namespaces['xml']);
                     break;
-                case "pt":
+                case 'pt':
                     // Supported voices: Vitoria, Camila, Ricardo
                     $voice->addAttribute('name', 'Vitoria');
                     $lang->addAttribute('xml:lang', 'pt-BR', $namespaces['xml']);
@@ -638,10 +664,10 @@ class LiturgyOfTheDay
             }
 
             // Convert SimpleXMLElement to DOMDocument
-            $dom = new \DOMDocument('1.0', 'UTF-8');
+            $dom                     = new \DOMDocument('1.0', 'UTF-8');
             $dom->preserveWhiteSpace = false;
-            $dom->formatOutput = false;
-            $speakXml = $speak->asXML();
+            $dom->formatOutput       = false;
+            $speakXml                = $speak->asXML();
             if ($speakXml !== false) {
                 $dom->loadXML($speakXml);
                 $ssml = $dom->saveXML($dom->documentElement);
@@ -657,7 +683,7 @@ class LiturgyOfTheDay
                 }
             }
         }
-        return ["mainText" => $mainText ?? "", "ssml" => is_string($ssml) ? $ssml : null];
+        return ['mainText' => $mainText ?? '', 'ssml' => is_string($ssml) ? $ssml : null];
     }
 
     /**
@@ -690,7 +716,7 @@ class LiturgyOfTheDay
         } elseif (count($this->LitCalFeed) > 1) {
             echo json_encode($this->LitCalFeed);
         } else {
-            die("Missing data from response: LitCalFeed seems to be empty or null? " . count($this->LitCalFeed));
+            die('Missing data from response: LitCalFeed seems to be empty or null? ' . count($this->LitCalFeed));
         }
     }
 

@@ -46,14 +46,14 @@ class LitCalFeedItem implements \JsonSerializable
      */
     public function __construct(LiturgicalEvent $event, \DateTime $publishDate, string $titleText, string $mainText, ?string $ssml = null)
     {
-        $this->uid = "urn:uuid:" . md5("LITCAL-" . $event->tag . '-' . $event->date->format('Y'));
-        $this->updateDate       = $publishDate->format("Y-m-d\TH:i:s\Z");
-        $this->titleText        = $titleText;
+        $this->uid        = 'urn:uuid:' . md5('LITCAL-' . $event->tag . '-' . $event->date->format('Y'));
+        $this->updateDate = $publishDate->format('Y-m-d\TH:i:s\Z');
+        $this->titleText  = $titleText;
         if (null !== $ssml) {
             $this->ssml = $ssml;
         }
-        $this->mainText         = $mainText;
-        $this->redirectionUrl   = "https://litcal.johnromanodorazio.com/";
+        $this->mainText       = $mainText;
+        $this->redirectionUrl = 'https://litcal.johnromanodorazio.com/';
     }
 
     /**

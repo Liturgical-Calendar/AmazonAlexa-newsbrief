@@ -2,58 +2,64 @@
 
 namespace LiturgicalCalendar\AlexaNewsBrief\Enum;
 
+use LiturgicalCalendar\AlexaNewsBrief\Enum\LitMassVariousNeeds;
+
 /**
  * Enumeration of possible values for the "Common" field of a festivity.
  *
  * The values represent different commons of saints used in the liturgy,
  * such as "Martyrs", "Pastors", "Virgins", etc.
+ *
+ * Note: The "common" field can also contain values from the LitMassVariousNeeds enum,
+ * representing Masses for Various Needs and Occasions. The validation and translation
+ * methods in this class handle both types.
  */
 enum LitCommon: string
 {
     use EnumToArrayTrait;
 
-    case PROPRIO                                    = 'Proper';
-    case DEDICATIONIS_ECCLESIAE                     = 'Dedication of a Church';
-    case BEATAE_MARIAE_VIRGINIS                     = 'Blessed Virgin Mary';
-    case MARTYRUM                                   = 'Martyrs';
-    case PASTORUM                                   = 'Pastors';
-    case DOCTORUM                                   = 'Doctors';
-    case VIRGINUM                                   = 'Virgins';
-    case SANCTORUM_ET_SANCTARUM                     = 'Holy Men and Women';
+    case PROPRIO                = 'Proper';
+    case DEDICATIONIS_ECCLESIAE = 'Dedication of a Church';
+    case BEATAE_MARIAE_VIRGINIS = 'Blessed Virgin Mary';
+    case MARTYRUM               = 'Martyrs';
+    case PASTORUM               = 'Pastors';
+    case DOCTORUM               = 'Doctors';
+    case VIRGINUM               = 'Virgins';
+    case SANCTORUM_ET_SANCTARUM = 'Holy Men and Women';
 
     // MARTYRUM
-    case PRO_UNO_MARTYRE                            = 'For One Martyr';
-    case PRO_PLURIBUS_MARTYRIBUS                    = 'For Several Martyrs';
-    case PRO_MISSIONARIIS_MARTYRIBUS                = 'For Missionary Martyrs';
-    case PRO_UNO_MISSIONARIO_MARTYRE                = 'For One Missionary Martyr';
-    case PRO_PLURIBUS_MISSIONARIIS_MARTYRIBUS       = 'For Several Missionary Martyrs';
-    case PRO_VIRGINE_MARTYRE                        = 'For a Virgin Martyr';
-    case PRO_SANCTA_MULIERE_MARTYRE                 = 'For a Holy Woman Martyr';
+    case PRO_UNO_MARTYRE                      = 'For One Martyr';
+    case PRO_PLURIBUS_MARTYRIBUS              = 'For Several Martyrs';
+    case PRO_MISSIONARIIS_MARTYRIBUS          = 'For Missionary Martyrs';
+    case PRO_UNO_MISSIONARIO_MARTYRE          = 'For One Missionary Martyr';
+    case PRO_PLURIBUS_MISSIONARIIS_MARTYRIBUS = 'For Several Missionary Martyrs';
+    case PRO_VIRGINE_MARTYRE                  = 'For a Virgin Martyr';
+    case PRO_SANCTA_MULIERE_MARTYRE           = 'For a Holy Woman Martyr';
 
     // PASTORUM
-    case PRO_PAPA                                   = 'For a Pope';
-    case PRO_EPISCOPO                               = 'For a Bishop';
-    case PRO_UNO_PASTORE                            = 'For One Pastor';
-    case PRO_PLURIBUS_PASTORIBUS                    = 'For Several Pastors';
-    case PRO_FUNDATORIBUS_ECCLESIARUM               = 'For Founders of a Church';
-    case PRO_UNO_FUNDATORE                          = 'For One Founder';
-    case PRO_PLURIBUS_FUNDATORIBUS                  = 'For Several Founders';
-    case PRO_MISSIONARIIS                           = 'For Missionaries';
+    case PRO_PAPA                     = 'For a Pope';
+    case PRO_EPISCOPO                 = 'For a Bishop';
+    case PRO_UNO_PASTORE              = 'For One Pastor';
+    case PRO_PLURIBUS_PASTORIBUS      = 'For Several Pastors';
+    case PRO_FUNDATORIBUS_ECCLESIARUM = 'For Founders of a Church';
+    case PRO_UNO_FUNDATORE            = 'For One Founder';
+    case PRO_PLURIBUS_FUNDATORIBUS    = 'For Several Founders';
+    case PRO_MISSIONARIIS             = 'For Missionaries';
 
     // VIRGINUM
-    case PRO_UNA_VIRGINE                            = 'For One Virgin';
-    case PRO_PLURIBUS_VIRGINIBUS                    = 'For Several Virgins';
+    case PRO_UNA_VIRGINE         = 'For One Virgin';
+    case PRO_PLURIBUS_VIRGINIBUS = 'For Several Virgins';
 
     // SANCTORUM_ET_SANCTARUM
-    case PRO_PLURIBUS_SANCTIS                       = 'For Several Saints';
-    case PRO_UNO_SANCTO                             = 'For One Saint';
-    case PRO_ABBATE                                 = 'For an Abbot';
-    case PRO_MONACHO                                = 'For a Monk';
-    case PRO_MONIALI                                = 'For a Nun';
-    case PRO_RELIGIOSIS                             = 'For Religious';
+    case PRO_PLURIBUS_SANCTIS                        = 'For Several Saints';
+    case PRO_UNO_SANCTO                              = 'For One Saint';
+    case PRO_ABBATE                                  = 'For an Abbot';
+    case PRO_MONACHO                                 = 'For a Monk';
+    case PRO_MONIALI                                 = 'For a Nun';
+    case PRO_RELIGIOSIS                              = 'For Religious';
     case PRO_IIS_QUI_OPERA_MISERICORDIAE_EXERCUERUNT = 'For Those Who Practiced Works of Mercy';
-    case PRO_EDUCATORIBUS                           = 'For Educators';
-    case PRO_SANCTIS_MULIERIBUS                     = 'For Holy Women';
+    case PRO_EDUCATORIBUS                            = 'For Educators';
+    case PRO_SANCTIS_MULIERIBUS                      = 'For Holy Women';
 
     case NONE = '';
 
@@ -63,41 +69,41 @@ enum LitCommon: string
      * @var array<string, string>
      */
     public const LATIN = [
-        'PROPRIO'                                    => 'Proprio',
-        'DEDICATIONIS_ECCLESIAE'                     => 'Dedicationis ecclesiæ',
-        'BEATAE_MARIAE_VIRGINIS'                     => 'Beatæ Mariæ Virginis',
-        'MARTYRUM'                                   => 'Martyrum',
-        'PASTORUM'                                   => 'Pastorum',
-        'DOCTORUM'                                   => 'Doctorum',
-        'VIRGINUM'                                   => 'Virginum',
-        'SANCTORUM_ET_SANCTARUM'                     => 'Sanctorum et Sanctarum',
-        'PRO_UNO_MARTYRE'                            => 'Pro uno martyre',
-        'PRO_PLURIBUS_MARTYRIBUS'                    => 'Pro pluribus martyribus',
-        'PRO_MISSIONARIIS_MARTYRIBUS'                => 'Pro missionariis martyribus',
-        'PRO_UNO_MISSIONARIO_MARTYRE'                => 'Pro uno missionario martyre',
-        'PRO_PLURIBUS_MISSIONARIIS_MARTYRIBUS'       => 'Pro pluribus missionariis martyribus',
-        'PRO_VIRGINE_MARTYRE'                        => 'Pro virgine martyre',
-        'PRO_SANCTA_MULIERE_MARTYRE'                 => 'Pro sancta muliere martyre',
-        'PRO_PAPA'                                   => 'Pro papa',
-        'PRO_EPISCOPO'                               => 'Pro episcopo',
-        'PRO_UNO_PASTORE'                            => 'Pro uno pastore',
-        'PRO_PLURIBUS_PASTORIBUS'                    => 'Pro pluribus pastoribus',
-        'PRO_FUNDATORIBUS_ECCLESIARUM'               => 'Pro fundatoribus ecclesiarum',
-        'PRO_UNO_FUNDATORE'                          => 'Pro uno fundatore',
-        'PRO_PLURIBUS_FUNDATORIBUS'                  => 'Pro pluribus fundatoribus',
-        'PRO_MISSIONARIIS'                           => 'Pro missionariis',
-        'PRO_UNA_VIRGINE'                            => 'Pro una virgine',
-        'PRO_PLURIBUS_VIRGINIBUS'                    => 'Pro pluribus virginibus',
-        'PRO_PLURIBUS_SANCTIS'                       => 'Pro pluribus sanctis',
-        'PRO_UNO_SANCTO'                             => 'Pro uno sancto',
-        'PRO_ABBATE'                                 => 'Pro abbate',
-        'PRO_MONACHO'                                => 'Pro monacho',
-        'PRO_MONIALI'                                => 'Pro moniali',
-        'PRO_RELIGIOSIS'                             => 'Pro religiosis',
+        'PROPRIO'                                     => 'Proprio',
+        'DEDICATIONIS_ECCLESIAE'                      => 'Dedicationis ecclesiæ',
+        'BEATAE_MARIAE_VIRGINIS'                      => 'Beatæ Mariæ Virginis',
+        'MARTYRUM'                                    => 'Martyrum',
+        'PASTORUM'                                    => 'Pastorum',
+        'DOCTORUM'                                    => 'Doctorum',
+        'VIRGINUM'                                    => 'Virginum',
+        'SANCTORUM_ET_SANCTARUM'                      => 'Sanctorum et Sanctarum',
+        'PRO_UNO_MARTYRE'                             => 'Pro uno martyre',
+        'PRO_PLURIBUS_MARTYRIBUS'                     => 'Pro pluribus martyribus',
+        'PRO_MISSIONARIIS_MARTYRIBUS'                 => 'Pro missionariis martyribus',
+        'PRO_UNO_MISSIONARIO_MARTYRE'                 => 'Pro uno missionario martyre',
+        'PRO_PLURIBUS_MISSIONARIIS_MARTYRIBUS'        => 'Pro pluribus missionariis martyribus',
+        'PRO_VIRGINE_MARTYRE'                         => 'Pro virgine martyre',
+        'PRO_SANCTA_MULIERE_MARTYRE'                  => 'Pro sancta muliere martyre',
+        'PRO_PAPA'                                    => 'Pro papa',
+        'PRO_EPISCOPO'                                => 'Pro episcopo',
+        'PRO_UNO_PASTORE'                             => 'Pro uno pastore',
+        'PRO_PLURIBUS_PASTORIBUS'                     => 'Pro pluribus pastoribus',
+        'PRO_FUNDATORIBUS_ECCLESIARUM'                => 'Pro fundatoribus ecclesiarum',
+        'PRO_UNO_FUNDATORE'                           => 'Pro uno fundatore',
+        'PRO_PLURIBUS_FUNDATORIBUS'                   => 'Pro pluribus fundatoribus',
+        'PRO_MISSIONARIIS'                            => 'Pro missionariis',
+        'PRO_UNA_VIRGINE'                             => 'Pro una virgine',
+        'PRO_PLURIBUS_VIRGINIBUS'                     => 'Pro pluribus virginibus',
+        'PRO_PLURIBUS_SANCTIS'                        => 'Pro pluribus sanctis',
+        'PRO_UNO_SANCTO'                              => 'Pro uno sancto',
+        'PRO_ABBATE'                                  => 'Pro abbate',
+        'PRO_MONACHO'                                 => 'Pro monacho',
+        'PRO_MONIALI'                                 => 'Pro moniali',
+        'PRO_RELIGIOSIS'                              => 'Pro religiosis',
         'PRO_IIS_QUI_OPERA_MISERICORDIAE_EXERCUERUNT' => 'Pro iis qui opera misericordiae exercuerunt',
-        'PRO_EDUCATORIBUS'                           => 'Pro educatoribus',
-        'PRO_SANCTIS_MULIERIBUS'                     => 'Pro sanctis mulieribus',
-        'NONE'                                       => ''
+        'PRO_EDUCATORIBUS'                            => 'Pro educatoribus',
+        'PRO_SANCTIS_MULIERIBUS'                      => 'Pro sanctis mulieribus',
+        'NONE'                                        => ''
     ];
 
     /**
@@ -285,11 +291,18 @@ enum LitCommon: string
     /**
      * Validates a common string value, which may contain a colon separator.
      *
-     * @param string $value The value to validate (e.g., "Martyrs:For One Martyr").
+     * Also accepts LitMassVariousNeeds enum values.
+     *
+     * @param string $value The value to validate (e.g., "Martyrs:For One Martyr" or "For the Church").
      * @return bool True if valid.
      */
     public static function isValidCommon(string $value): bool
     {
+        // Check if it's a LitMassVariousNeeds value
+        if (LitMassVariousNeeds::isValid($value)) {
+            return true;
+        }
+
         if (strpos($value, ':') !== false) {
             $parts = explode(':', $value);
             foreach ($parts as $part) {
@@ -321,6 +334,8 @@ enum LitCommon: string
     /**
      * Returns a translated human readable string of the Common or the Proper.
      *
+     * Also handles LitMassVariousNeeds values.
+     *
      * @param array<string> $commons The common values from the API.
      * @param string $locale The locale for translation.
      * @return string The human readable string.
@@ -333,6 +348,15 @@ enum LitCommon: string
 
         $isLatin = strtoupper($locale) === 'LA' || str_starts_with(strtoupper($locale), 'LA_');
 
+        // Check if all values are LitMassVariousNeeds
+        $allMassVariousNeeds = array_reduce($commons, function (bool $carry, string $value): bool {
+            return $carry && LitMassVariousNeeds::isValid($value);
+        }, true);
+
+        if ($allMassVariousNeeds) {
+            return self::massVariousNeedsToReadableString($commons, $locale);
+        }
+
         // Check for Proper
         if (in_array(self::PROPRIO->value, $commons, true)) {
             return $isLatin ? 'De Proprio' : _('From the Proper of the festivity');
@@ -341,10 +365,10 @@ enum LitCommon: string
         $translatedCommons = array_map(function (string $txt) use ($locale, $isLatin): string {
             if (strpos($txt, ':') !== false) {
                 [$commonGeneralStr, $commonSpecificStr] = explode(':', $txt);
-                $commonGeneral = self::tryFrom($commonGeneralStr);
-                $commonSpecific = self::tryFrom($commonSpecificStr);
+                $commonGeneral                          = self::tryFrom($commonGeneralStr);
+                $commonSpecific                         = self::tryFrom($commonSpecificStr);
             } else {
-                $commonGeneral = self::tryFrom($txt);
+                $commonGeneral  = self::tryFrom($txt);
                 $commonSpecific = null;
             }
 
@@ -365,5 +389,26 @@ enum LitCommon: string
 
         /**translators: when there are multiple possible commons, this will be the glue "or from the common of..." */
         return implode('; ' . _('or') . ' ', $translatedCommons);
+    }
+
+    /**
+     * Returns a translated human readable string for LitMassVariousNeeds values.
+     *
+     * @param array<string> $commons The LitMassVariousNeeds values from the API.
+     * @param string $locale The locale for translation.
+     * @return string The human readable string.
+     */
+    private static function massVariousNeedsToReadableString(array $commons, string $locale): string
+    {
+        $translatedMasses = array_map(function (string $txt) use ($locale): string {
+            $massVariousNeeds = LitMassVariousNeeds::tryFrom($txt);
+            if ($massVariousNeeds === null) {
+                return $txt;
+            }
+            return $massVariousNeeds->fullTranslate($locale);
+        }, $commons);
+
+        /**translators: when there are multiple possible masses, this will be the glue "or Mass for..." */
+        return implode('; ' . _('or') . ' ', $translatedMasses);
     }
 }

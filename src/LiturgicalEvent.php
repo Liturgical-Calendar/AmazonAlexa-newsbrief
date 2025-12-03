@@ -53,15 +53,15 @@ class LiturgicalEvent
      */
     public function __construct(array $event)
     {
-        $this->tag      = $event["event_key"];
-        $this->name     = $event["name"];
-        $this->date     = new \DateTime($event["date"]);
-        $this->color    = LitColor::areValid($event["color"]) ? $event["color"] : ['???'];
-        $this->type     = LitEventType::isValid($event["type"]) ? $event["type"] : '';
-        $this->grade    = LitGrade::isValid($event["grade"]) ? $event["grade"] : -1;
-        $this->displayGrade     = $event["grade_display"];
-        $this->common   = LitCommon::areValidCommons($event["common"]) ? $event["common"] : [];
-        $this->liturgicalYear   = $event["liturgical_year"] ?? '';
-        $this->isVigilMass      = $event["is_vigil_mass"] ?? false;
+        $this->tag            = $event['event_key'];
+        $this->name           = $event['name'];
+        $this->date           = new \DateTime($event['date']);
+        $this->color          = LitColor::areValid($event['color']) ? $event['color'] : ['???'];
+        $this->type           = LitEventType::isValid($event['type']) ? $event['type'] : '';
+        $this->grade          = LitGrade::isValid($event['grade']) ? $event['grade'] : -1;
+        $this->displayGrade   = $event['grade_display'];
+        $this->common         = LitCommon::areValidCommons($event['common']) ? $event['common'] : [];
+        $this->liturgicalYear = $event['liturgical_year'] ?? '';
+        $this->isVigilMass    = $event['is_vigil_mass'] ?? false;
     }
 }
