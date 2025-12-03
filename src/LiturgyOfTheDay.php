@@ -807,16 +807,10 @@ class LiturgyOfTheDay
 
     /**
      * Determines if the given timezone is valid.
-     *
-     * @param string $timezone
-     * @return boolean
      */
-    private function isValidTimezone($timezone)
+    private static function isValidTimezone(string $timezone): bool
     {
-        if (in_array($timezone, \DateTimeZone::listIdentifiers())) {
-            return true;
-        }
-        return false;
+        return in_array($timezone, \DateTimeZone::listIdentifiers(), true);
     }
 
     /**
