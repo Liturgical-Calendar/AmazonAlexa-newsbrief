@@ -4,9 +4,8 @@ namespace LiturgicalCalendar\AlexaNewsBrief;
 
 use GuzzleHttp\Client;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
-use Nyholm\Psr7\Request;
-use Nyholm\Psr7\Response;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitCommon;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitGrade;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
 use LiturgicalCalendar\AlexaNewsBrief\LitCalFeedItem;
@@ -388,9 +387,9 @@ class LiturgyOfTheDay
      */
     private function sendMetadataReq(): void
     {
-        $request = new Request('GET', $this->MetadataURL, [
-            'Accept' => 'application/json'
-        ]);
+        $psr17Factory = new Psr17Factory();
+        $request      = $psr17Factory->createRequest('GET', $this->MetadataURL)
+            ->withHeader('Accept', 'application/json');
 
         try {
             $response = $this->httpClient->sendRequest($request);
@@ -427,16 +426,13 @@ class LiturgyOfTheDay
      */
     private function sendReq(): void
     {
-        $request = new Request(
-            'POST',
-            $this->CalendarURL,
-            [
-                'Accept-Language' => $this->Locale,
-                'Accept'          => 'application/json',
-                'Content-Type'    => 'application/x-www-form-urlencoded'
-            ],
-            http_build_query(['year_type' => 'CIVIL'])
-        );
+        $psr17Factory = new Psr17Factory();
+        $body         = $psr17Factory->createStream(http_build_query(['year_type' => 'CIVIL']));
+        $request      = $psr17Factory->createRequest('POST', $this->CalendarURL)
+            ->withHeader('Accept-Language', $this->Locale)
+            ->withHeader('Accept', 'application/json')
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody($body);
 
         try {
             $response = $this->httpClient->sendRequest($request);
@@ -734,14 +730,16 @@ class LiturgyOfTheDay
      */
     private function sendResponse(): void
     {
-        $emitter = new SapiEmitter();
+        $psr17Factory = new Psr17Factory();
+        $emitter      = new SapiEmitter();
 
         if (count($this->LitCalFeed) === 0) {
-            $response = new Response(
-                500,
-                ['Content-Type' => 'application/json'],
+            $body     = $psr17Factory->createStream(
                 json_encode(['error' => 'Missing data from response: LitCalFeed is empty']) ?: ''
             );
+            $response = $psr17Factory->createResponse(500)
+                ->withHeader('Content-Type', 'application/json')
+                ->withBody($body);
             $emitter->emit($response);
             return;
         }
@@ -750,11 +748,10 @@ class LiturgyOfTheDay
             ? $this->LitCalFeed[0]
             : $this->LitCalFeed;
 
-        $response = new Response(
-            200,
-            ['Content-Type' => 'application/json'],
-            json_encode($data) ?: ''
-        );
+        $body     = $psr17Factory->createStream(json_encode($data) ?: '');
+        $response = $psr17Factory->createResponse(200)
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody($body);
 
         $emitter->emit($response);
     }
