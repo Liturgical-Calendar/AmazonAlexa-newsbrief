@@ -2,86 +2,50 @@
 
 namespace LiturgicalCalendar\AlexaNewsBrief\Enum;
 
-use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
-
 /**
- * The LitColor class is an enumeration of valid liturgical colors.
+ * Enumeration of valid liturgical colors.
  *
  * Liturgical colors are colors that are used to decorate the church and
  * vestments on specific days and feasts in the liturgical calendar.
  *
- * The values of the enumeration are:
- *  - GREEN: Green is used on most ordinary Sundays.
- *  - PURPLE: Purple is used during the Advent and Lent seasons.
- *  - WHITE: White is used on most holy days and feasts, and during the
- *  Christmas and Easter seasons.
- *  - RED: Red is used on Pentecost and on feasts of the martyrs.
- *  - PINK: Pink is used only on Laetare Sunday (the 4th Sunday of Lent)
- *  and on Gaudete Sunday (the 3rd Sunday of Advent).
- *
- * The class contains methods for checking if a given value or array of
- * values is valid.
+ * - GREEN: Green is used on most ordinary Sundays.
+ * - PURPLE: Purple is used during the Advent and Lent seasons.
+ * - WHITE: White is used on most holy days and feasts, and during the
+ *   Christmas and Easter seasons.
+ * - RED: Red is used on Pentecost and on feasts of the martyrs.
+ * - ROSE: Rose is used only on Laetare Sunday (the 4th Sunday of Lent)
+ *   and on Gaudete Sunday (the 3rd Sunday of Advent).
  */
-class LitColor
+enum LitColor: string
 {
-    public const GREEN     = "green";
-    public const PURPLE    = "purple";
-    public const WHITE     = "white";
-    public const RED       = "red";
-    public const PINK      = "pink";
-    public static array $values = [ "green", "purple", "white", "red", "pink" ];
+    use EnumToArrayTrait;
+
+    case GREEN  = 'green';
+    case PURPLE = 'purple';
+    case WHITE  = 'white';
+    case RED    = 'red';
+    case ROSE   = 'rose';
 
     /**
-     * Returns true if the given value is a valid liturgical color.
+     * Translate the liturgical color to the given locale.
      *
-     * If $value is a comma-separated string of values, it will be split into an
-     * array and passed to {@see LitColor::areValid()}.
-     * @param string $value
-     * @return bool
+     * @param string $locale The locale to translate to.
+     * @return string The translated color name.
      */
-    public static function isValid(string $value)
+    public function i18n(string $locale): string
     {
-        if (strpos($value, ',')) {
-            return LitColor::areValid(explode(',', $value));
-        }
-        return in_array($value, self::$values);
-    }
-
-    /**
-     * Returns true if all of the given values are valid liturgical colors.
-     * @param array $values
-     * @return bool
-     */
-    public static function areValid(array $values)
-    {
-        return empty(array_diff($values, self::$values));
-    }
-
-    /**
-     * Translate a liturgical color to the given locale.
-     *
-     * @param string $value
-     * @param string $locale
-     * @return string
-     */
-    public static function i18n(string $value, string $locale): string
-    {
-        switch ($value) {
-            case self::GREEN:
-                /**translators: context = liturgical color */
-                return $locale === LitLocale::LATIN ? 'viridis'     : _("green");
-            case self::PURPLE:
-                /**translators: context = liturgical color */
-                return $locale === LitLocale::LATIN ? 'purpura'     : _("purple");
-            case self::WHITE:
-                /**translators: context = liturgical color */
-                return $locale === LitLocale::LATIN ? 'albus'       : _("white");
-            case self::RED:
-                /**translators: context = liturgical color */
-                return $locale === LitLocale::LATIN ? 'ruber'       : _("red");
-            case self::PINK:
-                /**translators: context = liturgical color */
-                return $locale === LitLocale::LATIN ? 'rosea'       : _("pink");
-        }
+        $isLatin = strtoupper($locale) === 'LA' || str_starts_with(strtoupper($locale), 'LA_');
+        return match ($this) {
+            /**translators: context = liturgical color */
+            self::GREEN  => $isLatin ? 'viridis' : _('green'),
+            /**translators: context = liturgical color */
+            self::PURPLE => $isLatin ? 'purpura' : _('purple'),
+            /**translators: context = liturgical color */
+            self::WHITE  => $isLatin ? 'albus'   : _('white'),
+            /**translators: context = liturgical color */
+            self::RED    => $isLatin ? 'ruber'   : _('red'),
+            /**translators: context = liturgical color */
+            self::ROSE   => $isLatin ? 'rosea'   : _('rose'),
+        };
     }
 }

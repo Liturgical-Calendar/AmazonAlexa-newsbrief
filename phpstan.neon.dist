@@ -1,0 +1,11 @@
+parameters:
+    level: 10
+    paths:
+        - src
+        - index.php
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # The $setLocale property stores the result of setlocale() for potential debugging
+        -
+            message: '#Property LiturgicalCalendar\\AlexaNewsBrief\\LiturgyOfTheDay::\$setLocale is never read, only written\.#'
+            path: src/LiturgyOfTheDay.php
