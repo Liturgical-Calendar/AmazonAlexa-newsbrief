@@ -208,6 +208,7 @@ enum LitMassVariousNeeds: string
         'PRO_MORIENTIBUS'                                     => 'Pro morientibus',
         'AD_POSTULANDAM_GRATIAM_BENE_MORIENDI'                => 'Ad postulandam gratiam bene moriendi',
         'IN_QUACUMQUE_NECESSITATE'                            => 'In quacumque necessitate',
+        // Intentionally English, as this is a USA-specific category
         'GIVING_THANKS_TO_GOD_FOR_THE_GIFT_OF_HUMAN_LIFE_USA' => 'For Giving Thanks to God for the Gift of Human Life [USA]',
         'PRO_GRATIIS_DEO_REDDENDIS'                           => 'Pro gratiis Deo reddendis'
     ];
