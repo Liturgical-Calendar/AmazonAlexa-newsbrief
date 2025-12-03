@@ -2,11 +2,15 @@
 
 namespace LiturgicalCalendar\AlexaNewsBrief;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitCommon;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitGrade;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
-use LiturgicalCalendar\AlexaNewsBrief\LiturgicalEvent;
 use LiturgicalCalendar\AlexaNewsBrief\LitCalFeedItem;
+use LiturgicalCalendar\AlexaNewsBrief\LiturgicalEvent;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
 
 /**
  * The LiturgyOfTheDay class is the main class of the Liturgical Calendar Alexa News Brief.
@@ -30,6 +34,7 @@ use LiturgicalCalendar\AlexaNewsBrief\LitCalFeedItem;
  */
 class LiturgyOfTheDay
 {
+    private ClientInterface $httpClient;
     private string $MetadataURL;
     private string $CalendarURL;
     private string $Locale            = LitLocale::LATIN;
@@ -251,10 +256,13 @@ class LiturgyOfTheDay
      * calendar, national calendar, and the locale. If the GET parameter
      * "timezone" is set, use it to set the timezone.
      *
+     * @param string $apiURL The base URL of the Liturgical Calendar API.
+     * @param ClientInterface|null $httpClient Optional PSR-18 HTTP client. If not provided, a default Guzzle client is used.
      * @throws \Exception
      */
-    public function __construct(string $apiURL)
+    public function __construct(string $apiURL, ?ClientInterface $httpClient = null)
     {
+        $this->httpClient  = $httpClient ?? new Client();
         $this->MetadataURL = $apiURL . '/calendars';
         $this->CalendarURL = $apiURL . '/calendar';
         $this->sendMetadataReq();
@@ -373,32 +381,35 @@ class LiturgyOfTheDay
      *
      * If the request succeeds, it will decode the JSON response
      * and store the "litcal_metadata" array in $this->LitCalMetadata.
+     *
      * @throws \Exception
      */
     private function sendMetadataReq(): void
     {
-        $ch = curl_init($this->MetadataURL);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($ch);
+        $request = new Request('GET', $this->MetadataURL, [
+            'Accept' => 'application/json'
+        ]);
 
-        if (curl_errno($ch) || !is_string($result)) {
-            die('Could not send request. Curl error: ' . curl_error($ch));
+        try {
+            $response = $this->httpClient->sendRequest($request);
+        } catch (ClientExceptionInterface $e) {
+            die('Could not send request. HTTP client error: ' . $e->getMessage());
         }
 
-        $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $resultStatus = $response->getStatusCode();
         if ($resultStatus !== 200) {
             die('Metadata request failed. HTTP status code: ' . $resultStatus);
         }
 
-        /** @var array<string, mixed>|null $response */
-        $response = json_decode($result, true);
-        if (JSON_ERROR_NONE !== json_last_error() || !is_array($response)) {
+        $result = $response->getBody()->getContents();
+
+        /** @var array<string, mixed>|null $responseData */
+        $responseData = json_decode($result, true);
+        if (JSON_ERROR_NONE !== json_last_error() || !is_array($responseData)) {
             die('Metadata request failed. Could not decode metadata JSON data. ' . json_last_error_msg());
         }
 
-        ['litcal_metadata' => $this->LitCalMetadata] = $response;
-
-        curl_close($ch);
+        ['litcal_metadata' => $this->LitCalMetadata] = $responseData;
     }
 
 
@@ -414,23 +425,29 @@ class LiturgyOfTheDay
      */
     private function sendReq(): void
     {
-        $ch = curl_init($this->CalendarURL);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['year_type' => 'CIVIL']));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Accept-Language: $this->Locale",
-            'Accept: application/json'
-        ]);
-        $result = curl_exec($ch);
-        if (curl_errno($ch) || !is_string($result)) {
-            die('Could not send request. Curl error: ' . curl_error($ch));
+        $request = new Request(
+            'POST',
+            $this->CalendarURL,
+            [
+                'Accept-Language' => $this->Locale,
+                'Accept'          => 'application/json',
+                'Content-Type'    => 'application/x-www-form-urlencoded'
+            ],
+            http_build_query(['year_type' => 'CIVIL'])
+        );
+
+        try {
+            $response = $this->httpClient->sendRequest($request);
+        } catch (ClientExceptionInterface $e) {
+            die('Could not send request. HTTP client error: ' . $e->getMessage());
         }
 
-        $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($resultStatus != 200) {
+        $resultStatus = $response->getStatusCode();
+        if ($resultStatus !== 200) {
             die("Request to API /calendar route failed at URL '$this->CalendarURL'. HTTP status code: " . $resultStatus);
         }
+
+        $result = $response->getBody()->getContents();
 
         /** @var array<string, mixed>|null $jsonData */
         $jsonData = json_decode($result, true);
@@ -443,8 +460,6 @@ class LiturgyOfTheDay
         }
 
         ['litcal' => $this->LitCalData] = $jsonData;
-
-        curl_close($ch);
     }
 
     /**
