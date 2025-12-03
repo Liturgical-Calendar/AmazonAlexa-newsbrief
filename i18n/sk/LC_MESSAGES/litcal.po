@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-03 21:47+0000\n"
-"PO-Revision-Date: 2025-11-21 17:22+0000\n"
+"PO-Revision-Date: 2025-12-03 22:12+0000\n"
 "Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
 "Language-Team: Slovak <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/sk/>\n"
@@ -101,7 +101,7 @@ msgstr "červená"
 #. translators: context = liturgical color
 #: src/Enum/LitColor.php:48
 msgid "rose"
-msgstr ""
+msgstr "ružová"
 
 #: src/Enum/LitCommon.php:196
 msgid "Proper"
