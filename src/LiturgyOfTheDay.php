@@ -849,7 +849,14 @@ class LiturgyOfTheDay
         $jsonData = json_encode($data);
         if ($jsonData === false) {
             error_log('Failed to encode response data: ' . json_last_error_msg());
-            $jsonData = '';
+            $body     = $this->psr17Factory->createStream(
+                json_encode(['error' => 'Failed to encode response data']) ?: ''
+            );
+            $response = $this->psr17Factory->createResponse(500)
+                ->withHeader('Content-Type', 'application/json')
+                ->withBody($body);
+            $emitter->emit($response);
+            return;
         }
 
         $body     = $this->psr17Factory->createStream($jsonData);
