@@ -140,6 +140,13 @@ All markdown files must conform to `.markdownlint.yml`:
 - **Tables:** Columns must be vertically aligned (MD060)
 - **Code blocks:** Use fenced style with language specifiers
 
+**Note:** Node.js and npm are required to run markdown linting scripts (uses `npx markdownlint-cli2`).
+
+```bash
+composer lint:md           # Check markdown style
+composer lint:md:fix       # Auto-fix markdown issues
+```
+
 ## Key Files
 
 | File                      | Purpose                              |
