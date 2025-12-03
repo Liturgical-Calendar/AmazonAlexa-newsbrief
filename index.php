@@ -21,10 +21,16 @@ if (isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'development') {
     $apiUrl = 'https://litcal.johnromanodorazio.com/api/dev';
 }
 
-// Create PSR-16 filesystem cache
-$cacheDir        = __DIR__ . '/cache';
-$filesystemCache = new FilesystemAdapter('litcal', 0, $cacheDir);
-$cache           = new Psr16Cache($filesystemCache);
+// Create PSR-16 filesystem cache with graceful fallback
+$cache = null;
+try {
+    $cacheDir        = __DIR__ . '/cache';
+    $filesystemCache = new FilesystemAdapter('litcal', 0, $cacheDir);
+    $cache           = new Psr16Cache($filesystemCache);
+} catch (\Exception $e) {
+    error_log('Failed to initialize cache: ' . $e->getMessage());
+    // Continue without cache - LiturgyOfTheDay handles null cache gracefully
+}
 
 $LiturgyOfTheDay = new LiturgyOfTheDay($apiUrl, null, $cache);
 $LiturgyOfTheDay->init();
