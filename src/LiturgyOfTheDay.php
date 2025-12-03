@@ -35,6 +35,7 @@ use Psr\Http\Client\ClientInterface;
  */
 class LiturgyOfTheDay
 {
+    private Psr17Factory $psr17Factory;
     private ClientInterface $httpClient;
     private string $MetadataURL;
     private string $CalendarURL;
@@ -263,9 +264,10 @@ class LiturgyOfTheDay
      */
     public function __construct(string $apiURL, ?ClientInterface $httpClient = null)
     {
-        $this->httpClient  = $httpClient ?? new Client();
-        $this->MetadataURL = $apiURL . '/calendars';
-        $this->CalendarURL = $apiURL . '/calendar';
+        $this->psr17Factory = new Psr17Factory();
+        $this->httpClient   = $httpClient ?? new Client();
+        $this->MetadataURL  = $apiURL . '/calendars';
+        $this->CalendarURL  = $apiURL . '/calendar';
         $this->sendMetadataReq();
 
         $this->Locale = isset($_GET['locale']) && LitLocale::isValid($_GET['locale'])
@@ -387,8 +389,7 @@ class LiturgyOfTheDay
      */
     private function sendMetadataReq(): void
     {
-        $psr17Factory = new Psr17Factory();
-        $request      = $psr17Factory->createRequest('GET', $this->MetadataURL)
+        $request = $this->psr17Factory->createRequest('GET', $this->MetadataURL)
             ->withHeader('Accept', 'application/json');
 
         try {
@@ -426,9 +427,8 @@ class LiturgyOfTheDay
      */
     private function sendReq(): void
     {
-        $psr17Factory = new Psr17Factory();
-        $body         = $psr17Factory->createStream(http_build_query(['year_type' => 'CIVIL']));
-        $request      = $psr17Factory->createRequest('POST', $this->CalendarURL)
+        $body    = $this->psr17Factory->createStream(http_build_query(['year_type' => 'CIVIL']));
+        $request = $this->psr17Factory->createRequest('POST', $this->CalendarURL)
             ->withHeader('Accept-Language', $this->Locale)
             ->withHeader('Accept', 'application/json')
             ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
@@ -730,14 +730,13 @@ class LiturgyOfTheDay
      */
     private function sendResponse(): void
     {
-        $psr17Factory = new Psr17Factory();
-        $emitter      = new SapiEmitter();
+        $emitter = new SapiEmitter();
 
         if (count($this->LitCalFeed) === 0) {
-            $body     = $psr17Factory->createStream(
+            $body     = $this->psr17Factory->createStream(
                 json_encode(['error' => 'Missing data from response: LitCalFeed is empty']) ?: ''
             );
-            $response = $psr17Factory->createResponse(500)
+            $response = $this->psr17Factory->createResponse(500)
                 ->withHeader('Content-Type', 'application/json')
                 ->withBody($body);
             $emitter->emit($response);
@@ -748,8 +747,8 @@ class LiturgyOfTheDay
             ? $this->LitCalFeed[0]
             : $this->LitCalFeed;
 
-        $body     = $psr17Factory->createStream(json_encode($data) ?: '');
-        $response = $psr17Factory->createResponse(200)
+        $body     = $this->psr17Factory->createStream(json_encode($data) ?: '');
+        $response = $this->psr17Factory->createResponse(200)
             ->withHeader('Content-Type', 'application/json')
             ->withBody($body);
 
