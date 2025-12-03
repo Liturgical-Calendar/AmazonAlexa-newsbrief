@@ -301,8 +301,10 @@ class LiturgyOfTheDay
             : '';
         if ($nationalCalendarParam !== '') {
             if (false === in_array($nationalCalendarParam, $nationalCalendarKeys, true)) {
-                die("Request failed. Requested national calendar '{$nationalCalendarParam}' is not supported. Supported national calendars are: "
-                    . implode(', ', $nationalCalendarKeys));
+                throw new \InvalidArgumentException(
+                    "Request failed. Requested national calendar '{$nationalCalendarParam}' is not supported. "
+                    . 'Supported national calendars are: ' . implode(', ', $nationalCalendarKeys)
+                );
             }
             $this->NationalCalendar   = $nationalCalendarParam;
             $this->CalendarURL        = $this->CalendarURL . '/nation/' . $this->NationalCalendar;
@@ -326,8 +328,10 @@ class LiturgyOfTheDay
             : '';
         if ($diocesanCalendarParam !== '') {
             if (false === in_array($diocesanCalendarParam, $diocesanCalendarKeys, true)) {
-                die("Request failed. Requested diocesan calendar '{$diocesanCalendarParam}' is not supported. Supported diocesan calendars are: "
-                    . implode(', ', $diocesanCalendarKeys));
+                throw new \InvalidArgumentException(
+                    "Request failed. Requested diocesan calendar '{$diocesanCalendarParam}' is not supported. "
+                    . 'Supported diocesan calendars are: ' . implode(', ', $diocesanCalendarKeys)
+                );
             }
             $this->DiocesanCalendar   = $diocesanCalendarParam;
             $this->CalendarURL        = $this->CalendarURL . '/diocese/' . $this->DiocesanCalendar;
@@ -463,12 +467,12 @@ class LiturgyOfTheDay
         try {
             $response = $this->httpClient->sendRequest($request);
         } catch (ClientExceptionInterface $e) {
-            die('Could not send request. HTTP client error: ' . $e->getMessage());
+            throw new \RuntimeException('Could not send request. HTTP client error: ' . $e->getMessage(), 0, $e);
         }
 
         $resultStatus = $response->getStatusCode();
         if ($resultStatus !== 200) {
-            die('Metadata request failed. HTTP status code: ' . $resultStatus);
+            throw new \RuntimeException('Metadata request failed. HTTP status code: ' . $resultStatus);
         }
 
         $result = $response->getBody()->getContents();
@@ -476,7 +480,7 @@ class LiturgyOfTheDay
         /** @var array<string, mixed>|null $responseData */
         $responseData = json_decode($result, true);
         if (JSON_ERROR_NONE !== json_last_error() || !is_array($responseData)) {
-            die('Metadata request failed. Could not decode metadata JSON data. ' . json_last_error_msg());
+            throw new \RuntimeException('Metadata request failed. Could not decode metadata JSON data. ' . json_last_error_msg());
         }
 
         $litcalMetadata = $responseData['litcal_metadata'] ?? [];
@@ -532,12 +536,14 @@ class LiturgyOfTheDay
         try {
             $response = $this->httpClient->sendRequest($request);
         } catch (ClientExceptionInterface $e) {
-            die('Could not send request. HTTP client error: ' . $e->getMessage());
+            throw new \RuntimeException('Could not send request. HTTP client error: ' . $e->getMessage(), 0, $e);
         }
 
         $resultStatus = $response->getStatusCode();
         if ($resultStatus !== 200) {
-            die("Request to API /calendar route failed at URL '$this->CalendarURL'. HTTP status code: " . $resultStatus);
+            throw new \RuntimeException(
+                "Request to API /calendar route failed at URL '{$this->CalendarURL}'. HTTP status code: " . $resultStatus
+            );
         }
 
         $result = $response->getBody()->getContents();
@@ -545,11 +551,11 @@ class LiturgyOfTheDay
         /** @var array<string, mixed>|null $jsonData */
         $jsonData = json_decode($result, true);
         if (JSON_ERROR_NONE !== json_last_error() || !is_array($jsonData)) {
-            die('Request failed. Could not decode calendar JSON data. ' . json_last_error_msg());
+            throw new \RuntimeException('Request failed. Could not decode calendar JSON data. ' . json_last_error_msg());
         }
 
         if (false === array_key_exists('litcal', $jsonData)) {
-            die('Request failed. Cannot elaborate JSON data.');
+            throw new \RuntimeException('Request failed. Cannot elaborate JSON data.');
         }
 
         $litcal = $jsonData['litcal'];
