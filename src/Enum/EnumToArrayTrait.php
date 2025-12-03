@@ -36,12 +36,6 @@ trait EnumToArrayTrait
      */
     public static function asArray(): array
     {
-        if (empty(self::values())) {
-            return self::names();
-        }
-        if (empty(self::names())) {
-            return self::values();
-        }
         return array_column(self::cases(), 'value', 'name');
     }
 
