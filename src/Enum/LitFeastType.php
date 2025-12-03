@@ -14,7 +14,7 @@ namespace LiturgicalCalendar\AlexaNewsBrief\Enum;
  * @author John R. D'Orazio <priest@johnromanodorazio.com>
  * @package LiturgicalCalendar\AlexaNewsBrief
  */
-class LitFeastType
+class LitEventType
 {
     public const FIXED     = "fixed";
     public const MOBILE    = "mobile";

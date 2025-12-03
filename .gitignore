@@ -4,3 +4,7 @@
 !/**/.env.example
 /**/.envrc
 !/**/.envrc.example
+phpstan.neon
+!phpstan.neon.dist
+*.cache
+*.log

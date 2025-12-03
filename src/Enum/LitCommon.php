@@ -55,7 +55,7 @@ class LitCommon
     public const PRO_SANCTIS_MULIERIBUS                = "For Holy Women";
 
     private string $locale;
-    private array $GTXT;
+    private array $translate;
 
     /**
      * Construct a new LiturgicalCalendar\NewsBrief\Enum\LitCommon object
@@ -65,7 +65,7 @@ class LitCommon
     public function __construct(string $locale)
     {
         $this->locale = strtoupper($locale);
-        $this->GTXT = [
+        $this->translate = [
             self::PROPRIO                           => _("Proper"),
             /**translators: context = from the Common of nn */
             self::DEDICATIONIS_ECCLESIAE            => _("Dedication of a Church"),
@@ -283,7 +283,7 @@ class LitCommon
      * Determines if all of the given values are valid "Common" values.
      * This method can handle an array of values, or a comma-separated list of values.
      * If the value contains a colon (:), it is split into separate values.
-     * @param array<string> $values The values to test.
+     * @param string[] $values The values to test.
      * @return bool True if all of the values are valid, otherwise false.
      */
     public static function areValid(array $values)
@@ -310,7 +310,7 @@ class LitCommon
             if ($this->locale === LitLocale::LATIN) {
                 return self::LATIN[ $value ];
             } else {
-                return $this->GTXT[ $value ];
+                return $this->translate[ $value ];
             }
         }
         return $value;
@@ -356,7 +356,8 @@ class LitCommon
                         $commonSpecific = "";
                     }
                     $fromTheCommon = $this->locale === LitLocale::LATIN ? "De Commune" : _("From the Common");
-                    return $fromTheCommon . " " . $this->getPossessive($commonGeneral) . " " . $this->i18n($commonGeneral) . ($commonSpecific != "" ? ": " . $this->i18n($commonSpecific) : "");
+                    $result = $fromTheCommon . " " . $this->getPossessive($commonGeneral) . " " . $this->i18n($commonGeneral);
+                    return $commonSpecific != "" ? $result . ": " . $this->i18n($commonSpecific) : $result;
                 }, $commons);
                 /**translators: when there are multiple possible commons, this will be the glue "or from the common of..." */
                 $common = implode("; " . _("or") . " ", $commons);

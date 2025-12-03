@@ -16,7 +16,7 @@ use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
  *  - WHITE: White is used on most holy days and feasts, and during the
  *  Christmas and Easter seasons.
  *  - RED: Red is used on Pentecost and on feasts of the martyrs.
- *  - PINK: Pink is used only on Laetare Sunday (the 4th Sunday of Lent)
+ *  - ROSE: Pink is used only on Laetare Sunday (the 4th Sunday of Lent)
  *  and on Gaudete Sunday (the 3rd Sunday of Advent).
  *
  * The class contains methods for checking if a given value or array of
@@ -28,8 +28,8 @@ class LitColor
     public const PURPLE    = "purple";
     public const WHITE     = "white";
     public const RED       = "red";
-    public const PINK      = "pink";
-    public static array $values = [ "green", "purple", "white", "red", "pink" ];
+    public const ROSE      = "rose";
+    public static array $values = [ "green", "purple", "white", "red", "rose" ];
 
     /**
      * Returns true if the given value is a valid liturgical color.
@@ -79,9 +79,11 @@ class LitColor
             case self::RED:
                 /**translators: context = liturgical color */
                 return $locale === LitLocale::LATIN ? 'ruber'       : _("red");
-            case self::PINK:
+            case self::ROSE:
                 /**translators: context = liturgical color */
-                return $locale === LitLocale::LATIN ? 'rosea'       : _("pink");
+                return $locale === LitLocale::LATIN ? 'rosea'       : _("rose");
+            default:
+                return $value;
         }
     }
 }

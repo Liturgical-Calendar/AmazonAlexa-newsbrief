@@ -4,7 +4,7 @@ include './vendor/autoload.php';
 
 use LiturgicalCalendar\AlexaNewsBrief\LiturgyOfTheDay;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__, ['.env', '.env.local', '.env.development', '.env.production'], false);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__, ['.env', '.env.local', '.env.development', '.env.staging', '.env.production'], false);
 $dotenv->safeLoad();
 
 if (isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'development') {

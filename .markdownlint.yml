@@ -1,0 +1,32 @@
+# Markdown lint configuration
+# See https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+# Line length - allow up to 180 characters, exclude code blocks and tables
+MD013:
+  line_length: 180
+  code_blocks: false
+  tables: false
+
+# Allow inline HTML for specific elements
+MD033:
+  allowed_elements:
+    - img
+    - a
+    - table
+    - thead
+    - tbody
+    - tr
+    - th
+    - td
+    - kbd
+    - br
+    - sup
+    - sub
+    - div
+    - span
+
+# Allow bare URLs
+MD034: false
+
+# First line doesn't need to be a heading (for files with badges)
+MD041: false

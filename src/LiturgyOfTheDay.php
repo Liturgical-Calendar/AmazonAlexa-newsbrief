@@ -52,7 +52,9 @@ class LiturgyOfTheDay
         '/Blessed /'   => '<phoneme alphabet="ipa" ph="ˈblɛsɪd">Blessed</phoneme> ',
         '/Antiochia/'  => '<phoneme alphabet="ipa" ph="ɑntɪˈokiɑ">Antiochia</phoneme>',
     ];
-    private const ROMAN_NUMERAL_PATTERN_1_34 = '/^(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|XX|XXI|XXII|XXIII|XXIV|XXV|XXVI|XXVII|XXVIII|XXIX|XXX|XXXI|XXXII|XXXIII|XXXIV) /';
+    private const ROMAN_NUMERAL_PATTERN_1_34 =
+        '/^(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV|XVI|XVII|XVIII|XIX|' .
+        'XX|XXI|XXII|XXIII|XXIV|XXV|XXVI|XXVII|XXVIII|XXIX|XXX|XXXI|XXXII|XXXIII|XXXIV) /';
     private const ROMAN_TO_ARABIC_MAPPING = [
         'I' => 1, 'II' => 2, 'III' => 3, 'IV' => 4, 'V' => 5, 'VI' => 6, 'VII' => 7, 'VIII' => 8, 'IX' => 9,
         'X' => 10, 'XI' => 11, 'XII' => 12, 'XIII' => 13, 'XIV' => 14, 'XV' => 15, 'XVI' => 16, 'XVII' => 17, 'XVIII' => 18, 'XIX' => 19,
@@ -377,7 +379,7 @@ class LiturgyOfTheDay
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $this->CalendarURL);
-        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(["year_type" => "CIVIL"]));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Accept-Language: $this->Locale",
@@ -413,19 +415,20 @@ class LiturgyOfTheDay
      * to generate the main text and optional SSML for each event. Finally, it creates a new LitCalFeedItem
      * for each event and adds it to the $this->LitCalFeed array.
      */
-    private function filterEventsToday()
+    private function filterEventsToday(): void
     {
-        $dateTimeToday = ( new \DateTime('now') )->format("Y-m-d") . " 00:00:00";
-        $dateToday = \DateTime::createFromFormat('Y-m-d H:i:s', $dateTimeToday, new \DateTimeZone('UTC'));
-        $dateTodayTimestampStr = $dateToday->format("U");
-        $dateTodayTimestamp = intval($dateTodayTimestampStr);
-        $dateToday->add(new \DateInterval('PT15M'));
+        $dateToday = new \DateTime('now', new \DateTimeZone('UTC'));
+        $dateTodayStr = $dateToday->format('Y-m-d');
+        // For the publishDate, add 15 minutes offset
+        $publishDate = clone $dateToday;
+        $publishDate->add(new \DateInterval('PT15M'));
         $idx = 0;
         foreach ($this->LitCalData as $value) {
-            //file_put_contents( $this->logFile, "Processing litcal event $value['event_key']..." . "\n", FILE_APPEND );
-            if ($value["date"] === $dateTodayTimestamp) {
-                //file_put_contents( $this->logFile, "Found litcal event $value['event_key'] with timestamp equal to today!" . "\n", FILE_APPEND );
-                $publishDate = $dateToday;
+            // API now returns RFC 3339 datetime strings like "2018-05-21T00:00:00+00:00"
+            // Extract the date portion for comparison
+            $eventDate = new \DateTime($value["date"]);
+            $eventDateStr = $eventDate->format('Y-m-d');
+            if ($eventDateStr === $dateTodayStr) {
                 // retransform each entry from an associative array to a Festivity class object
                 $festivity = new Festivity($value);
                 ["mainText" => $mainText, "ssml" => $ssml] = $this->prepareMainText($festivity, $idx);
@@ -572,7 +575,7 @@ class LiturgyOfTheDay
 
             $mainText = preg_replace('/  +/', ' ', $mainText);
             if (array_key_exists($this->baseLocale, LiturgyOfTheDay::MANUAL_FIXES)) {
-                foreach( LiturgyOfTheDay::MANUAL_FIXES[$this->baseLocale] as $pattern => $replacement ) {
+                foreach (LiturgyOfTheDay::MANUAL_FIXES[$this->baseLocale] as $pattern => $replacement) {
                     $mainText = preg_replace($pattern, $replacement, $mainText);
                 }
             }
