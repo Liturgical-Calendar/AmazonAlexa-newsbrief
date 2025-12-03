@@ -30,7 +30,7 @@ AmazonAlexa-newsbrief/
 ├── src/
 │   ├── LiturgyOfTheDay.php    # Main library class
 │   ├── LitCalFeedItem.php     # JSON-serializable feed item model
-│   ├── Festivity.php          # Liturgical event data model
+│   ├── LiturgicalEvent.php    # Liturgical event data model
 │   ├── Utilities.php          # Helper methods
 │   ├── pgettext.php           # Custom translation function
 │   └── Enum/                  # Type-safe enums
@@ -114,7 +114,7 @@ All markdown files must conform to `.markdownlint.yml`:
 |---------------------------|--------------------------------------|
 | `src/LiturgyOfTheDay.php` | Main library class                   |
 | `src/LitCalFeedItem.php`  | Feed item model for Alexa            |
-| `src/Festivity.php`       | Liturgical event data model          |
+| `src/LiturgicalEvent.php` | Liturgical event data model          |
 | `phpcs.xml`               | PHP CodeSniffer configuration        |
 | `phpstan.neon.dist`       | PHPStan static analysis config       |
 | `captainhook.json`        | Git hooks configuration              |

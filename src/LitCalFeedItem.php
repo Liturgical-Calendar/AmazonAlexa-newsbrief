@@ -2,7 +2,7 @@
 
 namespace LiturgicalCalendar\AlexaNewsBrief;
 
-use LiturgicalCalendar\AlexaNewsBrief\Festivity;
+use LiturgicalCalendar\AlexaNewsBrief\LiturgicalEvent;
 
 /**
  * A data structure that represents a single item in the Liturgical Calendar Alexa News Brief.
@@ -10,7 +10,7 @@ use LiturgicalCalendar\AlexaNewsBrief\Festivity;
  * Contains the following properties:
  *
  * - $uid: a unique identifier for the item.
- * - $titleText: the title of the item, which is the name of the festivity.
+ * - $titleText: the title of the item, which is the name of the liturgical event.
  * - $mainText: the main text of the item, which is the text that is read to the user.
  * - $redirectionUrl: the URL that the user is redirected to when they click on the item.
  * - $updateDate: the date that the item was last updated.
@@ -29,7 +29,7 @@ class LitCalFeedItem implements \JsonSerializable
     public ?string $ssml = null;
 
     /**
-     * Constructs a new LitCalFeedItem from a Festivity object, the key for that festivity,
+     * Constructs a new LitCalFeedItem from a LiturgicalEvent object,
      * a publish date, a title text, a main text, and an optional SSML string.
      *
      * The publish date is converted to a string in the format "Y-m-d\TH:i:s\Z".
@@ -38,15 +38,15 @@ class LitCalFeedItem implements \JsonSerializable
      * The mainText property is set to $mainText.
      * The redirectionUrl property is set to "https://litcal.johnromanodorazio.com/"
      *
-     * @param Festivity $festivity The Festivity object.
+     * @param LiturgicalEvent $event The LiturgicalEvent object.
      * @param \DateTime $publishDate The publish date.
      * @param string $titleText The title text.
      * @param string $mainText The main text.
-     * @param string $ssml The optional SSML string.
+     * @param string|null $ssml The optional SSML string.
      */
-    public function __construct(Festivity $festivity, \DateTime $publishDate, string $titleText, string $mainText, ?string $ssml = null)
+    public function __construct(LiturgicalEvent $event, \DateTime $publishDate, string $titleText, string $mainText, ?string $ssml = null)
     {
-        $this->uid = "urn:uuid:" . md5("LITCAL-" . $festivity->tag . '-' . $festivity->date->format('Y'));
+        $this->uid = "urn:uuid:" . md5("LITCAL-" . $event->tag . '-' . $event->date->format('Y'));
         $this->updateDate       = $publishDate->format("Y-m-d\TH:i:s\Z");
         $this->titleText        = $titleText;
         if (null !== $ssml) {

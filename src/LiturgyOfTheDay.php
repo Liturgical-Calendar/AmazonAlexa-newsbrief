@@ -5,7 +5,7 @@ namespace LiturgicalCalendar\AlexaNewsBrief;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitCommon;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitGrade;
 use LiturgicalCalendar\AlexaNewsBrief\Enum\LitLocale;
-use LiturgicalCalendar\AlexaNewsBrief\Festivity;
+use LiturgicalCalendar\AlexaNewsBrief\LiturgicalEvent;
 use LiturgicalCalendar\AlexaNewsBrief\LitCalFeedItem;
 
 /**
@@ -24,7 +24,7 @@ use LiturgicalCalendar\AlexaNewsBrief\LitCalFeedItem;
  * It fetches the liturgical data for the given locale and calendar from the Liturgical Calendar API
  * and stores the "litcal" array in $this->LitCalData.
  *
- * It then filters out only the events for today and converts each of these events into a Festivity object,
+ * It then filters out only the events for today and converts each of these events into a LiturgicalEvent object,
  * and calls prepareMainText to generate the main text and optional SSML for each event. Finally, it creates a new
  * LitCalFeedItem for each event and adds it to the $this->LitCalFeed array.
  */
@@ -411,7 +411,7 @@ class LiturgyOfTheDay
 
     /**
      * This function takes the LitCal data and filters out only the events for today.
-     * It then converts each of these events into a Festivity object, and calls prepareMainText
+     * It then converts each of these events into a LiturgicalEvent object, and calls prepareMainText
      * to generate the main text and optional SSML for each event. Finally, it creates a new LitCalFeedItem
      * for each event and adds it to the $this->LitCalFeed array.
      */
@@ -429,16 +429,16 @@ class LiturgyOfTheDay
             $eventDate = new \DateTime($value["date"]);
             $eventDateStr = $eventDate->format('Y-m-d');
             if ($eventDateStr === $dateTodayStr) {
-                // retransform each entry from an associative array to a Festivity class object
-                $festivity = new Festivity($value);
-                ["mainText" => $mainText, "ssml" => $ssml] = $this->prepareMainText($festivity, $idx);
+                // retransform each entry from an associative array to a LiturgicalEvent class object
+                $event = new LiturgicalEvent($value);
+                ["mainText" => $mainText, "ssml" => $ssml] = $this->prepareMainText($event, $idx);
                 $titleText = _("Liturgy of the Day") . " ";
                 if ($this->baseLocale === LitLocale::ENGLISH) {
-                    $titleText .= $festivity->date->format('F jS');
+                    $titleText .= $event->date->format('F jS');
                 } else {
-                    $titleText .= $this->monthDayFmt->format($festivity->date->format('U'));
+                    $titleText .= $this->monthDayFmt->format($event->date->format('U'));
                 }
-                $this->LitCalFeed[] = new LitCalFeedItem($festivity, $publishDate, $titleText, $mainText, $ssml);
+                $this->LitCalFeed[] = new LitCalFeedItem($event, $publishDate, $titleText, $mainText, $ssml);
                 $idx++;
             }
         }
@@ -453,16 +453,16 @@ class LiturgyOfTheDay
     }
 
     /**
-     * Prepares the main text for a given Festivity, given its index in the LitCalFeed array.
+     * Prepares the main text for a given LiturgicalEvent, given its index in the LitCalFeed array.
      *
-     * This function takes into account the grade of the festivity and its relative position in the LitCalFeed array and returns
-     * a string that can be used as the main text for that festivity.
+     * This function takes into account the grade of the event and its relative position in the LitCalFeed array
+     * and returns a string that can be used as the main text for that event.
      *
-     * @param Festivity $festivity The Festivity to generate the main text for.
-     * @param int $idx The index of the Festivity in the LitCalFeed array.
+     * @param LiturgicalEvent $event The LiturgicalEvent to generate the main text for.
+     * @param int $idx The index of the LiturgicalEvent in the LitCalFeed array.
      * @return array A two-element array containing the main text and the SSML string, if any.
      */
-    private function prepareMainText(Festivity $festivity, int $idx): array
+    private function prepareMainText(LiturgicalEvent $event, int $idx): array
     {
         $mainText = "";
         $ssml = null;
@@ -475,101 +475,101 @@ class LiturgyOfTheDay
         ];
         $isSundayOrdAdvLentEaster = false;
         foreach ($filterTagsDisplayGrade as $pattern) {
-            if (preg_match($pattern, $festivity->tag) === 1) {
+            if (preg_match($pattern, $event->tag) === 1) {
                 $isSundayOrdAdvLentEaster = true;
                 break;
             }
         }
 
         if ($isSundayOrdAdvLentEaster) {
-            $startsWithRoman = self::detectRomanNumeral($festivity->name);
+            $startsWithRoman = self::detectRomanNumeral($event->name);
             if ($startsWithRoman !== false) {
                 $replacement = $this->numberFormatter->format($startsWithRoman);
-                $festivity->name = preg_replace(self::ROMAN_NUMERAL_PATTERN_1_34, $replacement . ' ', $festivity->name);
+                $event->name = preg_replace(self::ROMAN_NUMERAL_PATTERN_1_34, $replacement . ' ', $event->name);
             }
         }
 
-        if ($festivity->grade === LitGrade::WEEKDAY) {
-            $mainText = _("Today is") . " " . $festivity->name . ".";
+        if ($event->grade === LitGrade::WEEKDAY) {
+            $mainText = _("Today is") . " " . $event->name . ".";
         } else {
-            if ($festivity->isVigilMass) {
+            if ($event->isVigilMass) {
                 if ($isSundayOrdAdvLentEaster) {
                     $mainText = sprintf(
                         /**translators: 1. name of the festivity */
                         _('This evening there will be a Vigil Mass for the %1$s.'),
-                        trim(str_replace(_("Vigil Mass"), "", $festivity->name))
+                        trim(str_replace(_("Vigil Mass"), "", $event->name))
                     );
                 } else {
                     $mainText = sprintf(
                         /**translators: 1. grade of the festivity, 2. name of the festivity */
                         _('This evening there will be a Vigil Mass for the %1$s %2$s.'),
-                        $this->LitGrade->i18n($festivity->grade, false),
-                        trim(str_replace(_("Vigil Mass"), "", $festivity->name))
+                        $this->LitGrade->i18n($event->grade, false),
+                        trim(str_replace(_("Vigil Mass"), "", $event->name))
                     );
                 }
-            } elseif ($festivity->grade < LitGrade::HIGHER_SOLEMNITY) {
-                if ($festivity->displayGrade !== null) {
-                    if ($festivity->displayGrade === '') {
+            } elseif ($event->grade < LitGrade::HIGHER_SOLEMNITY) {
+                if ($event->displayGrade !== null) {
+                    if ($event->displayGrade === '') {
                         $mainText = sprintf(
                             /**translators: 1. (also|''), 2. name of the festivity */
                             _('Today is %1$s the %2$s.'),
                             ( $idx > 0 ? _("also") : "" ),
-                            $festivity->name
+                            $event->name
                         );
                     } else {
                         $mainText = sprintf(
                             /**translators: 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
                             _('Today is %1$s the %2$s of %3$s.'),
                             ( $idx > 0 ? _("also") : "" ),
-                            $festivity->displayGrade,
-                            $festivity->name
+                            $event->displayGrade,
+                            $event->name
                         );
                     }
                 } else {
-                    if ($festivity->grade === LitGrade::FEAST_LORD) {
+                    if ($event->grade === LitGrade::FEAST_LORD) {
                         if ($isSundayOrdAdvLentEaster) {
                             $mainText = sprintf(
                                 /**translators: CTXT: Sundays. 1. (also|''), 2. name of the festivity */
                                 _('Today is %1$s the %2$s.'),
                                 ( $idx > 0 ? _("also") : "" ),
-                                $festivity->name
+                                $event->name
                             );
                         } else {
                             $mainText = sprintf(
                                 /**translators: CTXT: Feast of the Lord. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
                                 _('Today is %1$s the %2$s, %3$s.'),
                                 ( $idx > 0 ? _("also") : "" ),
-                                $this->LitGrade->i18n($festivity->grade, false),
-                                $festivity->name
+                                $this->LitGrade->i18n($event->grade, false),
+                                $event->name
                             );
                         }
-                    } elseif (strpos($festivity->tag, "SatMemBVM") !== false) {
+                    } elseif (strpos($event->tag, "SatMemBVM") !== false) {
                         $mainText = sprintf(
                             /**translators: CTXT: Saturday memorial BVM. 1. (also|''), 2. name of the festivity */
                             _('Today is %1$s the %2$s.'),
                             ( $idx > 0 ? _("also") : "" ),
-                            $festivity->name
+                            $event->name
                         );
                     } else {
                         $mainText = sprintf(
                             /**translators: CTXT: (optional) memorial or feast. 1. (also|''), 2. grade of the festivity, 3. name of the festivity */
                             _('Today is %1$s the %2$s of %3$s.'),
                             ( $idx > 0 ? _("also") : "" ),
-                            $this->LitGrade->i18n($festivity->grade, false),
-                            $festivity->name
+                            $this->LitGrade->i18n($event->grade, false),
+                            $event->name
                         );
                     }
                 }
 
-                if ($festivity->grade < LitGrade::FEAST && $festivity->common != LitCommon::PROPRIO) {
-                    $mainText = $mainText . " " . $this->LitCommon->c($festivity->common);
+                if ($event->grade < LitGrade::FEAST && $event->common != LitCommon::PROPRIO) {
+                    $mainText = $mainText . " " . $this->LitCommon->c($event->common);
                 }
             } else {
                 $mainText = sprintf(
                     /**translators: CTXT: higher grade solemnity with precedence over other solemnities. 1. (also|''), 2. name of the festivity  */
                     _('Today is %1$s the day of %2$s.'),
                     ( $idx > 0 ? _("also") : "" ),
-                    $festivity->name
+                    $event->name
                 );
             }
 
@@ -661,10 +661,10 @@ class LiturgyOfTheDay
     /**
      * Sends the Alexa Flash Briefing response.
      *
-     * This method will send either a single JSON object or an array of JSON objects, depending on the number of Festivity objects
-     * in the LitCalFeed array.  If the LitCalFeed array contains only one Festivity, it will send the JSON representation of the
-     * single Festivity.  If the LitCalFeed array contains more than one Festivity, it will send the JSON representation of the
-     * LitCalFeed array itself.
+     * This method will send either a single JSON object or an array of JSON objects, depending on the number of
+     * LiturgicalEvent objects in the LitCalFeed array. If the LitCalFeed array contains only one event, it will
+     * send the JSON representation of the single event. If the LitCalFeed array contains more than one event,
+     * it will send the JSON representation of the LitCalFeed array itself.
      */
     private function sendResponse()
     {
