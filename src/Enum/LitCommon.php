@@ -55,6 +55,8 @@ class LitCommon
     public const PRO_SANCTIS_MULIERIBUS                = "For Holy Women";
 
     private string $locale;
+
+    /** @var array<string, string> */
     private array $translate;
 
     /**
@@ -299,8 +301,9 @@ class LitCommon
      * If the value is an array, each element of the array is translated.
      * If the value is a string, it is assumed to be a valid "Common" value.
      * If the value is not a valid "Common" value, it is returned unchanged.
-     * @param string|array $value The value or values to translate.
-     * @return string|array The translated value or values.
+     *
+     * @param string|array<string> $value The value or values to translate.
+     * @return string|array<string> The translated value or values.
      */
     public function i18n(string|array $value): string|array
     {
@@ -321,8 +324,9 @@ class LitCommon
      * Otherwise returns the possessive form of the given string,
      * according to the rules defined in the possessive() method.
      * If the given string is an array, applies the same rules to each element of the array.
-     * @param string|array $value the string or array of strings to get the possessive of
-     * @return string|array the possessive form of the given string, or an array of such strings
+     *
+     * @param string|array<string> $value the string or array of strings to get the possessive of
+     * @return string|array<string> the possessive form of the given string, or an array of such strings
      */
     public function getPossessive(string|array $value): string|array
     {
@@ -334,8 +338,9 @@ class LitCommon
 
     /**
      * Returns a translated human readable string of the Common or the Proper
-     * @param string|array $common the Common or the Proper to return the human readable string for
-     * @return string|array the human readable string, or an array of such strings
+     *
+     * @param string|array<string> $common the Common or the Proper to return the human readable string for
+     * @return string|array<string> the human readable string, or an array of such strings
      */
     public function c(string|array $common = ""): string|array
     {

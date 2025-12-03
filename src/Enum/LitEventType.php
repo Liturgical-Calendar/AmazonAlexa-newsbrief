@@ -18,6 +18,8 @@ class LitEventType
 {
     public const FIXED     = "fixed";
     public const MOBILE    = "mobile";
+
+    /** @var array<string> */
     public static array $values = [ "fixed", "mobile" ];
 
     /**
@@ -26,7 +28,7 @@ class LitEventType
      * @param string $value The value to check.
      * @return bool True if the value is valid, otherwise false.
      */
-    public static function isValid(string $value)
+    public static function isValid(string $value): bool
     {
         return in_array($value, self::$values);
     }

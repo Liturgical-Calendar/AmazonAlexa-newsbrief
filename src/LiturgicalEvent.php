@@ -22,10 +22,14 @@ class LiturgicalEvent
     public string $tag;
     public string $name;
     public \DateTime $date;
+
+    /** @var array<string> */
     public array $color;
     public string $type;
     public int $grade;
     public ?string $displayGrade;
+
+    /** @var array<string> */
     public array $common;
     public string $liturgicalYear;
     public bool $isVigilMass;
@@ -34,7 +38,7 @@ class LiturgicalEvent
     /**
      * Constructor for LiturgicalEvent class.
      *
-     * @param array $event an array representing a liturgical event, with the following keys:
+     * @param array<string, mixed> $event an array representing a liturgical event, with the following keys:
      *      - event_key {string}: the unique identifier for the event
      *      - name {string}: the name of the event
      *      - date {string}: an RFC 3339 datetime string representing the date (e.g. "2018-05-21T00:00:00+00:00")

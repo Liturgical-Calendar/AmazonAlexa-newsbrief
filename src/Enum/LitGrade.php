@@ -79,6 +79,7 @@ class LitGrade
     //     WEEKDAYS OF THE EASTER SEASON, FROM THE MONDAY AFTER THE OCTAVE OF EASTER UNTIL THE SATURDAY BEFORE PENTECOST
     //     WEEKDAYS OF ORDINARY TIME
 
+    /** @var array<int> */
     public static array $values = [ 0, 1, 2, 3, 4, 5, 6, 7 ];
 
     private string $locale;
@@ -98,7 +99,7 @@ class LitGrade
      * @param int $value A liturgical grade.
      * @return bool True if the given grade is valid, otherwise false.
      */
-    public static function isValid(int $value)
+    public static function isValid(int $value): bool
     {
         return in_array($value, self::$values);
     }
@@ -109,7 +110,7 @@ class LitGrade
      * @param bool $html If true, the localized text will be wrapped with HTML tags.
      * @return string
      */
-    public function i18n(int $value, bool $html = true)
+    public function i18n(int $value, bool $html = true): string
     {
         switch ($value) {
             case self::WEEKDAY:

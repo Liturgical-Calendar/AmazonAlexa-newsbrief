@@ -11,7 +11,11 @@ class LitLocale
     public const LATIN                 = "la";
     public const PORTUGUESE            = "pt";
     public const SPANISH               = "es";
+
+    /** @var array<string> */
     public static array $values = [ "en", "fr", "de", "it", "la", "pt", "es" ];
+
+    /** @var array<string, string> */
     public static array $primaryRegion = [
         "en" => "US",
         "fr" => "FR",
@@ -22,7 +26,7 @@ class LitLocale
         "es" => "ES"
     ];
 
-    public static function isValid($value)
+    public static function isValid(string $value): bool
     {
         $baseLocale = \Locale::getPrimaryLanguage($value);
         return in_array($baseLocale, self::$values);

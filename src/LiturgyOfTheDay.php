@@ -39,8 +39,14 @@ class LiturgyOfTheDay
     private LitGrade $LitGrade;
     private ?string $NationalCalendar   = null;
     private ?string $DiocesanCalendar   = null;
+
+    /** @var array<string, mixed> */
     private array $LitCalMetadata       = [];
+
+    /** @var array<int, array<string, mixed>> */
     private array $LitCalData           = [];
+
+    /** @var array<LitCalFeedItem> */
     private array $LitCalFeed           = [];
     private \IntlDateFormatter $monthDayFmt;
     private const MANUAL_FIXES = [
@@ -62,7 +68,9 @@ class LiturgyOfTheDay
         'XXX' => 30, 'XXXI' => 31, 'XXXII' => 32, 'XXXIII' => 33, 'XXXIV' => 34
     ];
     private \NumberFormatter $numberFormatter;
-    private static $genericSpelloutOrdinal          = [
+
+    /** @var array<string> */
+    private static array $genericSpelloutOrdinal    = [
         'af', //Afrikaans
         'am', //Amharic
         'as', //Assamese
@@ -133,8 +141,10 @@ class LiturgyOfTheDay
 
     /**
      * Languages that use spellout-ordinal-masculine and spellout-ordinal-feminine
+     *
+     * @var array<string>
      */
-    private static $mascFemSpelloutOrdinal          = [
+    private static array $mascFemSpelloutOrdinal    = [
         'ar', //Arabic
         'ca', //Catalan
         'es', //Spanish : also supports plural forms, as well as a masculine adjective form (? spellout-ordinal-masculine-adjective)
@@ -147,8 +157,10 @@ class LiturgyOfTheDay
 
     /**
      * Languages that use spellout-ordinal-masculine, spellout-ordinal-feminine, and spellout-ordinal-neuter
+     *
+     * @var array<string>
      */
-    private static $mascFemNeutSpelloutOrdinal      = [
+    private static array $mascFemNeutSpelloutOrdinal = [
         'bg', //Bulgarian
         'be', //Belarusian
         'el', //Greek
@@ -197,8 +209,10 @@ class LiturgyOfTheDay
      *  - "andet hus" (second house) for neuter gender
      *
      * So apparently it is very similar to spellout-ordinal with a few cases using neutral gender.
+     *
+     * @var array<string>
      */
-    private static $commonNeutSpelloutOrdinal       = [
+    private static array $commonNeutSpelloutOrdinal = [
         'da'  //Danish
     ];
 
@@ -362,9 +376,6 @@ class LiturgyOfTheDay
 
 
     /**
-     * @throws \Exception
-     */
-    /**
      * Sends a request to the calendar API at $this->CalendarURL
      * with the Accept-Language header set to $this->Locale and the
      * Accept header set to application/json.
@@ -374,7 +385,7 @@ class LiturgyOfTheDay
      * If the request succeeds, it will decode the JSON response
      * and store the "litcal" array in $this->LitCalData.
      */
-    private function sendReq()
+    private function sendReq(): void
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -444,7 +455,7 @@ class LiturgyOfTheDay
         }
     }
 
-    private static function detectRomanNumeral($str): int|false
+    private static function detectRomanNumeral(string $str): int|false
     {
         if (preg_match(self::ROMAN_NUMERAL_PATTERN_1_34, $str, $matches) === 1) {
             return self::ROMAN_TO_ARABIC_MAPPING[$matches[1]];
@@ -460,7 +471,7 @@ class LiturgyOfTheDay
      *
      * @param LiturgicalEvent $event The LiturgicalEvent to generate the main text for.
      * @param int $idx The index of the LiturgicalEvent in the LitCalFeed array.
-     * @return array A two-element array containing the main text and the SSML string, if any.
+     * @return array{mainText: string, ssml: string|null} A two-element array containing the main text and the SSML string.
      */
     private function prepareMainText(LiturgicalEvent $event, int $idx): array
     {
@@ -666,7 +677,7 @@ class LiturgyOfTheDay
      * send the JSON representation of the single event. If the LitCalFeed array contains more than one event,
      * it will send the JSON representation of the LitCalFeed array itself.
      */
-    private function sendResponse()
+    private function sendResponse(): void
     {
         header('Content-Type: application/json');
         if (count($this->LitCalFeed) === 1) {
@@ -683,7 +694,7 @@ class LiturgyOfTheDay
      *
      * This method will call the other methods in the correct order to generate and send the Alexa Flash Briefing response.
      */
-    public function init()
+    public function init(): void
     {
         $this->sendReq();
         $this->prepareL10N();

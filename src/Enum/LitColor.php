@@ -29,6 +29,8 @@ class LitColor
     public const WHITE     = "white";
     public const RED       = "red";
     public const ROSE      = "rose";
+
+    /** @var array<string> */
     public static array $values = [ "green", "purple", "white", "red", "rose" ];
 
     /**
@@ -36,10 +38,8 @@ class LitColor
      *
      * If $value is a comma-separated string of values, it will be split into an
      * array and passed to {@see LitColor::areValid()}.
-     * @param string $value
-     * @return bool
      */
-    public static function isValid(string $value)
+    public static function isValid(string $value): bool
     {
         if (strpos($value, ',')) {
             return LitColor::areValid(explode(',', $value));
@@ -49,10 +49,10 @@ class LitColor
 
     /**
      * Returns true if all of the given values are valid liturgical colors.
-     * @param array $values
-     * @return bool
+     *
+     * @param array<string> $values
      */
-    public static function areValid(array $values)
+    public static function areValid(array $values): bool
     {
         return empty(array_diff($values, self::$values));
     }

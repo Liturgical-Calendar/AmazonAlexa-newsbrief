@@ -60,6 +60,8 @@ class LitCalFeedItem implements \JsonSerializable
      * jsonSerialize is needed because if $this->ssml is null, json_encode will output it as
      * a null value, which is not what we want. Instead, we want it to be excluded from the output
      * so that Alexa doesn't try to interpret it.
+     *
+     * @return array<string, string>
      */
     public function jsonSerialize(): array
     {
