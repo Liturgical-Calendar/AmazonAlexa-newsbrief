@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-03 21:47+0000\n"
-"PO-Revision-Date: 2025-11-21 17:22+0000\n"
+"PO-Revision-Date: 2025-12-03 21:54+0000\n"
 "Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
 "Language-Team: German <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/de/>\n"
@@ -323,11 +323,11 @@ msgstr "Gedächtnis"
 
 #: src/Enum/LitGrade.php:107
 msgid "Optional memorial"
-msgstr "Freiwilliges Gedächtnis"
+msgstr "Nichtgebotener Gedenktag"
 
 #: src/Enum/LitGrade.php:112
 msgid "Memorial"
-msgstr "Gedächtnis"
+msgstr "Gedenktag"
 
 #: src/Enum/LitGrade.php:117
 msgid "FEAST"
