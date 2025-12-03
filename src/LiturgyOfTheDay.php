@@ -487,7 +487,9 @@ class LiturgyOfTheDay
 
             // Store in cache
             if ($this->cache !== null) {
-                $this->cache->set($cacheKey, $typedMetadata, self::METADATA_CACHE_TTL);
+                if (!$this->cache->set($cacheKey, $typedMetadata, self::METADATA_CACHE_TTL)) {
+                    error_log('Failed to cache metadata for key: ' . $cacheKey);
+                }
             }
         }
     }
@@ -557,7 +559,9 @@ class LiturgyOfTheDay
 
         // Store in cache
         if ($this->cache !== null) {
-            $this->cache->set($cacheKey, $litcalData, self::CALENDAR_CACHE_TTL);
+            if (!$this->cache->set($cacheKey, $litcalData, self::CALENDAR_CACHE_TTL)) {
+                error_log('Failed to cache calendar data for key: ' . $cacheKey);
+            }
         }
     }
 
