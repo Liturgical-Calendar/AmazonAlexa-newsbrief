@@ -13,7 +13,7 @@ namespace LiturgicalCalendar\AlexaNewsBrief\Enum;
  * - WHITE: White is used on most holy days and feasts, and during the
  *   Christmas and Easter seasons.
  * - RED: Red is used on Pentecost and on feasts of the martyrs.
- * - ROSE: Pink is used only on Laetare Sunday (the 4th Sunday of Lent)
+ * - ROSE: Rose is used only on Laetare Sunday (the 4th Sunday of Lent)
  *   and on Gaudete Sunday (the 3rd Sunday of Advent).
  */
 enum LitColor: string
