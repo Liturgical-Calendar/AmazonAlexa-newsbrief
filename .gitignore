@@ -9,3 +9,5 @@ phpstan.neon
 !phpstan.neon.dist
 *.cache
 *.log
+/venv/
+.vscode/settings.json
