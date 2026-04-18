@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Lovro <development.lovro@gmail.com>, 2025.
 # "John R. D'Orazio" <priest@johnromanodorazio.com>, 2025.
+# Weblate Admin <admin@example.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-03 21:47+0000\n"
-"PO-Revision-Date: 2025-11-16 01:22+0000\n"
-"Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
+"PO-Revision-Date: 2025-12-19 19:23+0000\n"
+"Last-Translator: Weblate Admin <admin@example.com>\n"
 "Language-Team: Croatian <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/hr/>\n"
 "Language: hr\n"
@@ -111,7 +112,7 @@ msgstr ""
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:198
 msgid "Dedication of a Church"
-msgstr ""
+msgstr "Posveta crkve"
 
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:200
