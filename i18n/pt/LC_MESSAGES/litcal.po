@@ -6,13 +6,13 @@
 # Weblate Admin <admin@example.com>, 2024.
 # OpenAI <noreply-mt-openai@weblate.org>, 2024.
 # Ronaldo Soares Couto <ronaldocouto@gmail.com>, 2025.
-# "John R. D'Orazio" <priest@johnromanodorazio.com>, 2025.
+# "John R. D'Orazio" <priest@johnromanodorazio.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-03 21:47+0000\n"
-"PO-Revision-Date: 2025-12-03 22:12+0000\n"
+"PO-Revision-Date: 2026-08-29 00:54+0000\n"
 "Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
 "Language-Team: Portuguese <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/pt/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.13.3\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: src/LiturgyOfTheDay.php:597
 msgid "Liturgy of the Day"
@@ -324,7 +324,7 @@ msgstr "Comemoração"
 
 #: src/Enum/LitGrade.php:107
 msgid "Optional memorial"
-msgstr "Memória opcional"
+msgstr "Memória facultativa"
 
 #: src/Enum/LitGrade.php:112
 msgid "Memorial"
