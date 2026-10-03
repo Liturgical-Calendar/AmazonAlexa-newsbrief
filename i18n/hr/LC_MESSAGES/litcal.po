@@ -4,13 +4,14 @@
 # Lovro <development.lovro@gmail.com>, 2025.
 # "John R. D'Orazio" <priest@johnromanodorazio.com>, 2025.
 # Weblate Admin <admin@example.com>, 2025.
+# OpenAI <noreply-mt-openai@weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-03 21:47+0000\n"
-"PO-Revision-Date: 2025-12-19 19:23+0000\n"
-"Last-Translator: Weblate Admin <admin@example.com>\n"
+"PO-Revision-Date: 2026-09-18 04:55+0000\n"
+"Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
 "Language-Team: Croatian <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/hr/>\n"
 "Language: hr\n"
@@ -19,11 +20,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.13.3\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: src/LiturgyOfTheDay.php:597
 msgid "Liturgy of the Day"
-msgstr ""
+msgstr "Liturgija dana"
 
 #: src/LiturgyOfTheDay.php:656
 msgid "Today is"
@@ -88,7 +89,7 @@ msgstr "zelena"
 #. translators: context = liturgical color
 #: src/Enum/LitColor.php:42
 msgid "purple"
-msgstr ""
+msgstr "ljubičasta"
 
 #. translators: context = liturgical color
 #: src/Enum/LitColor.php:44
@@ -103,11 +104,11 @@ msgstr "crvena"
 #. translators: context = liturgical color
 #: src/Enum/LitColor.php:48
 msgid "rose"
-msgstr ""
+msgstr "ruža"
 
 #: src/Enum/LitCommon.php:196
 msgid "Proper"
-msgstr ""
+msgstr "Propers"
 
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:198
@@ -117,137 +118,137 @@ msgstr "Posveta crkve"
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:200
 msgid "Blessed Virgin Mary"
-msgstr ""
+msgstr "Blažena Djevica Marija"
 
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:202
 msgid "Martyrs"
-msgstr ""
+msgstr "Mučenici"
 
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:204
 msgid "Pastors"
-msgstr ""
+msgstr "Pastori"
 
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:206
 msgid "Doctors"
-msgstr ""
+msgstr "Doktori"
 
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:208
 msgid "Virgins"
-msgstr ""
+msgstr "Djevice"
 
 #. translators: context = from the Common of nn
 #: src/Enum/LitCommon.php:210
 msgid "Holy Men and Women"
-msgstr ""
+msgstr "Sveti muškarci i žene"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:212
 msgid "For One Martyr"
-msgstr ""
+msgstr "Za jednog mučenika"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:214
 msgid "For Several Martyrs"
-msgstr ""
+msgstr "Za nekoliko mučenika"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:216
 msgid "For Missionary Martyrs"
-msgstr ""
+msgstr "Za misionarske mučenike"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:218
 msgid "For One Missionary Martyr"
-msgstr ""
+msgstr "Za jednog misionarskog mučenika"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:220
 msgid "For Several Missionary Martyrs"
-msgstr ""
+msgstr "Za nekoliko misionarskih mučenika"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:222
 msgid "For a Virgin Martyr"
-msgstr ""
+msgstr "Za djevicu mučenicu"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:224
 msgid "For a Holy Woman Martyr"
-msgstr ""
+msgstr "Za svetu ženu mučenicu"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:226
 msgid "For a Pope"
-msgstr ""
+msgstr "Za papu"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:228
 msgid "For a Bishop"
-msgstr ""
+msgstr "Za biskupa"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:230
 msgid "For One Pastor"
-msgstr ""
+msgstr "Za jednoga pastira"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:232
 msgid "For Several Pastors"
-msgstr ""
+msgstr "Za nekoliko pastira"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:234
 msgid "For Founders of a Church"
-msgstr ""
+msgstr "Za osnivače crkve"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:236
 msgid "For One Founder"
-msgstr ""
+msgstr "Za jednoga osnivača"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:238
 msgid "For Several Founders"
-msgstr ""
+msgstr "Za nekoliko osnivača"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:240
 msgid "For Missionaries"
-msgstr ""
+msgstr "Za misionare"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:242
 msgid "For One Virgin"
-msgstr ""
+msgstr "Za jednu djevicu"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:244
 msgid "For Several Virgins"
-msgstr ""
+msgstr "Za nekoliko djevica"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:246
 msgid "For Several Saints"
-msgstr ""
+msgstr "Za nekoliko svetaca"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:248
 msgid "For One Saint"
-msgstr ""
+msgstr "Za jednog svetca"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:250
 msgid "For an Abbot"
-msgstr ""
+msgstr "Za jednog opata"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:252
 msgid "For a Monk"
-msgstr ""
+msgstr "Za jednog monaha"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:254
@@ -257,22 +258,22 @@ msgstr ""
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:256
 msgid "For Religious"
-msgstr ""
+msgstr "Za redovnike"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:258
 msgid "For Those Who Practiced Works of Mercy"
-msgstr ""
+msgstr "Za one koji su vršili djela milosrđa"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:260
 msgid "For Educators"
-msgstr ""
+msgstr "Za edukatore"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:262
 msgid "For Holy Women"
-msgstr ""
+msgstr "Za svete žene"
 
 #. translators: (singular feminine) glue between "From the Common" and the actual common. Latin: leave empty!
 #: src/Enum/LitCommon.php:281
@@ -318,11 +319,11 @@ msgstr "svagdan"
 
 #: src/Enum/LitGrade.php:102
 msgid "Commemoration"
-msgstr ""
+msgstr "Spomen"
 
 #: src/Enum/LitGrade.php:107
 msgid "Optional memorial"
-msgstr ""
+msgstr "Slobodni spomen"
 
 #: src/Enum/LitGrade.php:112
 msgid "Memorial"
@@ -330,15 +331,15 @@ msgstr "Spomendan"
 
 #: src/Enum/LitGrade.php:117
 msgid "FEAST"
-msgstr ""
+msgstr "BLAGDAN"
 
 #: src/Enum/LitGrade.php:122
 msgid "FEAST OF THE LORD"
-msgstr ""
+msgstr "SVETKOVINA GOSPODINA"
 
 #: src/Enum/LitGrade.php:127
 msgid "SOLEMNITY"
-msgstr ""
+msgstr "SVEČANOST"
 
 #: src/Enum/LitGrade.php:132
 msgid "celebration with precedence over solemnities"
