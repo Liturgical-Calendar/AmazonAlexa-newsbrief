@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-03 21:47+0000\n"
-"PO-Revision-Date: 2026-09-18 04:55+0000\n"
+"PO-Revision-Date: 2026-10-17 14:22+0000\n"
 "Last-Translator: OpenAI <noreply-mt-openai@weblate.org>\n"
 "Language-Team: Croatian <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/hr/>\n"
@@ -253,7 +253,7 @@ msgstr "Za jednog monaha"
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:254
 msgid "For a Nun"
-msgstr ""
+msgstr "Za redovnicu"
 
 #. translators: context = from the Common of nn: nn
 #: src/Enum/LitCommon.php:256
