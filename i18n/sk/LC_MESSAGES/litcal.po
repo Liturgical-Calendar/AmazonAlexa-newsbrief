@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Milan Šalka <salka.milan@googlemail.com>, 2024.
-# "John R. D'Orazio" <priest@johnromanodorazio.com>, 2025.
+# "John R. D'Orazio" <priest@johnromanodorazio.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-03 21:47+0000\n"
-"PO-Revision-Date: 2025-12-08 09:22+0000\n"
+"PO-Revision-Date: 2026-09-29 13:55+0000\n"
 "Last-Translator: \"John R. D'Orazio\" <priest@johnromanodorazio.com>\n"
 "Language-Team: Slovak <https://translate.johnromanodorazio.com/projects/"
 "liturgical-calendar/alexa-newsbrief/sk/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.13.3\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: src/LiturgyOfTheDay.php:597
 msgid "Liturgy of the Day"
@@ -316,7 +316,7 @@ msgstr "pracovný deň"
 
 #: src/Enum/LitGrade.php:102
 msgid "Commemoration"
-msgstr "Spomienka"
+msgstr "Pamiatka"
 
 #: src/Enum/LitGrade.php:107
 msgid "Optional memorial"
@@ -324,7 +324,7 @@ msgstr "Ľubovoľná spomienka"
 
 #: src/Enum/LitGrade.php:112
 msgid "Memorial"
-msgstr "Pamiatka"
+msgstr "Spomienka"
 
 #: src/Enum/LitGrade.php:117
 msgid "FEAST"
